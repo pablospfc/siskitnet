@@ -1,0 +1,28 @@
+{
+  "name": "siskitnet",
+  "authors": [
+    "Claudio Pablo Silva"
+  ],
+  "description": "sistema de informaçao para gerenciamento de kitnets",
+  "main": "index.php",
+  "keywords": [
+    "siskitnet"
+  ],
+  "license": "GLPU",
+  "homepage": "http://www.siskitnet.com.br",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "barbara-js": "^1.3.0",
+    "angular-route": "^1.6.5",
+    "angular-messages": "^1.6.5",
+    "angular-br-filters": "^0.7.0",
+    "bootstrap": "^3.3.7"
+  }
+}

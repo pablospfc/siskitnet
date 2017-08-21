@@ -1,0 +1,39 @@
+{
+  "name": "barbara-js",
+  "authors": [
+    "Jhordan Lima <jhorzyto@gmail.com>"
+  ],
+  "version": "1.3.0",
+  "description": "Framework AngularJS da UEMA::NTI",
+  "main": "barbarajs.js",
+  "moduleType": [],
+  "keywords": [
+    "barbarajs",
+    "angularjs",
+    "javascript",
+    "js"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Jhorzyto/barbara.js",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^ 1.6.x",
+    "angular-sanitize": "^1.6.x"
+  },
+  "_release": "1.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.3.0",
+    "commit": "5c15f3a2445c956ae0c5798e71d54444574c24bf"
+  },
+  "_source": "https://github.com/Jhorzyto/barbara.js.git",
+  "_target": "^1.3.0",
+  "_originalSource": "barbara-js"
+}
