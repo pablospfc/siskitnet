@@ -1,0 +1,208 @@
+
+<div class="modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        ng-click="fechar('cancel')"
+                        name="button">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <h4 class="modal-title">
+                    {{id_locatario ? 'Atualizar Locatário' : 'Cadastrar Locatário'}}
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                        <div class="form-group col-sm-12" ng-if="alert">
+                            <div class="alert alert-{{alert.type}}" role="alert">
+                                <strong>{{alert.title}}</strong> {{alert.message}}
+                            </div>
+                        </div>
+
+                        <form role="form" method="post" ng-submit="salvarLocatario()">
+
+                            <div class="row">
+
+                            <div class="form-group col-md-12" >
+                                <label>Nome:</label>
+                                <input class="form-control"
+                                       id="nome"
+                                       type="text"
+                                       name="nome"
+                                       ng-model="locatario.nome"
+                                       ng-required="true">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Estado Civil:</label>
+                                <input class="form-control"
+                                       id="id_estado_civil"
+                                       type="text"
+                                       name="id_estado_civil"
+                                       ng-model="locatario.id_estado_civil"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Data de Nascimento:</label>
+                                <input class="form-control"
+                                       id="data_nascimento"
+                                       type="text"
+                                       name="data_nascimento"
+                                       ng-model="locatario.data_nascimento"
+                                       ng-required="true" >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>CPF:</label>
+                                <input class="form-control"
+                                       id="cpf"
+                                       type="text"
+                                       name="cpf"
+                                       ng-model="locatario.cpf"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6" >
+                                <label>RG:</label>
+                                <input class="form-control"
+                                       id="rg"
+                                       type="text"
+                                       name="rg"
+                                       ng-model="locatario.rg"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Órgão Expedidor:</label>
+                                <input class="form-control"
+                                       id="orgao_expedidor"
+                                       type="text"
+                                       name="orgao_expedidor"
+                                       ng-model="locatario.orgao_expedidor"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>UF Expedidor:</label>
+                                <input class="form-control"
+                                       id="uf_expedidor"
+                                       type="text"
+                                       name="uf_expedidor"
+                                       ng-model="locatario.uf_expedidor"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Celular:</label>
+                                <input class="form-control"
+                                       id="celular"
+                                       type="text"
+                                       name="celular"
+                                       ng-model="locatario.celular"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Email:</label>
+                                <input class="form-control"
+                                       id="email"
+                                       type="text"
+                                       name="email"
+                                       ng-model="locatario.email"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label>Endereço:</label>
+                                <input class="form-control"
+                                       id="endereco"
+                                       type="text"
+                                       name="endereco"
+                                       ng-model="locatario.endereco"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6" >
+                                <label>CEP:</label>
+                                <input class="form-control"
+                                       id="cep"
+                                       type="text"
+                                       name="cep"
+                                       ng-model="locatario.cep"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Bairro:</label>
+                                <input class="form-control"
+                                       id="bairro"
+                                       type="text"
+                                       name="bairro"
+                                       ng-model="locatario.bairro"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Profissão:</label>
+                                <input class="form-control"
+                                       id="profissao"
+                                       type="text"
+                                       name="profissao"
+                                       ng-model="locatario.profissao"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Naturalidade:</label>
+                                <input class="form-control"
+                                       id="naturalidade"
+                                       type="text"
+                                       name="naturalidade"
+                                       ng-model="locatario.naturalidade"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        Salvar
+                                    </button>
+                                    <button type="reset" class="btn btn-default">
+                                        Limpar
+                                    </button>
+                                </div>
+                            </div>
+                            </div>
+                        </form>
+
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-default"
+                        ng-click="close('cancel')"
+                        data-dismiss="modal">Fechar
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

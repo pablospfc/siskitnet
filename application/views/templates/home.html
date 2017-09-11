@@ -1,0 +1,116 @@
+
+<div class="modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        ng-click="close('cancel')"
+                        name="button">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <h4 class="modal-title">
+                    Relatório
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="text-center">{{relatorioQuestionario.questionario}}</h4>
+                    </div>
+                    <table id="table1" class="table table-hover">
+                        <tr ng-if="relatorioQuestionario.curso">
+                            <td class="text-left" colspan="2">
+                                Centro:  {{relatorioQuestionario.unidade}}<br>
+                            </td>
+
+                        </tr>
+                        <tr ng-if="relatorioQuestionario.curso">
+                            <td class="text-left" colspan="2">
+                                Curso:  {{relatorioQuestionario.curso}}<br>
+                            </td>
+
+                        </tr>
+
+                        <tr ng-if="relatorioQuestionario.qtd_respostas">
+                            <td class="text-left" colspan="2">
+                                Qtd. Respostas:  {{relatorioQuestionario.qtd_respostas}}<br>
+                            </td>
+
+                        </tr>
+
+                        <tr ng-if="relatorioQuestionario.qtd_matriculados">
+                            <td class="text-left" colspan="2">
+                                Qtd. Matriculados:  {{relatorioQuestionario.qtd_matriculados}}<br>
+                            </td>
+
+                        </tr>
+
+                        <tr ng-if="relatorioQuestionario.qtd_participantes">
+                            <td class="text-left" colspan="2">
+                                Qtd. Participantes:  {{relatorioQuestionario.qtd_participantes}}<br>
+                            </td>
+
+                        </tr>
+
+                        <tr ng-if="relatorioQuestionario.perc_participacao">
+                            <td class="text-left" colspan="2">
+                                % de Participação:  {{relatorioQuestionario.perc_participacao}}%<br>
+                            </td>
+
+                        </tr>
+
+                        <tbody
+                                ng-repeat="item in relatorioQuestionario.itens">
+
+                        <tr>
+                            <th class="text-center">{{item.ordem}}</th>
+
+                            <th colspan="2">{{item.item}}</th>
+
+                        </tr>
+
+                        <tr ng-repeat="parametro in item.parametros | orderBy: 'ordem'">
+                            <th scope="row" class="text-center tablePadding">{{item.ordem}}.{{parametro.ordem}}</th>
+                            <td class="tablePadding">
+                                <i class="glyphicon glyphicon-chevron-right"></i>
+                                {{parametro.parametro}}
+                                <BR><BR>
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th class="text-center">Opção</th>
+                                        <th class="text-center">Quantidade</th>
+                                        <th class="text-center">Percentual</th>
+                                    </tr>
+                                    <tr ng-repeat="opcao in parametro.opcoes">
+                                        <td class="text-center">{{opcao.opcao}}</td>
+                                        <td class="text-center">{{opcao.quantidade}}</td>
+                                        <td class="text-center">{{opcao.perc_opcao}} %</td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-default"
+                        ng-click="close('cancel')"
+                        data-dismiss="modal">Fechar
+                </button>
+                <!--                <button type="button"-->
+                <!--                        ng-click="exportToExcel('#table1')"-->
+                <!--                        class="btn btn-success">Gerar Excel-->
+                <!--                </button>-->
+            </div>
+        </div>
+    </div>
+</div>

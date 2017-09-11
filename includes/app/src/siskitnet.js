@@ -1,19 +1,19 @@
 var sisKitnetApp =  angular.module('sisKitnet-App',[
-    'Barbara-Js',
     'idf.br-filters',
     'ngRoute',
-    'ngMessages'
+    'ngMessages',
+    'angularModalService'
 ]);
 
 sisKitnetApp.config(function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode( { enabled : false, requireBase : false } );
     $locationProvider.hashPrefix('');
     $routeProvider.when('/', {
-        templateUrl: 'templates/view/home.html',
+        templateUrl: 'templates/view/home/index.html',
         controller: 'HomeController'
     }).
     when('/locatarios', {
-        templateUrl: 'templates/view/locatarios.html',
+        templateUrl: 'templates/view/locatario/index.html',
         controller: 'LocatariosController'
     }).
     when('/contratos', {
@@ -49,12 +49,5 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         controller: 'UsuariosController'
     })
     .otherwise ({ redirectTo: '/' });
-
-});
-
-sisKitnetApp.run(function ($rootScope, bootstrap) {
-
-    $rootScope.alert   = bootstrap.alert();
-    $rootScope.loading = bootstrap.loading();
 
 });

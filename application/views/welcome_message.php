@@ -29,13 +29,6 @@
 	<!-- Custom Fonts -->
 	<link href="<?php echo base_url('includes/vendor/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
 
-	<!--    <link href="--><?php //echo base_url('includes/vendor/fullcalendar/css/fullcalendar.css'); ?><!--" rel="stylesheet">-->
-	<!---->
-	<!--    <link href="--><?php //echo base_url('includes/vendor/fullcalendar/css/fullcalendar.print.css'); ?><!--" rel="stylesheet">-->
-
-	<link href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.css' rel='stylesheet' />
-	<link href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.print.css' rel='stylesheet' media='print' />
-
 	<link href="<?php echo base_url('includes/vendor/fullcalendar/css/bootstrap-colorpicker.min.css');?>" rel="stylesheet" type="text/css">
 
 	<link href="<?php echo base_url('includes/vendor/fullcalendar/css/bootstrap-timepicker.min.css');?>" rel="stylesheet" type="text/css">
@@ -52,14 +45,6 @@
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="<?php echo base_url('includes/vendor/bootstrap/js/bootstrap.min.js');?>"></script>
-
-	<!--    <script src="--><?php //echo base_url('includes/vendor/fullcalendar/js/moment.min.js');?><!--"></script>-->
-	<!---->
-	<!--    <script src="--><?php //echo base_url('includes/vendor/fullcalendar/js/fullcalendar.min.js');?><!--"></script>-->
-
-	<script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js'></script>
-
-	<script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.1.1/fullcalendar.min.js"></script>
 
 	<!-- Metis Menu Plugin JavaScript -->
 	<script src="<?php echo base_url('includes/vendor/metisMenu/metisMenu.min.js');?>"></script>
@@ -81,8 +66,9 @@
     <script src="<?php echo base_url('includes/bower_components/angular-br-filters/release/angular-br-filters.min.js');?>"></script>
     <script src="<?php echo base_url('includes/bower_components/angular-messages/angular-messages.min.js');?>"></script>
     <script src="<?php echo base_url('includes/bower_components/angular-sanitize/angular-sanitize.min.js');?>"></script>
-    <script src="<?php echo base_url('includes/bower_components/barbara-js/barbarajs.min.js');?>"></script>
-	<script src="<?php echo base_url('includes/app/siskitnet.min.js');?>"></script>
+    <script src="<?php echo base_url('includes/bower_components/angular-modal-service/dst/angular-modal-service.min.js');?>"></script>
+    <script src="<?php echo base_url('includes/bower_components/bootbox.js/bootbox.js');?>"></script>
+    <script src="<?php echo base_url('includes/app/siskitnet.min.js');?>"></script>
 
 
 	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
@@ -172,12 +158,19 @@
 		</div>
 		<!-- /.navbar-static-side -->
 	</nav>
-	
+
 
 	<div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div alert-bootstrap></div>
+                <div loading-bootstrap></div>
+            </div>
+        </div>
 		<ng-view></ng-view>
 	</div>
 
+</div>
 </body>
 </html>
 

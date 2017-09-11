@@ -6,19 +6,27 @@
         </div>
 
         <div class="col-lg-5">
-            <a href="#" class="btn btn-primary btn-sm">
-                Novo
+            <a ng-click="showLocatarioModal()" class="btn btn-primary btn-sm">
+                Novo Locatário
             </a>
             <br><br>
         </div>
     </div>
 
+    <div class="row ng-hide" ng-show="haveError">
+        <div class="col-sm-12 ">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <strong>Desculpe-nos!</strong> Mas não foi possível
+                carregar os locatários. Tente novamente!
+            </div>
+        </div>
+    </div>
     <!-- /.row -->
-    <div class="row">
+    <div class="row" ng-hide="haveError">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Locatários
+                    Lista de Locatários
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -26,27 +34,28 @@
                         <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Telefone</th>
+                            <th>CPF</th>
                             <th>Celular</th>
                             <th>Email</th>
                             <th>Ações</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>Hermes de Souza</td>
-                            <td class="center">9982813</td>
-                            <td class="center">98977819928</td>
+                        <tr ng-repeat="locatario in locatarios">
+                            <td>{{locatario.nome}}</td>
+                            <td class="center">{{locatario.cpf}}</td>
+                            <td class="center">{{locatario.celular}}</td>
                             <td class="center">
-                                carlos_marcio800@hotmail.com                                </td>
+                                {{locatario.email}}
+                            </td>
                             <td class="text-center">
                                 <a class="btn btn-success btn-sm" href="javascript:;" onclick="janelaDetalhamentoProfissional(2, 2)">
                                     <i class="glyphicon glyphicon-zoom-in"></i>
                                 </a>
-                                <a class="btn btn-info btn-sm" href="http://localhost/salao/profissional/view/2">
+                                <a class="btn btn-info btn-sm" ng-click="showLocatarioModal(locatario.id)">
                                     <i class="glyphicon glyphicon-edit"></i>
                                 </a>
-                                <a class="btn btn-danger btn-sm confirma_exclusao" href="#" data-id="2" data-nome="Hermes de Souza">
+                                <a class="btn btn-danger btn-sm confirma_exclusao" ng-click="deleteLocatario(locatario.id)" data-nome="Hermes de Souza">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </td>
@@ -67,5 +76,4 @@
 <!-- /#page-wrapper -->
 
 </div>
-<!-- /#wrapper -->
-</div>
+
