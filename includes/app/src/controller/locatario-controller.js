@@ -15,7 +15,6 @@ sisKitnetApp.controller('LocatariosController', function ($scope, $timeout, Moda
         bootbox.confirm("Você deseja realmente excluir este locatário?", function(result) {
             if(result) {
                 SiskitnetService.excluirLocatario(idLocatario);
-                $scope.flashMessage = false;
             }
             $timeout(function () {
                 //$window.location.reload();
@@ -24,12 +23,12 @@ sisKitnetApp.controller('LocatariosController', function ($scope, $timeout, Moda
         });
     };
 
-    $scope.showLocatarioModal = function (id_locatario) {
+    $scope.showLocatarioModal = function (locatario) {
         ModalService.showModal({
             templateUrl: 'templates/view/locatario/create.html',
             controller: "locatarioModalController",
             inputs: {
-                id_locatario : id_locatario,
+                locatario : locatario,
             }
         }).then(function (modal) {
             modal.element.modal();
@@ -47,15 +46,17 @@ sisKitnetApp.controller('LocatariosController', function ($scope, $timeout, Moda
 });
 
 
-sisKitnetApp.controller('locatarioModalController', function ($scope, id_locatario, SiskitnetService) {
+sisKitnetApp.controller('locatarioModalController', function ($scope, locatario, SiskitnetService) {
 
     $scope.fechar = function(result) {
         close(result, 200);
     };
 
+    if(!angular.isUndefined(locatario))
+        $scope.locatario = angular.copy(locatario);
+
     $scope.salvarLocatario = function() {
-      SiskitnetService.postLocatarios($scope.locatario, function( response ){
-console.log(response.data);
+      SiskitnetService.inserirLocatarios($scope.locatario, function( response ){
             if( response.data.status )
                 $scope.alert = { type: "success", title: "Parabéns!", message : response.data.message };
             else
@@ -64,5 +65,5 @@ console.log(response.data);
         }, function( response ){
             $scope.alert = { type: "danger", title: "Ocorreu um problema!",  message : response.statusText };
         })
-    }
+    };
 });

@@ -1,18 +1,35 @@
-sisKitnetApp.service('SiskitnetService', function ($http) {
-    this.getLocatarios = function( callbackSuccess, callbackError ) {
+sisKitnetApp.service('SiskitnetService', function ($http, $httpParamSerializerJQLike) {
+    this.getLocatarios = function (callbackSuccess, callbackError) {
         $http.get("locatarios/listar")
-            .then( callbackSuccess, callbackError );
+            .then(callbackSuccess, callbackError);
     };
 
-    this.postLocatarios = function( data, callbackSuccess, callbackError ) {
-        $http.post( "locatarios/cadastrar", data )
-            .then( callbackSuccess, callbackError );
+    this.inserirLocatarios = function (data, callbackSuccess, callbackError) {
+        $http.post("locatarios/cadastrar", data)
+            .then(callbackSuccess, callbackError);
     };
 
-    this.excluirLocatario = function( id, callbackSuccess, callbackError ) {
-        $http.get("locatarios/remover/"+id)
-            .then( callbackSuccess, callbackError );
-    };
+    this.excluirLocatario = function (id, callbackSuccess, callbackError) {
 
+        var config = {
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: $httpParamSerializerJQLike({
+                id: id
+            })
+        };
+
+    $http.delete("locatarios/remover",config)
+        .then( callbackSuccess, callbackError );
+
+
+    //     var dt = $(params).serialize();
+    //     $http({
+    //         method: 'DELETE',
+    //         url: 'locatarios/remover',
+    //         data: $httpParamSerializerJQLike(params),
+    //         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    //     }).then( callbackSuccess, callbackError );
+    // };
+}
     
 });

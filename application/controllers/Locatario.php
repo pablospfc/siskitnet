@@ -77,8 +77,7 @@ class Locatario extends REST_Controller
      */
     public function index_delete()
     {
-        $id = $this->uri->segment(3);
-        error_log($id);
+        $id = $this->delete('id');
 
         if (!$id)
         {
