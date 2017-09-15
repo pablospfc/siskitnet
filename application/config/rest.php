@@ -82,7 +82,7 @@ $config['rest_message_field_name'] = 'error';
 | Should we enable emulation of the request (e.g. used in Mootools request)
 |
 */
-$config['enable_emulate_request'] = TRUE;
+$config['enable_emulate_request'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -138,6 +138,7 @@ $config['auth_source'] = 'ldap';
 |
 */
 $config['allow_auth_and_keys'] = TRUE;
+$config['strict_api_and_auth'] = TRUE; // force the use of both api and auth before a valid api request is made
 
 /*
 |--------------------------------------------------------------------------
@@ -323,7 +324,7 @@ $config['rest_keys_table'] = 'keys';
 |   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 |
 */
-$config['rest_enable_keys'] = TRUE;
+$config['rest_enable_keys'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -350,7 +351,7 @@ $config['rest_key_column'] = 'key';
 | $config['rest_limits_method'] = 'ROUTED_URL';  // Put a limit on the routed URL
 |
 */
-$config['rest_limits_method'] = 'API_KEY';
+$config['rest_limits_method'] = 'ROUTED_URL';
 
 /*
 |--------------------------------------------------------------------------
@@ -436,7 +437,7 @@ $config['rest_logs_table'] = 'logs';
 |    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 |
 */
-$config['rest_enable_access'] = TRUE;
+$config['rest_enable_access'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -458,7 +459,7 @@ $config['rest_access_table'] = 'access';
 | Set to FALSE to log as serialized PHP
 |
 */
-$config['rest_logs_json_params'] = TRUE;
+$config['rest_logs_json_params'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -486,7 +487,7 @@ $config['rest_logs_json_params'] = TRUE;
 |
 | See application/controllers/api/example.php for examples
 */
-$config['rest_enable_limits'] = TRUE;
+$config['rest_enable_limits'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------

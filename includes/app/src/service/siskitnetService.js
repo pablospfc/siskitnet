@@ -4,8 +4,13 @@ sisKitnetApp.service('SiskitnetService', function ($http, $httpParamSerializerJQ
             .then(callbackSuccess, callbackError);
     };
 
-    this.inserirLocatarios = function (data, callbackSuccess, callbackError) {
+    this.inserirLocatario = function (data, callbackSuccess, callbackError) {
         $http.post("locatarios/cadastrar", data)
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.atualizarLocatario = function ( data, callbackSuccess, callbackError) {
+        $http.put("locatarios/atualizar", data)
             .then(callbackSuccess, callbackError);
     };
 

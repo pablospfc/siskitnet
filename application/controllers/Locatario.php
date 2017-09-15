@@ -9,9 +9,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
 
-use Restserver\Libraries\REST_Controller;
-
-class Locatario extends REST_Controller
+class Locatario extends \REST_Controller
 {
     function __construct()
     {
@@ -54,22 +52,14 @@ class Locatario extends REST_Controller
      */
     public function index_put()
     {
-        // recupera os dados informado no formulário
-        $usuario = $this->put();
-        $usuario_id = $this->uri->segment(3);
+        $dados = $this->put();
 
-        // processa o update no banco de dados
-        $update = $this->LocatarioMDL->Update('id',$usuario_id, $usuario);
-        // define a mensagem do processamento
-        $response['message'] = $update['message'];
+        error_log(var_export($dados,true));
 
-        // verifica o status do update para retornar o cabeçalho corretamente
-        // e a mensagem
-        if ($update['status']) {
-            $this->response($response, REST_Controller::HTTP_OK);
-        } else {
-            $this->response($response, REST_Controller::HTTP_BAD_REQUEST);
-        }
+        $response = $this->LocatarioMDL->atualizar($dados, $dados['id']);
+
+        $this->response($response, REST_Controller::HTTP_OK);
+
     }
 
     /*
