@@ -1,4 +1,4 @@
-sisKitnetApp.controller('LocatariosController', function ($scope, $timeout, ModalService, SiskitnetService) {
+sisKitnetApp.controller('LocatariosController', function ($scope, $document, $timeout, ModalService, SiskitnetService) {
     var successGetLocatarios = function(success) {
         $scope.locatarios = success.data;
         $scope.haveError  = false;
@@ -46,7 +46,7 @@ sisKitnetApp.controller('LocatariosController', function ($scope, $timeout, Moda
 });
 
 
-sisKitnetApp.controller('locatarioModalController', function ($scope, locatario, SiskitnetService) {
+sisKitnetApp.controller('locatarioModalController', function ($scope, close, locatario, SiskitnetService) {
 
     $scope.fechar = function(result) {
         close(result, 200);
@@ -79,6 +79,7 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, locatario,
                 $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.statusText};
             })
         }
+
     };
 
 

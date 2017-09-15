@@ -47,14 +47,14 @@ class Locatario_model extends CI_Model
            $this->form_validation->set_rules('email','email','required|valid_email|is_unique[tb_locatario.email]|trim');
 
            if ($this->form_validation->run()==false) {
-               $response["status"] = false;
-               $response["message"] = validation_errors();
+               $response['status'] = false;
+               $response['message'] = validation_errors();
            }else{
                $status = $this->db->insert("tb_locatario",$dados);
 
                if ($status){
-                   $response["status"] = true;
-                   $response["message"] = "Dados inseridos com sucesso";
+                   $response['status'] = true;
+                   $response['message'] = "Dados inseridos com sucesso";
                }else{
                    $error = $this->db->error();
                    $response['status'] = false;
@@ -81,8 +81,8 @@ class Locatario_model extends CI_Model
                 $this->db->update('tb_locatario', $dados);
                 $afftectedRows =  $this->db->affected_rows();
                 if ($afftectedRows ==  1){
-                    $response["status"] = true;
-                    $response["message"] = "Dados atualizados com sucesso";
+                    $response['status'] = true;
+                    $response['message'] = true;
                 }
                 else{
                     $error = $this->db->error();
@@ -94,6 +94,8 @@ class Locatario_model extends CI_Model
                 $response['status'] = false;
                 $response["message"] = validation_errors();
         }
+
+        error_log(var_export($response,true));
 
         return $response;
     }
