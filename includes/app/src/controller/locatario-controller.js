@@ -57,7 +57,6 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, locatario,
 
     $scope.salvarLocatario = function() {
         if (angular.isUndefined(locatario)) {
-            console.log("chegou aqui CADASTRAR");
             SiskitnetService.inserirLocatario($scope.locatario, function (response) {
                 if (response.data.status)
                     $scope.alert = {type: "success", title: "Parabéns!", message: response.data.message};
@@ -69,8 +68,8 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, locatario,
             })
         }
         else {
-            console.log("chegou aqui ATUALIZAR");
             SiskitnetService.atualizarLocatario($scope.locatario, function (response) {
+                console.log(response);
                 if (response.data.status)
                     $scope.alert = {type: "success", title: "Parabéns!", message: response.data.message};
                 else

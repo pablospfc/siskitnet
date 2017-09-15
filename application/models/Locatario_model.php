@@ -75,7 +75,6 @@ class Locatario_model extends CI_Model
         }else {
             $this->form_validation->set_data($dados);
             $this->form_validation->set_rules('nome', 'Nome', 'required|min_length[2]|trim');
-            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[tb_locatarios.email]|trim');
 
             if ($this->form_validation->run() == true) {
                 $this->db->where("id", $id);
