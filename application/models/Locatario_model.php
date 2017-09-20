@@ -69,6 +69,7 @@ class Locatario_model extends CI_Model
     }
 
     public function atualizar($dados, $id) {
+        $response = [];
         if (!isset($dados)) {
             $response["status"] = false;
             $response["message"] = "Dados não informados";
@@ -82,7 +83,7 @@ class Locatario_model extends CI_Model
                 $afftectedRows =  $this->db->affected_rows();
                 if ($afftectedRows ==  1){
                     $response['status'] = true;
-                    $response['message'] = true;
+                    $response['message'] = "Dados atualizados com sucesso";
                 }
                 else{
                     $error = $this->db->error();
@@ -90,12 +91,11 @@ class Locatario_model extends CI_Model
                     $response['message'] = "Não foi possível atualizar o locatário. Por favor tente novamente!";
                     $this->db->insert("tb_log",['message'=>$error['message']]);
                 }
-            } else
+            } else {
                 $response['status'] = false;
-                $response["message"] = validation_errors();
+                $response['message'] = validation_errors();
+            }
         }
-
-        error_log(var_export($response,true));
 
         return $response;
     }

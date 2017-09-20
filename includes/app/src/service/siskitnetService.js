@@ -4,6 +4,11 @@ sisKitnetApp.service('SiskitnetService', function ($http, $window, $httpParamSer
             .then(callbackSuccess, callbackError);
     };
 
+    this.getEstadosCivis = function (success, error) {
+      $http.get("estadoscivis/listar")
+          .then(success,error);
+    };
+
     this.inserirLocatario = function (data, callbackSuccess, callbackError) {
         $window.scrollTo(0, 0);
         $http.post("locatarios/cadastrar", data)

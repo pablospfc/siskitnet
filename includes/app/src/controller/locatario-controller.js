@@ -48,6 +48,26 @@ sisKitnetApp.controller('LocatariosController', function ($scope, $document, $ti
 
 sisKitnetApp.controller('locatarioModalController', function ($scope, close, locatario, SiskitnetService) {
 
+    var getFromArray = function(array,id) {
+        var result = $.grep(array, function(e){ return e.id == id; });
+        return result[0];
+    };
+
+    var successGetEstadosCivis = function(success) {
+        $scope.listEstadosCivis = success.data;
+        $scope.haveError  = false;
+        if ($scope.locatario.id){
+            $scope.locatario.id_estado_civil = getFromArray($scope.listEstadosCivis,$scope.locatario.id_estado_civil);
+        }
+    };
+
+    var errorGetEstadosCivis = function(data) {
+        $scope.listEstadosCivis = [];
+        $scope.haveError  = data ;
+    };
+
+    SiskitnetService.getEstadosCivis(successGetEstadosCivis,errorGetEstadosCivis);
+
     $scope.fechar = function(result) {
         close(result, 200);
     };
@@ -69,7 +89,6 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, loc
         }
         else {
             SiskitnetService.atualizarLocatario($scope.locatario, function (response) {
-                console.log(response);
                 if (response.data.status)
                     $scope.alert = {type: "success", title: "Parabéns!", message: response.data.message};
                 else
