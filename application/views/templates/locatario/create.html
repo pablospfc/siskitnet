@@ -16,12 +16,6 @@
             </div>
             <div class="modal-body">
 
-                        <div class="form-group col-sm-12" ng-if="alert">
-                            <div class="alert alert-{{alert.type}}" role="alert">
-                                <strong>{{alert.title}}</strong> {{alert.message}}
-                            </div>
-                        </div>
-
                         <form role="form" method="post" ng-submit="salvarLocatario()">
 
                             <div class="row">
@@ -35,6 +29,16 @@
                                        ng-model="locatario.nome"
                                        ng-required="true">
                             </div>
+
+                                <!--<div class="form-group col-md-12" >-->
+                                    <!--<label>Estado Civil:</label>-->
+                                    <!--<input class="form-control"-->
+                                           <!--id="id_estado_civil"-->
+                                           <!--type="text"-->
+                                           <!--name="id_estado_civil"-->
+                                           <!--ng-model="locatario.id_estado_civil"-->
+                                           <!--ng-required="true">-->
+                                <!--</div>-->
 
                             <div class="form-group col-md-6">
                                 <label>Estado Civil:</label>
@@ -182,8 +186,8 @@
 
                             <hr>
 
-                            <div class="row">
-                                <div class="col-md-12">
+
+                                <div class="form-group col-md-12">
                                     <button type="submit" class="btn btn-primary">
                                         Salvar
                                     </button>
@@ -191,9 +195,15 @@
                                         Limpar
                                     </button>
                                 </div>
-                            </div>
+
                             </div>
                         </form>
+
+                <div class="form-group col-sm-12" ng-if="alert">
+                    <div class="alert alert-{{alert.type}}" role="alert">
+                        <strong>{{alert.title}}</strong> {{alert.message}}
+                    </div>
+                </div>
 
 
             </div>
@@ -201,7 +211,7 @@
 
                 <button type="button"
                         class="btn btn-default"
-                        ng-click="close('cancel')"
+                        ng-click="fechar('cancel')"
                         data-dismiss="modal">Fechar
                 </button>
 

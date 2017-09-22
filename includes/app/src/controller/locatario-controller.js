@@ -53,10 +53,13 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, loc
         return result[0];
     };
 
+    if(!angular.isUndefined(locatario))
+        $scope.locatario = angular.copy(locatario);
+
     var successGetEstadosCivis = function(success) {
         $scope.listEstadosCivis = success.data;
         $scope.haveError  = false;
-        if ($scope.locatario.id){
+        if (locatario.id){
             $scope.locatario.id_estado_civil = getFromArray($scope.listEstadosCivis,$scope.locatario.id_estado_civil);
         }
     };
@@ -66,38 +69,32 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, loc
         $scope.haveError  = data ;
     };
 
+    var successPostLocatario = function(response) {
+        if (response.data.status) {
+            $scope.alert = {type: "success", title: "Parabéns!", message: response.data.message};
+            $scope.locatario = undefined;
+        }
+        else
+            $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.data.message};
+    };
+    var errorPostLocatario = function(response) {
+        $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.statusText};
+    };
+
     SiskitnetService.getEstadosCivis(successGetEstadosCivis,errorGetEstadosCivis);
 
     $scope.fechar = function(result) {
         close(result, 200);
     };
 
-    if(!angular.isUndefined(locatario))
-        $scope.locatario = angular.copy(locatario);
-
     $scope.salvarLocatario = function() {
-        if (angular.isUndefined(locatario)) {
-            SiskitnetService.inserirLocatario($scope.locatario, function (response) {
-                if (response.data.status)
-                    $scope.alert = {type: "success", title: "Parabéns!", message: response.data.message};
-                else
-                    $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.data.message};
 
-            }, function (response) {
-                $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.statusText};
-            })
-        }
-        else {
-            SiskitnetService.atualizarLocatario($scope.locatario, function (response) {
-                if (response.data.status)
-                    $scope.alert = {type: "success", title: "Parabéns!", message: response.data.message};
-                else
-                    $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.data.message};
-
-            }, function (response) {
-                $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.statusText};
-            })
-        }
+        $scope.locatario.id_estado_civil = $scope.locatario.id_estado_civil.id;
+        $scope.data_nascimento = $scope.data_nascimento.toISOString().slice(0, 10);
+        if (angular.isUndefined(locatario))
+            SiskitnetService.inserirLocatario($scope.locatario,successPostLocatario, errorPostLocatario)
+        else
+            SiskitnetService.atualizarLocatario($scope.locatario,successPostLocatario, errorPostLocatario)
 
     };
 
