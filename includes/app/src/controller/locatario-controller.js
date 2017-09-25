@@ -46,7 +46,7 @@ sisKitnetApp.controller('LocatariosController', function ($scope, $document, $ti
 });
 
 
-sisKitnetApp.controller('locatarioModalController', function ($scope, close, locatario, SiskitnetService) {
+sisKitnetApp.controller('locatarioModalController', function ($scope, close, $filter, locatario, SiskitnetService) {
 
     var getFromArray = function(array,id) {
         var result = $.grep(array, function(e){ return e.id == id; });
@@ -90,7 +90,8 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, loc
     $scope.salvarLocatario = function() {
 
         $scope.locatario.id_estado_civil = $scope.locatario.id_estado_civil.id;
-        $scope.data_nascimento = $scope.data_nascimento.toISOString().slice(0, 10);
+        $scope.data_nascimento =  $filter('date')($scope.locatario.data_nascimento, 'dd-MM-yyyy');
+        console.log($scope.data_nascimento);
         if (angular.isUndefined(locatario))
             SiskitnetService.inserirLocatario($scope.locatario,successPostLocatario, errorPostLocatario)
         else
