@@ -53,13 +53,17 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, $fi
         return result[0];
     };
 
-    if(!angular.isUndefined(locatario))
+    if(!angular.isUndefined(locatario)) {
         $scope.locatario = angular.copy(locatario);
+        $scope.locatario.data_nascimento = new Date($scope.locatario.data_nascimento);
+        //$scope.locatario.data_nascimento =  $filter('date')($scope.locatario.data_nascimento, 'yyyy-MM-dd');
+       // console.log($scope.locatario.data_nascimento);
+    }
 
     var successGetEstadosCivis = function(success) {
         $scope.listEstadosCivis = success.data;
         $scope.haveError  = false;
-        if (locatario.id){
+        if (!angular.isUndefined($scope.locatario)){
             $scope.locatario.id_estado_civil = getFromArray($scope.listEstadosCivis,$scope.locatario.id_estado_civil);
         }
     };
@@ -90,8 +94,10 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, $fi
     $scope.salvarLocatario = function() {
 
         $scope.locatario.id_estado_civil = $scope.locatario.id_estado_civil.id;
-        $scope.data_nascimento =  $filter('date')($scope.locatario.data_nascimento, 'dd-MM-yyyy');
-        console.log($scope.data_nascimento);
+        //$scope.locatario.data_nascimento =  $filter('date')($scope.locatario.data_nascimento, 'yyyy-MM-dd');
+
+        console.log($scope.locatario.data_nascimento);
+
         if (angular.isUndefined(locatario))
             SiskitnetService.inserirLocatario($scope.locatario,successPostLocatario, errorPostLocatario)
         else

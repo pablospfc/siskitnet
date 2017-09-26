@@ -54,6 +54,8 @@ class Locatario extends \REST_Controller
     {
         $dados = $this->put();
 
+        error_log(var_export($dados['data_nascimento'],true));
+
         $response = $this->LocatarioMDL->atualizar($dados, $dados['id']);
 
         $this->response($response, REST_Controller::HTTP_OK);
