@@ -56,12 +56,13 @@
 
                             <div class="form-group col-md-6">
                                 <label>Data de Nascimento:</label>
-                                <input class="form-control"
-                                       id="data_nascimento"
-                                       type="date"
-                                       name="data_nascimento"
+                                <input type="text"
+                                       class="form-control"
                                        ng-model="locatario.data_nascimento"
-                                       ng-required="true" >
+                                       ng-required="true"
+                                       maxlength="10"
+                                       ui-date-mask="DD/MM/YYYY"
+                                />
                             </div>
 
                             <div class="form-group col-md-6">
