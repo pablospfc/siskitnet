@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>SisBeleza</title>
+	<title>SisKitnet</title>
 
 	<!-- Bootstrap Core CSS -->
 	<link href="<?php echo base_url('includes/vendor/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
@@ -96,7 +96,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">SisBeleza</a>
+			<a class="navbar-brand" href="#">SisKitnet</a>
 		</div>
 		<!-- /.navbar-header -->
 
@@ -107,12 +107,12 @@
 					<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
 				</a>
 				<ul class="dropdown-menu dropdown-user">
-					<li><a href=""><i class="fa fa-user fa-fw"></i> Conta</a>
+					<li><a href="#"><i class="fa fa-user fa-fw"></i> Conta</a>
 					</li>
 					<!--                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>-->
 					<!--                    </li>-->
 					<li class="divider"></li>
-					<li><a href="<?php echo site_url('login/logout'); ?>"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+					<li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
 					</li>
 				</ul>
 				<!-- /.dropdown-user -->
@@ -159,18 +159,9 @@
 		</div>
 		<!-- /.navbar-static-side -->
 	</nav>
-
-
-	<div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div alert-bootstrap></div>
-                <div loading-bootstrap></div>
-            </div>
-        </div>
+        <div id="page-wrapper">
 		<ng-view></ng-view>
-	</div>
-
+        </div>
 </div>
 </body>
 </html>

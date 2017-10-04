@@ -3,29 +3,25 @@
 /**
  * Created by PhpStorm.
  * User: claud
- * Date: 26/03/2017
- * Time: 14:40
+ * Date: 30/09/2017
+ * Time: 19:20
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
-
-class Locatario extends \REST_Controller
+class Contrato extends \REST_Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Locatario_model','LocatarioMDL');
+        $this->load->model('Contrato_Model','ContratoMDL');
 
         // Configuração para os limites de requisições (por hora)
         $this->methods['index_get']['limit'] = 10;
     }
 
-    /*
-     * Essa função vai responder pela rota /api/usuarios sob o método GET
-     */
     public function index_get()
     {
-        $locatarios = $this->LocatarioMDL->getAll();
+        $locatarios = $this->ContratoMDL->getAll();
 
         if ($locatarios) {
             $response = $locatarios;
@@ -42,7 +38,7 @@ class Locatario extends \REST_Controller
     {
         $dados = $this->post();
 
-        $response = $this->LocatarioMDL->inserir($dados);
+        $response = $this->ContratoMDL->inserir($dados);
 
         $this->response($response, REST_Controller::HTTP_OK);
     }
@@ -54,7 +50,7 @@ class Locatario extends \REST_Controller
     {
         $dados = $this->put();
 
-        $response = $this->LocatarioMDL->atualizar($dados, $dados['id']);
+        $response = $this->ContratoMDL->atualizar($dados, $dados['id']);
 
         $this->response($response, REST_Controller::HTTP_OK);
 
@@ -72,7 +68,7 @@ class Locatario extends \REST_Controller
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        $response = $this->LocatarioMDL->remover($id);
+        $response = $this->ContratoMDL->remover($id);
 
         $this->response($response, REST_Controller::HTTP_OK);
     }
