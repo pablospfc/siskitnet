@@ -58,7 +58,7 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, $fi
          //$scope.locatario.data_nascimento = new Date($scope.locatario.data_nascimento);
         // $scope.data_nascimento.setDate($scope.data_nascimento.getDate() + 1);
         // $scope.locatario.data_nascimento = $scope.data_nascimento;
-        // console.log($scope.data_nascimento);
+
         $scope.locatario.data_nascimento =  $filter('date')($scope.locatario.data_nascimento, 'dd/MM/yyyy');
     }
 
@@ -98,9 +98,9 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, $fi
         $scope.locatario.id_estado_civil = $scope.locatario.id_estado_civil.id;
         this.tratarData();
         if (angular.isUndefined(locatario))
-            SiskitnetService.inserirLocatario($scope.locatario,successPostLocatario, errorPostLocatario)
+            SiskitnetService.inserirLocatario($scope.locatario,successPostLocatario, errorPostLocatario);
         else
-            SiskitnetService.atualizarLocatario($scope.locatario,successPostLocatario, errorPostLocatario)
+            SiskitnetService.atualizarLocatario($scope.locatario,successPostLocatario, errorPostLocatario);
 
     };
 

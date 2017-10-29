@@ -21,10 +21,10 @@ class Contrato extends \REST_Controller
 
     public function index_get()
     {
-        $locatarios = $this->ContratoMDL->getAll();
+        $contratos = $this->ContratoMDL->getList();
 
-        if ($locatarios) {
-            $response = $locatarios;
+        if ($contratos) {
+            $response = $contratos;
             $this->response($response, REST_Controller::HTTP_OK);
         } else {
             $this->response(null,REST_Controller::HTTP_NO_CONTENT);
@@ -40,7 +40,10 @@ class Contrato extends \REST_Controller
 
         $response = $this->ContratoMDL->inserir($dados);
 
+        if ($response['status'])
         $this->response($response, REST_Controller::HTTP_OK);
+        else
+        $this->response(['message'=>'Não foi possível realizar a operação.'],REST_Controller::HTTP_NO_CONTENT);
     }
 
     /*

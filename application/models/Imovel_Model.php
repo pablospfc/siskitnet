@@ -15,7 +15,8 @@ class Imovel_Model extends CI_Model
     public function getAll() {
         $this->db->select("*")
             ->from("tb_imovel")
-            ->order_by("nome", "ASC");
+            //->where("disponivel", 1)
+            ->order_by("id", "ASC");
 
         return $this->db->get()->result_array();
     }

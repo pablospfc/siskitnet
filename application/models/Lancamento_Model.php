@@ -13,7 +13,26 @@ class Lancamento_Model extends CI_Model
     }
 
     public function inserir($dados) {
-        return $this->db->insert("tb_lancamento",$dados);
+        return $this->db->insert_batch("tb_lancamento",$dados);
+    }
+
+    public function atualizar($id,$dados) {
+        $this->db->where("id", $id);
+        return $this->db->update('tb_lancamento', $dados);
+    }
+
+    //retorna todos os lancamentos do contrato que estejam em aberto ou em atraso, para a alteração da data de vencimento
+    public function getLancamentos($idContrato){
+        if ($idContrato <= 0) {
+            return array();
+        }
+
+        $this->db->select("*")
+            ->from("tb_lancamento")
+            ->where("id_contrato", $idContrato)
+            ->where("id_status <>", 3);
+
+        return $this->db->get()->result_array();
     }
 
 }

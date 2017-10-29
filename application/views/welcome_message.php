@@ -13,6 +13,7 @@
 
 	<!-- Bootstrap Core CSS -->
 	<link href="<?php echo base_url('includes/vendor/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/gilf/ngPrint/master/ngPrint.min.css" />
 
 	<!-- MetisMenu CSS -->
 	<link href="<?php echo base_url('includes/vendor/metisMenu/metisMenu.min.css'); ?>" rel="stylesheet">
@@ -69,6 +70,7 @@
     <script src="<?php echo base_url('includes/bower_components/angular-modal-service/dst/angular-modal-service.min.js');?>"></script>
     <script src="<?php echo base_url('includes/bower_components/angular-input-masks/angular-input-masks-standalone.min.js');?>"></script>
     <script src="<?php echo base_url('includes/bower_components/bootbox.js/bootbox.js');?>"></script>
+    <script src="<?php echo base_url('includes/bower_components/ng-print/dist/ngPrint.min.js');?>"></script>
     <script src="<?php echo base_url('includes/app/siskitnet.min.js');?>"></script>
 
 
@@ -101,8 +103,68 @@
 		<!-- /.navbar-header -->
 
 		<ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="">Alertas
+                    <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-alerts">
+                    <li>
+                        <a href="#">
+                            <div>
+                                <i class="fa fa-comment fa-fw"></i> New Comment
+                                <span class="pull-right text-muted small">4 minutes ago</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <div>
+                                <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                <span class="pull-right text-muted small">12 minutes ago</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <div>
+                                <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                <span class="pull-right text-muted small">4 minutes ago</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <div>
+                                <i class="fa fa-tasks fa-fw"></i> New Task
+                                <span class="pull-right text-muted small">4 minutes ago</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <div>
+                                <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                <span class="pull-right text-muted small">4 minutes ago</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="text-center" href="#">
+                            <strong>See All Alerts</strong>
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-alerts -->
+            </li>
 			<!-- /.dropdown -->
 			<li class="dropdown">
+
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
 				</a>

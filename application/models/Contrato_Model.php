@@ -20,46 +20,100 @@ class Contrato_Model extends CI_Model
         return $this->db->get()->result_array();
     }
 
+    public function getList($id = NULL) {
+        $query = "SELECT con.id as id,
+                                           loc.id as id_locatario,
+                                           loc.nome as locatario,
+                                           loc.cpf as cpf,
+                                           loc.rg as rg,
+                                           loc.orgao_expedidor as orgao_exp,
+                                           loc.profissao as profissao,
+                                           loc.bairro as bairro,
+                                           loc.endereco as endereco,
+                                           loc.uf_expedidor as uf,
+                                           loc.cep as cep,
+                                           con.dia_vencimento as dia_vencimento,
+                                           con.data_inicio,
+                                           con.data_fim,
+                                           con.prazo,
+                                           con.valor,
+                                           con.primeiro_vencimento,
+                                           imo.id as id_imovel,
+                                           imo.nome as imovel,
+                                           sta.nome as status,
+                                           esc.nome as estado_civil
+                                    FROM tb_contrato as con
+                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
+                                    INNER JOIN tb_status as sta ON sta.id = con.id_status
+                                    INNER JOIN tb_estado_civil esc ON esc.id = loc.id_estado_civil";
+        if ($id != NULL || $id >0)
+            $query.= " WHERE con.id = ".$id;
+
+        $result = $this->db->query($query);
+
+        if ($result->num_rows() > 1)
+            $dados = $result->result_array();
+        else
+            $dados = $result->row_array();
+
+        return $dados;
+    }
+
     public function inserir($dados) {
         if (!isset($dados)) {
             $response["status"] = false;
             $response["message"] = "Dados não informados";
         } else {
             $this->db->trans_strict(TRUE);
-            $this->form_validation->set_data($dados);
             // definimos as regras de validação
-            $this->form_validation->set_rules('nome','nome','required|min_length[2]|trim');
-            $this->form_validation->set_rules('email','email','required|valid_email|is_unique[tb_locatario.email]|trim');
             $this->db->trans_start();
-            if ($this->form_validation->run()==false) {
-                $response['status'] = false;
-                $response['message'] = validation_errors();
-            }else{
-                $datas = $this->gerarParcelas($dados['primeiro_vencimento'],$dados['prazo']);
-                $dados['data_inicio'] = $datas[0];
-                $dados['data_fim'] = $datas[$dados['prazo']-1];
+                $datasContrato = $this->gerarParcelas($dados['data_inicio'],$dados['prazo']);
+                $dados['id_status'] = 4;
+                $dados['data_fim'] = $datasContrato[$dados['prazo']-1];
+                $dados['dia_vencimento'] = date( 'd', strtotime( $dados['primeiro_vencimento']) );
                 $this->db->insert("tb_contrato",$dados);
-                foreach ($datas as $value){
-
+                $idContrato = $this->db->insert_id();
+                $datasVencimento = $this->gerarParcelas($dados['primeiro_vencimento'],$dados['prazo']);
+                foreach ($datasVencimento as $value){
+                 $dadosLancamento[] = [
+                     'id_mes' => (int) date( 'm', strtotime( $value ) ),
+                     'id_status' => 1,
+                     'id_contrato' =>$idContrato,
+                     'valor' => $dados['valor'],
+                     'data_vencimento' => $value,
+                     'ano' =>2017,
+                 ];
                 }
+
+                $this->lancamento->inserir($dadosLancamento);
 
                 $this->db->trans_complete();
 
-                if ($status){
+                if ($this->db->trans_status() === TRUE){
                     $response['status'] = true;
                     $response['message'] = "Dados inseridos com sucesso";
                 }else{
                     $error = $this->db->error();
                     $response['status'] = false;
-                    $response['message'] = "Não foi possível cadastrar o locatário. Por favor tente novamente!";
+                    $response['message'] = "Não foi possível cadastrar o contrato. Por favor tente novamente!".$error;
                     $this->db->insert("tb_log",['message'=>$error['message']]);
                 }
             }
 
-        }
-
         return $response;
+    }
 
+    private function preparaDados($dados) {
+        $data = [];
+        $datasContrato = $this->gerarParcelas($dados['data_inicio'],$dados['prazo']);
+        $data['id_locatario'] = $dados['id_locatario'];
+        $data['id_imovel'] = $dados['id_imovel'];
+        $data['data_inicio'] = $dados['data_inicio'];
+        $dados['data_fim'] = $datasContrato[$dados['prazo']-1];
+        $data['dia_vencimento'] = $dados['dia_vencimento'];
+        $data['valor'] = $dados['valor'];
+        return $data;
     }
 
     public function atualizar($dados, $id) {
@@ -68,28 +122,42 @@ class Contrato_Model extends CI_Model
             $response["status"] = false;
             $response["message"] = "Dados não informados";
         }else {
-            $this->form_validation->set_data($dados);
-            $this->form_validation->set_rules('nome', 'Nome', 'required|min_length[2]|trim');
+            $this->db->trans_strict(TRUE);
 
-            if ($this->form_validation->run() == true) {
-                $this->db->where("id", $id);
-                $this->db->update('tb_locatario', $dados);
-                $afftectedRows =  $this->db->affected_rows();
-                if ($afftectedRows ==  1){
+            $this->db->trans_start();
+            $datosContrato = $this->preparaDados($dados);
+            $this->db->where("id", $id);
+            $this->db->update('tb_contrato', $datosContrato);
+
+             $lancamentos = $this->lancamento->getLancamentos($id);
+
+             foreach ($lancamentos as $data) {
+                 $partes = explode("-", $data['data_vencimento']);
+                 $ano = $partes[0];
+                 $mes = $partes[1];
+                 $dia = $datosContrato['dia_vencimento'];
+
+                  $dadosLancamento = [
+                    'valor' => $datosContrato['valor'],
+                    'data_vencimento' =>$ano.'-'.$mes.'-'.$dia,
+                  ];
+
+                  $this->lancamento->atualizar($data['id'],$dadosLancamento);
+             }
+
+               $this->db->trans_complete();
+
+                if ($this->db->trans_status() === true){
                     $response['status'] = true;
-                    $response['message'] = "Dados atualizados com sucesso";
+                    $response['message'] = "Dados de contrato atualizados com sucesso";
                 }
                 else{
                     $error = $this->db->error();
                     $response['status'] = false;
-                    $response['message'] = "Não foi possível atualizar o locatário. Por favor tente novamente!";
+                    $response['message'] = "Não foi possível atualizar o locatário. Por favor tente novamente!".$error['message'];
                     $this->db->insert("tb_log",['message'=>$error['message']]);
                 }
-            } else {
-                $response['status'] = false;
-                $response['message'] = validation_errors();
             }
-        }
 
         return $response;
     }

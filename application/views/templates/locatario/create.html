@@ -11,7 +11,7 @@
                     <i class="glyphicon glyphicon-remove"></i>
                 </button>
                 <h4 class="modal-title">
-                    {{id_locatario ? 'Atualizar Locatário' : 'Cadastrar Locatário'}}
+                    {{locatario.id ? 'Atualizar Locatário' : 'Cadastrar Locatário'}}
                 </h4>
             </div>
             <div class="modal-body">
@@ -72,6 +72,7 @@
                                        type="text"
                                        name="cpf"
                                        ng-model="locatario.cpf"
+                                       ui-br-cpf-mask
                                        ng-required="true"
                                 >
                             </div>

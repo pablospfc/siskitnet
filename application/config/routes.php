@@ -63,4 +63,12 @@ $route['locatarios/listar'] = "Locatario/index";
 $route['locatarios/atualizar']['put'] = "Locatario/put";
 $route['locatarios/cadastrar']['post'] = "Locatario/post";
 $route['locatarios/remover']['delete'] = "Locatario/delete";
+
 $route['estadoscivis/listar'] = "EstadoCivil/index";
+$route['imoveis/listar'] = "Imovel/index";
+
+$route['contratos/cadastrar']['post'] = "Contrato/post";
+$route['contratos/atualizar']['put'] = "Contrato/put";
+$route['contratos/remover']['delete'] = "Contrato/delete";
+$route['contratos/listar'] = "Contrato/index";
+//$route['impressao/imprimir'] = "Impressao/imprimir";

@@ -1,10 +1,145 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+<div class="modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        ng-click="fechar('cancel')"
+                        name="button">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <h4 class="modal-title">
+                    {{contrato.id ? 'Atualizar Contrato' : 'Cadastrar Contrato'}}
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <form role="form" method="post" ng-submit="salvarContrato()">
+
+                    <div class="row">
+
+                        <div class="form-group col-md-12" >
+
+                        <div class="form-group col-md-12">
+                            <label>Locatário:</label>
+                            <select
+                                    class="form-control"
+                                    id="id_locatario"
+                                    name="id_locatario"
+                                    ng-options="locatario as locatario.nome for locatario in listLocatarios track by locatario.id"
+                                    ng-model="contrato.id_locatario"
+                                    ng-required="true"
+                            >
+                            </select>
+
+                        </div>
+
+                        <div class="form-group col-md-8">
+                            <label>Imóvel:</label>
+                            <select
+                                    class="form-control"
+                                    id="id_imovel"
+                                    name="id_imovel"
+                                    ng-options="imovel as imovel.nome for imovel in listImoveis track by imovel.id"
+                                    ng-model="contrato.id_imovel"
+                                    ng-required="true"
+                            >
+                            </select>
+
+                        </div>
+
+                        <div class="form-group col-md-8">
+                            <label>Valor:</label>
+                            <input class="form-control"
+                                   id="valor"
+                                   type="text"
+                                   name="valor"
+                                   ng-model="contrato.valor"
+                                   ng-required="true"
+                            >
+                        </div>
+
+                        <div class="form-group col-md-8">
+                            <label>Início de Contrato:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="contrato.data_inicio"
+                                   ng-required="true"
+                                   maxlength="10"
+                                   ui-date-mask="DD/MM/YYYY"
+                            />
+                        </div>
+
+                        <div class="form-group col-md-8" ng-if="!contrato.id">
+                            <label>Data do 1º Vencimento:</label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="contrato.primeiro_vencimento"
+                                   ng-required="true"
+                                   maxlength="10"
+                                   ui-date-mask="DD/MM/YYYY"
+                            />
+                        </div>
+
+                        <div class="form-group col-md-8" ng-if="contrato.id">
+                            <label>Dia de vencimento:</label>
+                            <input type="number"
+                                   string-to-number
+                                   class="form-control"
+                                   ng-model="contrato.dia_vencimento"
+                                   min="1"
+                                   max="25"
+                                   ng-required="true"
+                                   maxlength="10"
+                            />
+                        </div>
+
+                        <div class="form-group col-md-8" >
+                            <label>Prazo:</label>
+                            <input class="form-control"
+                                   id="prazo"
+                                   type="text"
+                                   name="prazo"
+                                   ng-model="contrato.prazo"
+                                   ng-required="true"
+                                   ng-disabled="contrato.id != null"
+                            >
+                        </div>
+
+
+                        <hr>
+
+                        <div class="form-group col-md-12">
+                            <button type="submit" class="btn btn-primary">
+                                Salvar
+                            </button>
+                            <button type="reset" class="btn btn-default">
+                                Limpar
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+
+                <div class="form-group col-sm-12" ng-if="alert">
+                    <div class="alert alert-{{alert.type}}" role="alert">
+                        <strong>{{alert.title}}</strong> {{alert.message}}
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-default"
+                        ng-click="fechar('cancel')"
+                        data-dismiss="modal">Fechar
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

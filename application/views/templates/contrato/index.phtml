@@ -1,0 +1,84 @@
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">Gerenciamento de Contratos</h3>
+    </div>
+
+    <div class="col-lg-5">
+        <a ng-click="showContratoModal()" class="btn btn-primary btn-sm">
+            Novo Contrato
+        </a>
+        <br><br>
+    </div>
+</div>
+
+<div class="row ng-hide" ng-show="haveError">
+    <div class="col-sm-12 ">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <strong>Desculpe-nos!</strong> Mas não foi possível
+            carregar os contratos. Tente novamente!
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+<div class="row" ng-hide="haveError">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Lista de Contratos
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                    <tr>
+                        <th>Locatário</th>
+                        <th>Início</th>
+                        <th>Fim</th>
+                        <th>Imóvel</th>
+                        <th>Prazo</th>
+                        <th>Valor</th>
+                        <th>Dia de Vencimento</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="contrato in contratos">
+                        <td>{{contrato.locatario}}</td>
+                        <td class="center">{{contrato.data_inicio | date: 'dd/MM/yyyy' }}</td>
+                        <td class="center">{{ contrato.data_fim | date: 'dd/MM/yyyy' }}</td>
+                        <td class="center">{{contrato.imovel}}</td>
+                        <td class="center">{{contrato.prazo}}</td>
+                        <td class="center">{{contrato.valor}}</td>
+                        <td class="text-center">{{contrato.dia_vencimento}}</td>
+                        <td class="center">{{contrato.status}}</td>
+                        <td class="text-center">
+                            <a class="btn btn-info btn-sm" ng-click="showContratoModal(contrato)">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                            <a class="btn btn-danger btn-sm" ng-click="deleteContrato(contrato.id)">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
+                            <a class="btn btn-success btn-sm" href="<?php echo base_url('impressao/imprimir/')?>{{contrato.id}}">
+                                <i class="glyphicon glyphicon-download"></i>
+                            </a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- /.table-responsive -->
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<!-- /#page-wrapper -->
+
+
