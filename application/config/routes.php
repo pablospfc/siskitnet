@@ -66,9 +66,22 @@ $route['locatarios/remover']['delete'] = "Locatario/delete";
 
 $route['estadoscivis/listar'] = "EstadoCivil/index";
 $route['imoveis/listar'] = "Imovel/index";
+$route['tipoimoveis/listar'] = "TipoImovel/index";
+$route['tipodespesas/listar'] = "TipoDespesa/index";
 
 $route['contratos/cadastrar']['post'] = "Contrato/post";
 $route['contratos/atualizar']['put'] = "Contrato/put";
 $route['contratos/remover']['delete'] = "Contrato/delete";
 $route['contratos/listar'] = "Contrato/index";
+
+$route['imoveis/cadastrar']['post'] = "Imovel/post";
+$route['imoveis/atualizar']['put'] = "Imovel/put";
+$route['imoveis/remover']['delete'] = "Imovel/delete";
+$route['imoveis/listar'] = "Imovel/index";
+
+$route['despesa/cadastrar']['post'] = "Despesa/post";
+$route['despesa/atualizar']['put'] = "Despesa/put";
+$route['despesa/remover']['delete'] = "Despesa/delete";
+$route['despesa/listar'] = "Despesa/index";
+
 //$route['impressao/imprimir'] = "Impressao/imprimir";

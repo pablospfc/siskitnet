@@ -3,17 +3,17 @@
 /**
  * Created by PhpStorm.
  * User: claud
- * Date: 28/07/2017
- * Time: 16:53
+ * Date: 02/11/2017
+ * Time: 15:18
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
-class Imovel extends REST_Controller
+class Despesa extends \REST_Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Imovel_Model','ImovelMDL');
+        $this->load->model('Despesa_Model','DespesaMDL');
 
         // Configuração para os limites de requisições (por hora)
         $this->methods['index_get']['limit'] = 10;
@@ -21,10 +21,10 @@ class Imovel extends REST_Controller
 
     public function index_get()
     {
-        $imoveis = $this->ImovelMDL->getList();
+        $despesas = $this->DespesaMDL->getList();
 
-        if ($imoveis) {
-            $response = $imoveis;
+        if ($despesas) {
+            $response = $despesas;
             $this->response($response, REST_Controller::HTTP_OK);
         } else {
             $this->response(null,REST_Controller::HTTP_NO_CONTENT);
@@ -38,9 +38,12 @@ class Imovel extends REST_Controller
     {
         $dados = $this->post();
 
-        $response = $this->ImovelMDL->inserir($dados);
+        $response = $this->DespesaMDL->inserir($dados);
 
-        $this->response($response, REST_Controller::HTTP_OK);
+        if ($response['status'])
+            $this->response($response, REST_Controller::HTTP_OK);
+        else
+            $this->response(['message'=>'Não foi possível realizar a operação.'],REST_Controller::HTTP_NO_CONTENT);
     }
 
     /*
@@ -50,7 +53,7 @@ class Imovel extends REST_Controller
     {
         $dados = $this->put();
 
-        $response = $this->ImovelMDL->atualizar($dados, $dados['id']);
+        $response = $this->DespesaMDL->atualizar($dados, $dados['id']);
 
         $this->response($response, REST_Controller::HTTP_OK);
 
@@ -68,7 +71,7 @@ class Imovel extends REST_Controller
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        $response = $this->ImovelMDL->remover($id);
+        $response = $this->DespesaMDL->remover($id);
 
         $this->response($response, REST_Controller::HTTP_OK);
     }

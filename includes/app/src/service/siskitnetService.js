@@ -87,5 +87,77 @@ sisKitnetApp.service('SiskitnetService', function ($http, $window, $httpParamSer
             $http.delete("contratos/remover",config)
                 .then( callbackSuccess, callbackError );
        };
-    
+
+    /* IMOVEIS*/
+
+    this.getListImoveis = function (callbackSuccess, callbackError) {
+        $http.get("imoveis/listar")
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.getTipoImoveis = function (success, error) {
+        $http.get("tipoimoveis/listar")
+            .then(success,error);
+    };
+
+    this.inserirImovel = function (data, callbackSuccess, callbackError) {
+        console.log(data);
+        $http.post("imoveis/cadastrar", data)
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.atualizarImovel = function ( data, callbackSuccess, callbackError) {
+        $window.scrollTo(0,0);
+        $http.put("imoveis/atualizar", data)
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.excluirImovel = function (id, callbackSuccess, callbackError) {
+
+        var config = {
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: $httpParamSerializerJQLike({
+                id: id
+            })
+        };
+
+        $http.delete("imoveis/remover",config)
+            .then( callbackSuccess, callbackError );
+    };
+
+    /* DESPESAS*/
+
+    this.getDespesas = function (callbackSuccess, callbackError) {
+        $http.get("despesa/listar")
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.getTiposDespesas = function (success, error) {
+        $http.get("tipodespesas/listar")
+            .then(success,error);
+    };
+
+    this.inserirDespesa = function (data, callbackSuccess, callbackError) {
+        $http.post("despesa/cadastrar", data)
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.atualizarDespesa = function ( data, callbackSuccess, callbackError) {
+        $window.scrollTo(0,0);
+        $http.put("despesa/atualizar", data)
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.excluirDespesa = function (id, callbackSuccess, callbackError) {
+
+        var config = {
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: $httpParamSerializerJQLike({
+                id: id
+            })
+        };
+
+        $http.delete("despesa/remover",config)
+            .then( callbackSuccess, callbackError );
+    };
 });

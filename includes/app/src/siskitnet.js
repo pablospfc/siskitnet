@@ -60,31 +60,31 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         controller: 'ContratosController'
     }).
     when('/despesas', {
-        templateUrl: 'templates/view/despesas.html',
+        templateUrl: 'templates/view/despesa/index.html',
         controller: 'DespesasController'
     }).
     when('/imoveis', {
-        templateUrl: 'templates/view/imoveis.html',
+        templateUrl: 'templates/view/imovel/index.html',
         controller: 'ImoveisController'
     }).
     when('/indenizacoes', {
-        templateUrl: 'templates/view/indenizacoes.html',
+        templateUrl: 'templates/view/indenizacao/index.html',
         controller: 'IndenizacoesController'
     }).
     when('/pagamentos', {
-        templateUrl: 'templates/view/pagamentos.html',
+        templateUrl: 'templates/view/pagamento/index.html',
         controller: 'PagamentosController'
     }).
     when('/relatorios', {
-        templateUrl: 'templates/view/relatorios.html',
+        templateUrl: 'templates/view/relatorio/index.html',
         controller: 'RelatoriosController'
     }).
     when('/perfis', {
-        templateUrl: 'templates/view/perfis.html',
+        templateUrl: 'templates/view/perfil/index.html',
         controller: 'PerfisController'
     }).
     when('/usuarios', {
-        templateUrl: 'templates/view/usuarios.html',
+        templateUrl: 'templates/view/usuario/index.html',
         controller: 'UsuariosController'
     })
     .otherwise ({ redirectTo: '/' });
