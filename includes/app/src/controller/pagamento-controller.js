@@ -11,7 +11,7 @@ sisKitnetApp.controller('PagamentosController', function ($scope, $document, $ti
 
     SiskitnetService.getPagamentos(successGetPagamentos,errorGetPagamentos);
 
-    $scope.deleteDespesa = function(idPagamento) {
+    $scope.deletePagamento = function(idPagamento) {
         bootbox.confirm("Você deseja realmente excluir este imóvel?", function(result) {
             if(result) {
                 SiskitnetService.excluirPagamento(idPagamento);
@@ -54,6 +54,8 @@ sisKitnetApp.controller('pagamentoModalController', function ($scope, close, $fi
 
     if(!angular.isUndefined(pagamento)) {
         $scope.pagamento = angular.copy(pagamento);
+        console.log($scope.pagamento);
+        $scope.pagamento.data_pagamento =  $filter('date')($scope.pagamento.data_pagamento, 'dd/MM/yyyy');
         $scope.pagamento.periodo_inicial =  $filter('date')($scope.pagamento.periodo_inicial, 'dd/MM/yyyy');
         $scope.pagamento.periodo_final =  $filter('date')($scope.pagamento.periodo_final, 'dd/MM/yyyy');
     }
@@ -123,6 +125,13 @@ sisKitnetApp.controller('pagamentoModalController', function ($scope, close, $fi
             $scope.pagamento.periodo_final = $filter('date')(dateChanged, 'yyyy-MM-dd');
         }else
             $scope.pagamento.periodo_final = $scope.pagamento.periodo_final.split("/").reverse().join("-");
+
+        if (angular.isDate($scope.pagamento.data_pagamento)) {
+            $scope.pagamento.data_pagamento = $filter('date')($scope.pagamento.data_pagamento, 'yyyy-MM-dd');
+            var dateChanged = $scope.pagamento.data_pagamento.replace(/\//g, "-");
+            $scope.pagamento.data_pagamento = $filter('date')(dateChanged, 'yyyy-MM-dd');
+        }else
+            $scope.pagamento.data_pagamento = $scope.pagamento.data_pagamento.split("/").reverse().join("-");
 
     }
 

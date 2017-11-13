@@ -27,7 +27,12 @@ class Pagamento_Model extends CI_Model
         $result = $this->db->query("SELECT loc.nome as locatario,
                                            mes.nome as mes,
                                            pag.data_pagamento as data_pagamento,
-                                           pag.valor_total as valor_total
+                                           pag.valor_total as valor_total,
+                                           pag.periodo_inicial,
+                                           pag.periodo_final,
+                                           pag.valor_base,
+                                           pag.id_contrato,
+                                           pag.desconto
                                     FROM tb_pagamento pag
                                     INNER JOIN tb_contrato con ON con.id = pag.id_contrato
                                     INNER JOIN tb_locatario loc ON loc.id = con.id_locatario

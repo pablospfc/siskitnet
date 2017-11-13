@@ -4,7 +4,6 @@ var sisKitnetApp =  angular.module('sisKitnet-App',[
     'ngMessages',
     'angularModalService',
     'ui.utils.masks',
-    'ngPrint'
 ]);
 // $scope.today = new Date();
 // $scope.todayString = $filter('date')(new Date(), 'dd-MM-yyyy');
@@ -52,7 +51,7 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         controller: 'HomeController'
     }).
     when('/locatarios', {
-        templateUrl: 'templates/view/locatario/index.phtml',
+        templateUrl: 'templates/view/locatario/index.html',
         controller: 'LocatariosController'
     }).
     when('/contratos', {
@@ -60,11 +59,11 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         controller: 'ContratosController'
     }).
     when('/despesas', {
-        templateUrl: 'templates/view/despesa/index.phtml',
+        templateUrl: 'templates/view/despesa/index.html',
         controller: 'DespesasController'
     }).
     when('/imoveis', {
-        templateUrl: 'templates/view/imovel/index.phtml',
+        templateUrl: 'templates/view/imovel/index.html',
         controller: 'ImoveisController'
     }).
     when('/pagamentos', {
@@ -72,7 +71,7 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         controller: 'PagamentosController'
     }).
     when('/relatorios', {
-        templateUrl: 'templates/view/relatorio/index.phtml',
+        templateUrl: 'templates/view/relatorio/index.hhtml',
         controller: 'RelatoriosController'
     }).
     when('/perfis', {
