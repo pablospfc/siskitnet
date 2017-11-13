@@ -201,9 +201,6 @@
 						<a href="#/despesas"><i class="fa fa-barcode fa-fw"></i> Despesas</a>
 					</li>
 					<li>
-						<a href="#/indenizacoes"><i class="fa fa-truck fa-fw"></i> Indenizações</a>
-					</li>
-					<li>
 						<a href="#/pagamentos"><i class="fa fa-credit-card fa-fw"></i> Pagamentos</a>
 					</li>
 					<li>

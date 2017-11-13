@@ -160,4 +160,40 @@ sisKitnetApp.service('SiskitnetService', function ($http, $window, $httpParamSer
         $http.delete("despesa/remover",config)
             .then( callbackSuccess, callbackError );
     };
+
+    /* PAGAMENTOS*/
+
+    this.getPagamentos = function (callbackSuccess, callbackError) {
+        $http.get("pagamento/listar")
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.getContratosVigentes = function (callbackSuccess, callbackError) {
+        $http.get("contratos/getContratosVigentes")
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.inserirPagamento = function (data, callbackSuccess, callbackError) {
+        $http.post("pagamento/cadastrar", data)
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.atualizarPagamento = function ( data, callbackSuccess, callbackError) {
+        $window.scrollTo(0,0);
+        $http.put("pagamento/atualizar", data)
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.excluirPagamento = function (id, callbackSuccess, callbackError) {
+
+        var config = {
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: $httpParamSerializerJQLike({
+                id: id
+            })
+        };
+
+        $http.delete("pagamento/remover",config)
+            .then( callbackSuccess, callbackError );
+    };
 });

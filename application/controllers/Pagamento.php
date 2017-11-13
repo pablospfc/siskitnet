@@ -3,17 +3,17 @@
 /**
  * Created by PhpStorm.
  * User: claud
- * Date: 30/09/2017
- * Time: 19:20
+ * Date: 03/11/2017
+ * Time: 20:12
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
-class Contrato extends \REST_Controller
+class Pagamento extends \REST_Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Contrato_Model','ContratoMDL');
+        $this->load->model('Pagamento_Model','PagamentoMDL');
 
         // Configuração para os limites de requisições (por hora)
         $this->methods['index_get']['limit'] = 10;
@@ -21,21 +21,10 @@ class Contrato extends \REST_Controller
 
     public function index_get()
     {
-        $contratos = $this->ContratoMDL->getList();
+        $pagamentos = $this->PagamentoMDL->getList();
 
-        if ($contratos) {
-            $response = $contratos;
-            $this->response($response, REST_Controller::HTTP_OK);
-        } else {
-            $this->response(null,REST_Controller::HTTP_NO_CONTENT);
-        }
-    }
-
-    public function getContratos() {
-        $contratos = $this->ContratoMDL->getContratosVigentes();
-
-        if ($contratos) {
-            $response = $contratos;
+        if ($pagamentos) {
+            $response = $pagamentos;
             $this->response($response, REST_Controller::HTTP_OK);
         } else {
             $this->response(null,REST_Controller::HTTP_NO_CONTENT);
@@ -49,12 +38,12 @@ class Contrato extends \REST_Controller
     {
         $dados = $this->post();
 
-        $response = $this->ContratoMDL->inserir($dados);
+        $response = $this->PagamentoMDL->inserir($dados);
 
         if ($response['status'])
-        $this->response($response, REST_Controller::HTTP_OK);
+            $this->response($response, REST_Controller::HTTP_OK);
         else
-        $this->response(['message'=>'Não foi possível realizar a operação.'],REST_Controller::HTTP_NO_CONTENT);
+            $this->response(['message'=>'Não foi possível realizar a operação.'],REST_Controller::HTTP_NO_CONTENT);
     }
 
     /*
@@ -64,7 +53,7 @@ class Contrato extends \REST_Controller
     {
         $dados = $this->put();
 
-        $response = $this->ContratoMDL->atualizar($dados, $dados['id']);
+        $response = $this->PagamentoMDL->atualizar($dados, $dados['id']);
 
         $this->response($response, REST_Controller::HTTP_OK);
 
@@ -82,7 +71,7 @@ class Contrato extends \REST_Controller
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST);
         }
 
-        $response = $this->ContratoMDL->remover($id);
+        $response = $this->PagamentoMDL->remover($id);
 
         $this->response($response, REST_Controller::HTTP_OK);
     }

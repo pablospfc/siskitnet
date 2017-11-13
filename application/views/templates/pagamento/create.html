@@ -1,0 +1,144 @@
+
+<div class="modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        ng-click="fechar('cancel')"
+                        name="button">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <h4 class="modal-title">
+                    {{despesa.id ? 'Atualizar Pagamento' : 'Cadastrar Pagamento'}}
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <form role="form" method="post" ng-submit="salvarPagamento()">
+
+                    <div class="row">
+
+                        <div class="form-group col-md-12" >
+
+                            <div class="form-group col-md-8">
+                                <label>Contrato/Locatário:</label>
+                                <select
+                                        class="form-control"
+                                        id="id_contrato"
+                                        name="id_contrato"
+                                        ng-change="setValorBase()"
+                                        ng-options="contrato as contrato.locatario for contrato in listContratosVigentes track by contrato.id"
+                                        ng-model="pagamento.id_contrato"
+                                        ng-required="true"
+                                >
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Período Inicial:</label>
+                                <input class="form-control"
+                                       id="periodo_inicial"
+                                       type="text"
+                                       name="data"
+                                       ng-model="pagamento.periodo_inicial"
+                                       ng-required="true"
+                                       ui-date-mask="DD/MM/YYYY"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Período Final:</label>
+                                <input class="form-control"
+                                       id="periodo_final"
+                                       type="text"
+                                       name="periodo_final"
+                                       ng-model="pagamento.periodo_final"
+                                       ng-required="true"
+                                       ui-date-mask="DD/MM/YYYY"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Data de Pagamento:</label>
+                                <input class="form-control"
+                                       id="data_pagamento"
+                                       type="text"
+                                       name="data_pagamento"
+                                       ng-model="pagamento.data_pagamento"
+                                       ng-required="true"
+                                       ui-date-mask="DD/MM/YYYY"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Valor Base:</label>
+                                <input class="form-control"
+                                       id="valor_base"
+                                       type="text"
+                                       ng-readonly="pagamento.valor_base"
+                                       name="valor_base"
+                                       ng-model="pagamento.valor_base"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Desconto:</label>
+                                <input class="form-control"
+                                       id="desconto"
+                                       type="text"
+                                       ng-change="setValorTotal()"
+                                       name="desconto"
+                                       ng-model="pagamento.desconto"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Valor Total:</label>
+                                <input class="form-control"
+                                       id="valor_total"
+                                       type="text"
+                                       ng-readonly="true"
+                                       name="valor_total"
+                                       ng-model="pagamento.valor_total"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <hr>
+
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary">
+                                    Salvar
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    Limpar
+                                </button>
+                            </div>
+
+                        </div>
+                </form>
+
+                <div class="form-group col-sm-12" ng-if="alert">
+                    <div class="alert alert-{{alert.type}}" role="alert">
+                        <strong>{{alert.title}}</strong> {{alert.message}}
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-default"
+                        ng-click="fechar('cancel')"
+                        data-dismiss="modal">Fechar
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

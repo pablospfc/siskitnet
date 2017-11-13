@@ -20,8 +20,52 @@ class Contrato_Model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    public function getList($id = NULL) {
-        $query = "SELECT con.id as id,
+    public function getList() {
+        $result = $this->db->query("SELECT con.id as id,
+                                           loc.id as id_locatario,
+                                           loc.nome as locatario,
+                                           con.dia_vencimento as dia_vencimento,
+                                           con.data_inicio,
+                                           con.data_fim,
+                                           con.prazo,
+                                           con.valor,
+                                           con.primeiro_vencimento,
+                                           imo.id as id_imovel,
+                                           imo.nome as imovel,
+                                           sta.nome as status
+                                    FROM tb_contrato as con
+                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
+                                    INNER JOIN tb_status as sta ON sta.id = con.id_status
+       ");
+        return $result->result_array();
+    }
+
+    public function getContratosVigentes(){
+        $result = $this->db->query("SELECT con.id as id,
+                                           loc.id as id_locatario,
+                                           loc.nome as locatario,
+                                           con.dia_vencimento as dia_vencimento,
+                                           con.data_inicio,
+                                           con.data_fim,
+                                           con.prazo,
+                                           con.valor,
+                                           con.primeiro_vencimento,
+                                           imo.id as id_imovel,
+                                           imo.nome as imovel,
+                                           sta.nome as status
+                                    FROM tb_contrato as con
+                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
+                                    INNER JOIN tb_status as sta ON sta.id = con.id_status
+                                    WHERE con.id_status = 4
+       ");
+
+        return $result->result_array();
+    }
+
+    public function getContrato($id) {
+        $result = $this->db->query("SELECT con.id as id,
                                            loc.id as id_locatario,
                                            loc.nome as locatario,
                                            loc.cpf as cpf,
@@ -40,24 +84,16 @@ class Contrato_Model extends CI_Model
                                            con.primeiro_vencimento,
                                            imo.id as id_imovel,
                                            imo.nome as imovel,
+                                           imo.uc as uc,
                                            sta.nome as status,
                                            esc.nome as estado_civil
                                     FROM tb_contrato as con
                                     INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
                                     INNER JOIN tb_status as sta ON sta.id = con.id_status
-                                    INNER JOIN tb_estado_civil esc ON esc.id = loc.id_estado_civil";
-        if ($id != NULL || $id >0)
-            $query.= " WHERE con.id = ".$id;
-
-        $result = $this->db->query($query);
-
-        if ($result->num_rows() > 1)
-            $dados = $result->result_array();
-        else
-            $dados = $result->row_array();
-
-        return $dados;
+                                    INNER JOIN tb_estado_civil esc ON esc.id = loc.id_estado_civil
+                                    WHERE con.id = ".$id);
+        return $result->row_array();
     }
 
     public function inserir($dados) {
@@ -75,9 +111,11 @@ class Contrato_Model extends CI_Model
                 $this->db->insert("tb_contrato",$dados);
                 $idContrato = $this->db->insert_id();
                 $datasVencimento = $this->gerarParcelas($dados['primeiro_vencimento'],$dados['prazo']);
+
                 foreach ($datasVencimento as $value){
+
                  $dadosLancamento[] = [
-                     'id_mes' => (int) date( 'm', strtotime( $value ) ),
+                     'id_mes' =>  date( 'm', strtotime( $value ) ),
                      'id_status' => 1,
                      'id_contrato' =>$idContrato,
                      'valor' => $dados['valor'],
@@ -101,7 +139,10 @@ class Contrato_Model extends CI_Model
                 }
             }
 
+
+
         return $response;
+
     }
 
     private function preparaDados($dados) {
@@ -123,7 +164,7 @@ class Contrato_Model extends CI_Model
             $response["message"] = "Dados não informados";
         }else {
             $this->db->trans_strict(TRUE);
-
+            // definimos as regras de validação
             $this->db->trans_start();
             $datosContrato = $this->preparaDados($dados);
             $this->db->where("id", $id);
@@ -147,6 +188,7 @@ class Contrato_Model extends CI_Model
 
                $this->db->trans_complete();
 
+                //$afftectedRows =  $this->db->affected_rows();
                 if ($this->db->trans_status() === true){
                     $response['status'] = true;
                     $response['message'] = "Dados de contrato atualizados com sucesso";
@@ -230,9 +272,9 @@ class Contrato_Model extends CI_Model
                 $b2 = explode("-", $ultimo_dia_do_mes); // EXPLODE DO ULTIMO DIA DO MÊS
 
                 if($b1[2]!=$b2[2]) {
-                    $datas[] = "{$b2[0]}-{$b2[1]}-{$b2[2]}<br>";
+                    $datas[] = "{$b2[0]}-{$b2[1]}-{$b2[2]}";
                 } else {
-                    $datas[] = "{$b1[0]}-{$b1[1]}-{$data_array[2]}<br>";
+                    $datas[] = "{$b1[0]}-{$b1[1]}-{$data_array[2]}";
                 }
 
             }
@@ -251,9 +293,9 @@ class Contrato_Model extends CI_Model
                 $b2 = explode("-", $ultimo_dia_do_mes); // EXPLODE DO ULTIMO DIA DO MÊS
 
                 if($b1[2]!=$b2[2]) {
-                    $datas[] = "{$b2[0]}-{$b2[1]}-{$b2[2]}<br>";
+                    $datas[] = "{$b2[0]}-{$b2[1]}-{$b2[2]}";
                 } else {
-                    $datas[] = "{$b1[0]}-{$b1[1]}-{$data_array[2]}<br>";
+                    $datas[] = "{$b1[0]}-{$b1[1]}-{$data_array[2]}";
                 }
 
             }
@@ -272,9 +314,9 @@ class Contrato_Model extends CI_Model
                 $b2 = explode("-", $ultimo_dia_do_mes); // EXPLODE DO ULTIMO DIA DO MÊS
 
                 if($b1[2]!=$b2[2]) {
-                    $datas[] = "{$b2[0]}-{$b2[1]}-{$b2[2]}<br>";
+                    $datas[] = "{$b2[0]}-{$b2[1]}-{$b2[2]}";
                 } else {
-                    $datas[] = "{$b1[0]}-{$b1[1]}-{$data_array[2]}<br>";
+                    $datas[] = "{$b1[0]}-{$b1[1]}-{$data_array[2]}";
                 }
 
             }
@@ -293,9 +335,9 @@ class Contrato_Model extends CI_Model
                 $b2 = explode("-", $ultimo_dia_do_mes); // EXPLODE DO ULTIMO DIA DO MÊS
 
                 if($b1[2]!=$b2[2]) {
-                    $datas[] = "{$b2[0]}-{$b2[1]}-{$b2[2]}<br>";
+                    $datas[] = "{$b2[0]}-{$b2[1]}-{$b2[2]}";
                 } else {
-                    $datas[] = "{$b1[0]}-{$b1[1]}-{$data_array[2]}<br>";
+                    $datas[] = "{$b1[0]}-{$b1[1]}-{$data_array[2]}";
                 }
 
             }
@@ -314,9 +356,9 @@ class Contrato_Model extends CI_Model
                 $b2 = explode("-", $ultimo_dia_do_mes); // EXPLODE DO ULTIMO DIA DO MÊS
 
                 if($b1[2]!=$b2[2]) {
-                    $datas[] = "{$b2[0]}-{$b2[1]}-{$b2[2]}<br>";
+                    $datas[] = "{$b2[0]}-{$b2[1]}-{$b2[2]}";
                 } else {
-                    $datas[] = "{$b1[0]}-{$b1[1]}-{$data_array[2]}<br>";
+                    $datas[] = "{$b1[0]}-{$b1[1]}-{$data_array[2]}";
                 }
 
             }

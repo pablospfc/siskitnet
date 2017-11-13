@@ -35,4 +35,10 @@ class Lancamento_Model extends CI_Model
         return $this->db->get()->result_array();
     }
 
+    public function atualizaPagamento($mes, $contrato, $dados) {
+        $this->db->where("id_mes", $mes);
+        $this->db->where("id_contrato", $contrato);
+        return $this->db->update('tb_lancamento', $dados);
+    }
+
 }

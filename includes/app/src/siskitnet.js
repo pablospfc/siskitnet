@@ -48,11 +48,11 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode( { enabled : false, requireBase : false } );
     $locationProvider.hashPrefix('');
     $routeProvider.when('/', {
-        templateUrl: 'templates/view/home/index.html',
+        templateUrl: 'templates/view/home/index.phtml',
         controller: 'HomeController'
     }).
     when('/locatarios', {
-        templateUrl: 'templates/view/locatario/index.html',
+        templateUrl: 'templates/view/locatario/index.phtml',
         controller: 'LocatariosController'
     }).
     when('/contratos', {
@@ -60,31 +60,27 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         controller: 'ContratosController'
     }).
     when('/despesas', {
-        templateUrl: 'templates/view/despesa/index.html',
+        templateUrl: 'templates/view/despesa/index.phtml',
         controller: 'DespesasController'
     }).
     when('/imoveis', {
-        templateUrl: 'templates/view/imovel/index.html',
+        templateUrl: 'templates/view/imovel/index.phtml',
         controller: 'ImoveisController'
     }).
-    when('/indenizacoes', {
-        templateUrl: 'templates/view/indenizacao/index.html',
-        controller: 'IndenizacoesController'
-    }).
     when('/pagamentos', {
-        templateUrl: 'templates/view/pagamento/index.html',
+        templateUrl: 'templates/view/pagamento/index.phtml',
         controller: 'PagamentosController'
     }).
     when('/relatorios', {
-        templateUrl: 'templates/view/relatorio/index.html',
+        templateUrl: 'templates/view/relatorio/index.phtml',
         controller: 'RelatoriosController'
     }).
     when('/perfis', {
-        templateUrl: 'templates/view/perfil/index.html',
+        templateUrl: 'templates/view/perfil/index.phtml',
         controller: 'PerfisController'
     }).
     when('/usuarios', {
-        templateUrl: 'templates/view/usuario/index.html',
+        templateUrl: 'templates/view/usuario/index.phtml',
         controller: 'UsuariosController'
     })
     .otherwise ({ redirectTo: '/' });

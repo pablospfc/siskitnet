@@ -73,6 +73,7 @@ $route['contratos/cadastrar']['post'] = "Contrato/post";
 $route['contratos/atualizar']['put'] = "Contrato/put";
 $route['contratos/remover']['delete'] = "Contrato/delete";
 $route['contratos/listar'] = "Contrato/index";
+$route['contratos/getContratosVigentes'] = "Contrato/getContratosVigentes";
 
 $route['imoveis/cadastrar']['post'] = "Imovel/post";
 $route['imoveis/atualizar']['put'] = "Imovel/put";
@@ -83,5 +84,10 @@ $route['despesa/cadastrar']['post'] = "Despesa/post";
 $route['despesa/atualizar']['put'] = "Despesa/put";
 $route['despesa/remover']['delete'] = "Despesa/delete";
 $route['despesa/listar'] = "Despesa/index";
+
+$route['pagamento/cadastrar']['post'] = "Pagamento/post";
+$route['pagamento/atualizar']['put'] = "Pagamento/put";
+$route['pagamento/remover']['delete'] = "Pagamento/delete";
+$route['pagamento/listar'] = "Pagamento/index";
 
 //$route['impressao/imprimir'] = "Impressao/imprimir";
