@@ -47,7 +47,7 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode( { enabled : false, requireBase : false } );
     $locationProvider.hashPrefix('');
     $routeProvider.when('/', {
-        templateUrl: 'templates/view/home/index.phtml',
+        templateUrl: 'templates/view/home/index.html',
         controller: 'HomeController'
     }).
     when('/locatarios', {
@@ -77,6 +77,10 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
     when('/perfis', {
         templateUrl: 'templates/view/perfil/index.phtml',
         controller: 'PerfisController'
+    }).
+    when('/usuarios', {
+        templateUrl: 'templates/view/usuario/index.phtml',
+        controller: 'UsuariosController'
     }).
     when('/usuarios', {
         templateUrl: 'templates/view/usuario/index.phtml',

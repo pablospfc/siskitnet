@@ -184,16 +184,21 @@ sisKitnetApp.service('SiskitnetService', function ($http, $window, $httpParamSer
             .then(callbackSuccess, callbackError);
     };
 
-    this.excluirPagamento = function (id, callbackSuccess, callbackError) {
+    this.excluirPagamento = function (pagamento, callbackSuccess, callbackError) {
 
         var config = {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             data: $httpParamSerializerJQLike({
-                id: id
+                pagamento: pagamento
             })
         };
 
         $http.delete("pagamento/remover",config)
             .then( callbackSuccess, callbackError );
+    };
+
+    this.getQuantitativos = function (callbackSuccess, callbackError) {
+        $http.get("home/index")
+            .then(callbackSuccess, callbackError);
     };
 });

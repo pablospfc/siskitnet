@@ -14,6 +14,7 @@ class Impressao extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Contrato_Model','ContratoMDL');
+        $this->load->model('Pagamento_Model','PagamentoMDL');
 
     }
 
@@ -39,18 +40,17 @@ class Impressao extends CI_Controller
         // Instancia a classe mPDF
         $mpdf = new \Mpdf\Mpdf();
         $data['dados'] = $this->PagamentoMDL->getRecibo($id);
-        $data['dados']['prazo_extenso'] = $this->convert_number_to_words($data['dados']['prazo']);
-        $data['dados']['valor_extenso'] = $this->convert_number_to_words($data['dados']['valor']);
-        $html = $this->load->view('templates/contrato/contrato',$data,TRUE);
+        $data['dados']['valor_total_extenso'] = $this->convert_number_to_words($data['dados']['valor_total']);
+        $html = $this->load->view('templates/pagamento/recibo',$data,TRUE);
         // Define um Cabeçalho para o arquivo PDF
-        $mpdf->SetHeader('Contrato de locação de imóvel');
+        $mpdf->SetHeader('Recibo de pagamento de aluguel');
         // Define um rodapé para o arquivo PDF, nesse caso inserindo o número da
         // página através da pseudo-variável PAGENO
         $mpdf->SetFooter('{PAGENO}');
         // Insere o conteúdo da variável $html no arquivo PDF
         $mpdf->writeHTML($html);
 
-        $mpdf->Output($data['dados']['locatario'].'-'.date('Y-m-d H:i:s').'.pdf','D');
+        $mpdf->Output($data['dados']['recibo'].'-'.date('Y-m-d H:i:s').'.pdf','D');
     }
 
     public function convert_number_to_words($number) {

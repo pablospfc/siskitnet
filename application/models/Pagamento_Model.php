@@ -25,6 +25,7 @@ class Pagamento_Model extends CI_Model
 
     public function getList() {
         $result = $this->db->query("SELECT loc.nome as locatario,
+                                           mes.id as id_mes,
                                            mes.nome as mes,
                                            pag.data_pagamento as data_pagamento,
                                            pag.valor_total as valor_total,
@@ -32,7 +33,8 @@ class Pagamento_Model extends CI_Model
                                            pag.periodo_final,
                                            pag.valor_base,
                                            pag.id_contrato,
-                                           pag.desconto
+                                           pag.desconto,
+                                           pag.id as id
                                     FROM tb_pagamento pag
                                     INNER JOIN tb_contrato con ON con.id = pag.id_contrato
                                     INNER JOIN tb_locatario loc ON loc.id = con.id_locatario
@@ -54,16 +56,18 @@ class Pagamento_Model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    public function getRecibo() {
+    public function getRecibo($id) {
         $result = $this->db->query("SELECT loc.nome as locatario,
                                            loc.cpf as cpf,
                                            imo.numero as numero_imovel,
                                            imo.endereco as endereco_imovel,
-                                           pag.data_pagamento as data_pagamento,
+                                           imo.complemento as complemento_imovel,
+                                           imo.cep as cep_imovel,
+                                           DATE_FORMAT(pag.data_pagamento, '%d/%m/%Y') as data_pagamento,
                                            pag.recibo as recibo,
                                            pag.valor_total as valor_total,
-                                           pag.periodo_inicial,
-                                           pag.periodo_final,
+                                           DATE_FORMAT(pag.periodo_inicial, '%d/%m/%Y') as periodo_inicial,
+                                           DATE_FORMAT(pag.periodo_final, '%d/%m/%Y') AS periodo_final,
                                            lod.nome as locador,
                                            lod.cpf_cnpj as cpf_cnpj_locador
                                     FROM tb_pagamento pag
@@ -71,8 +75,9 @@ class Pagamento_Model extends CI_Model
                                     INNER JOIN tb_locatario loc ON loc.id = con.id_locatario
                                     INNER JOIN tb_locador lod ON lod.id = con.id_locador
                                     INNER JOIN tb_imovel imo on imo.id = con.id_imovel
+                                    WHERE pag.id = {$id}
        ");
-        return $result->result_array();
+        return $result->row_array();
     }
 
     public function inserir($dados) {
@@ -139,17 +144,25 @@ class Pagamento_Model extends CI_Model
             $response["message"] = "Dados não informados";
         }else {
             $dados = $this->preparaDados($dados);
-            $this->form_validation->set_data($dados);
-            $this->form_validation->set_rules('descricao', 'descricao', 'required|min_length[2]|trim');
 
-            if ($this->form_validation->run() == true) {
-                $partes = explode("-", $dados['data']);
-                $dados['id_mes'] = (int) $partes[1];
-                $dados['ano'] = (int) $partes[0];
-                $this->db->where("id", $id);
-                $this->db->update('tb_pagamento', $dados);
-                $afftectedRows =  $this->db->affected_rows();
-                if ($afftectedRows > 0){
+            $this->db->trans_strict(TRUE);
+            // definimos as regras de validação
+            $this->db->trans_start();
+
+            $dados = $this->preparaDados($dados);
+
+            $dadosLancamento = [
+                'valor_pago' => $dados['valor_total'],
+                'data_pagamento' => $dados['data_pagamento']
+            ];
+
+            $this->db->where("id", $id);
+
+            $this->db->update('tb_pagamento', $dados);
+
+            $this->lancamento->atualizaPagamento($dados['id_mes'],$dados['id_contrato'],$dadosLancamento);
+            $this->db->trans_complete();
+                if ($this->db->trans_status() === true){
                     $response['status'] = true;
                     $response['message'] = "Dados atualizados com sucesso";
                 }
@@ -159,21 +172,34 @@ class Pagamento_Model extends CI_Model
                     $response['message'] = "Não foi possível atualizar o imóvel. Por favor tente novamente!";
                     $this->db->insert("tb_log",['message'=>$error['message']]);
                 }
-            } else {
-                $response['status'] = false;
-                $response['message'] = validation_errors();
-            }
+
         }
         return $response;
     }
 
-    public function remover($value)
+    public function remover($dados)
     {
-        $this->db->where("id", $value);
+        $this->db->trans_strict(TRUE);
+        // definimos as regras de validação
+        $this->db->trans_start();
+
+        error_log(var_export($dados,true));
+
+        $this->db->where("id", $dados['id']);
 
         $status = $this->db->delete('tb_pagamento');
 
-        if ($status) {
+        $dadosLancamento = [
+            'valor_pago' => null,
+            'data_pagamento' => null,
+            'id_status' => 1,
+        ];
+
+        $this->lancamento->atualizaPagamento($dados['id_mes'],$dados['id_contrato'],$dadosLancamento);
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === true) {
             $response['status'] = true;
             $response['message'] = "Locatário removido com sucesso.";
         } else {

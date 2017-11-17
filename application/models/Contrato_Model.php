@@ -64,6 +64,53 @@ class Contrato_Model extends CI_Model
         return $result->result_array();
     }
 
+    public function getContratosVencidos() {
+        $result = $this->db->query("SELECT con.id as id,
+                                           loc.id as id_locatario,
+                                           loc.nome as locatario,
+                                           loc.cpf as cpf,
+                                           con.dia_vencimento as dia_vencimento,
+                                           con.data_inicio,
+                                           con.data_fim,
+                                           con.prazo,
+                                           con.valor,
+                                           imo.id as id_imovel,
+                                           imo.nome as imovel,
+                                           imo.uc as uc,
+                                           sta.nome as status
+                                    FROM tb_contrato as con
+                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
+                                    INNER JOIN tb_status as sta ON sta.id = con.id_status
+                                    WHERE sta.id = 7");
+
+        return $result->result_array();
+    }
+
+    public function getQtdContratosVencidos() {
+        $result = $this->db->query("SELECT COUNT(*) AS quantidade FROM
+                                     (SELECT con.id as id,
+                                           loc.id as id_locatario,
+                                           loc.nome as locatario,
+                                           loc.cpf as cpf,
+                                           con.dia_vencimento as dia_vencimento,
+                                           con.data_inicio,
+                                           con.data_fim,
+                                           con.prazo,
+                                           con.valor,
+                                           imo.id as id_imovel,
+                                           imo.nome as imovel,
+                                           imo.uc as uc,
+                                           sta.nome as status
+                                    FROM tb_contrato as con
+                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
+                                    INNER JOIN tb_status as sta ON sta.id = con.id_status
+                                    WHERE sta.id = 7) AS tabela");
+
+        return $result->row_array();
+    }
+
     public function getContrato($id) {
         $result = $this->db->query("SELECT con.id as id,
                                            loc.id as id_locatario,

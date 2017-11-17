@@ -2,14 +2,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h3 class="page-header">Gerenciamento de Pagamentos</h3>
-    </div>
-
-    <div class="col-lg-5">
-        <a ng-click="showPagamentoModal()" class="btn btn-primary btn-sm">
-            Novo Pagamento
-        </a>
-        <br><br>
+        <h3 class="page-header">Alugueis do Mês</h3>
     </div>
 </div>
 
@@ -26,7 +19,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Lista de Pagamentos
+                Lista de Alugueis do Mês
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -34,26 +27,34 @@
                     <thead>
                     <tr>
                         <th>Locatário</th>
-                        <th>Mês</th>
-                        <th>Data de Pagamento</th>
-                        <th>Valor Total</th>
+                        <th>Início</th>
+                        <th>Fim</th>
+                        <th>Imóvel</th>
+                        <th>Prazo</th>
+                        <th>Valor</th>
+                        <th>Dia de Vencimento</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="pagamento in pagamentos">
-                        <td>{{pagamento.locatario}}</td>
-                        <td class="center">{{pagamento.mes}}</td>
-                        <td class="center">{{pagamento.data_pagamento | date: 'dd/MM/yyyy' }}</td>
-                        <td class="center">{{pagamento.valor_total}}</td>
+                    <tr ng-repeat="contrato in contratos">
+                        <td>{{contrato.locatario}}</td>
+                        <td class="center">{{contrato.data_inicio | date: 'dd/MM/yyyy' }}</td>
+                        <td class="center">{{ contrato.data_fim | date: 'dd/MM/yyyy' }}</td>
+                        <td class="center">{{contrato.imovel}}</td>
+                        <td class="center">{{contrato.prazo}}</td>
+                        <td class="center">{{contrato.valor}}</td>
+                        <td class="text-center">{{contrato.dia_vencimento}}</td>
+                        <td class="center">{{contrato.status}}</td>
                         <td class="text-center">
-                            <a class="btn btn-info btn-sm" ng-click="showPagamentoModal(pagamento)">
+                            <a class="btn btn-info btn-sm" ng-click="showContratoModal(contrato)">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
-                            <a class="btn btn-danger btn-sm" ng-click="deletePagamento(pagamento)">
+                            <a class="btn btn-danger btn-sm" ng-click="deleteContrato(contrato.id)">
                                 <i class="glyphicon glyphicon-remove"></i>
                             </a>
-                            <a class="btn btn-success btn-sm" href="<?php echo base_url('impressao/imprimirRecibo/')?>{{pagamento.id}}">
+                            <a class="btn btn-success btn-sm" href="<?php echo base_url('impressao/imprimirContrato/')?>{{contrato.id}}">
                                 <i class="glyphicon glyphicon-download"></i>
                             </a>
                         </td>

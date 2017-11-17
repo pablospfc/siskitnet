@@ -3,17 +3,18 @@
 /**
  * Created by PhpStorm.
  * User: claud
- * Date: 03/11/2017
- * Time: 20:12
+ * Date: 14/11/2017
+ * Time: 22:34
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
-class Pagamento extends \REST_Controller
+class Home extends \REST_Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Pagamento_Model','PagamentoMDL');
+        $this->load->model('Contrato_Model','ContratoMDL');
+        $this->load->model('Lancamento_Model','LancamentoMDL');
 
         // Configuração para os limites de requisições (por hora)
         $this->methods['index_get']['limit'] = 10;
@@ -21,10 +22,24 @@ class Pagamento extends \REST_Controller
 
     public function index_get()
     {
-        $pagamentos = $this->PagamentoMDL->getList();
+        $qtdContratosVencidos = $this->ContratoMDL->getQtdContratosVencidos()['quantidade'];
+        $qtdAlugueisAtrasados = $this->LancamentoMDL->getQtdAlugueisAtrasados()['quantidade'];
+        $qtdAluguesMes = $this->LancamentoMDL->getQtdAlugueisMes()['quantidade'];
 
-        if ($pagamentos) {
-            $response = $pagamentos;
+        $response = [
+            'qtdContratosVencidos' => $qtdContratosVencidos,
+            'qtdAlugueisAtrasados' => $qtdAlugueisAtrasados,
+            'qtdAlugueisMes' => $qtdAluguesMes,
+        ];
+
+            $this->response($response, REST_Controller::HTTP_OK);
+    }
+
+    public function getContratos() {
+        $contratos = $this->ContratoMDL->getContratosVigentes();
+
+        if ($contratos) {
+            $response = $contratos;
             $this->response($response, REST_Controller::HTTP_OK);
         } else {
             $this->response(null,REST_Controller::HTTP_NO_CONTENT);
@@ -38,7 +53,7 @@ class Pagamento extends \REST_Controller
     {
         $dados = $this->post();
 
-        $response = $this->PagamentoMDL->inserir($dados);
+        $response = $this->ContratoMDL->inserir($dados);
 
         if ($response['status'])
             $this->response($response, REST_Controller::HTTP_OK);
@@ -51,11 +66,7 @@ class Pagamento extends \REST_Controller
      */
     public function index_put()
     {
-        $dados = $this->put();
 
-        $response = $this->PagamentoMDL->atualizar($dados, $dados['id']);
-
-        $this->response($response, REST_Controller::HTTP_OK);
 
     }
 
@@ -64,16 +75,7 @@ class Pagamento extends \REST_Controller
      */
     public function index_delete()
     {
-        $dados = $this->delete();
 
-        if (!$dados['pagamento'])
-        {
-            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST);
-        }
-
-        $response = $this->PagamentoMDL->remover($dados['pagamento']);
-
-        $this->response($response, REST_Controller::HTTP_OK);
     }
 
 }

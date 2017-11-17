@@ -11,10 +11,10 @@ sisKitnetApp.controller('PagamentosController', function ($scope, $document, $ti
 
     SiskitnetService.getPagamentos(successGetPagamentos,errorGetPagamentos);
 
-    $scope.deletePagamento = function(idPagamento) {
+    $scope.deletePagamento = function(pagamento) {
         bootbox.confirm("Você deseja realmente excluir este imóvel?", function(result) {
             if(result) {
-                SiskitnetService.excluirPagamento(idPagamento);
+                SiskitnetService.excluirPagamento(pagamento);
             }
             $timeout(function () {
                 SiskitnetService.getPagamentos(successGetPagamentos,errorGetPagamentos)
