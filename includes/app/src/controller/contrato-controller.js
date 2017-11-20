@@ -1,4 +1,4 @@
-sisKitnetApp.controller('ContratosController', function ($scope, $document, $timeout, ModalService, SiskitnetService) {
+sisKitnetApp.controller('ContratosController', function ($scope, $location, $document, $timeout, ModalService, SiskitnetService) {
     var successGetContratos = function(success) {
         $scope.contratos = success.data;
         $scope.haveError  = false;
@@ -11,7 +11,7 @@ sisKitnetApp.controller('ContratosController', function ($scope, $document, $tim
 
     SiskitnetService.getContratos(successGetContratos,errorGetContratos);
 
-    $scope.deleteContrato = function(idLocatario) {
+    $scope.deleteContrato = function(idContrato) {
         bootbox.confirm("Você deseja realmente excluir este contrato?", function(result) {
             if(result) {
                 SiskitnetService.excluirContrato(idContrato);

@@ -82,10 +82,45 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         templateUrl: 'templates/view/usuario/index.phtml',
         controller: 'UsuariosController'
     }).
-    when('/usuarios', {
-        templateUrl: 'templates/view/usuario/index.phtml',
-        controller: 'UsuariosController'
+    when('/alugueis-mes', {
+        templateUrl: 'templates/view/aluguel/alugueis-mes.html',
+        controller: 'AlugueisController',
+        resolve: {
+            Alugueis: function (SiskitnetService) {
+                return SiskitnetService.getAlugueisMes();
+            }
+        }
+    }).
+    when('/alugueis-atrasados', {
+        templateUrl: 'templates/view/aluguel/alugueis-atrasados.html',
+        controller: 'AlugueisController',
+        resolve: {
+            Alugueis: function (SiskitnetService) {
+                return SiskitnetService.getAlugueisAtrasados();
+            }
+        }
+    }).
+    when('/contratos-vencidos', {
+        templateUrl: 'templates/view/renovacao/index.html',
+        controller: 'RenovacaoController',
+        resolve: {
+            Vencidos: function (SiskitnetService) {
+                return SiskitnetService.getContratosVencidos();
+            }
+        }
     })
     .otherwise ({ redirectTo: '/' });
 
 });
+
+// sisKitnetApp.run(function ($rootScope, $location, SiskitnetService) {
+//     $rootScope.goTo = function (url) {
+//         if (url=='alugueis-atrasados') {
+//             SiskitnetService.getAlugueisAtrasados($rootScope);
+//             $location.path(url);
+//         }else{
+//             SiskitnetService.getAlugueisMes($rootScope);
+//             $location.path(url);
+//         }
+//     };
+// });

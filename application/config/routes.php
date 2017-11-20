@@ -74,20 +74,25 @@ $route['contratos/atualizar']['put'] = "Contrato/put";
 $route['contratos/remover']['delete'] = "Contrato/delete";
 $route['contratos/listar'] = "Contrato/index";
 $route['contratos/getContratosVigentes'] = "Contrato/getContratosVigentes";
+$route['contratos/getContratosVencidos'] = "Contrato/getContratosVencidos";
 
 $route['imoveis/cadastrar']['post'] = "Imovel/post";
 $route['imoveis/atualizar']['put'] = "Imovel/put";
 $route['imoveis/remover']['delete'] = "Imovel/delete";
 $route['imoveis/listar'] = "Imovel/index";
 
-$route['despesa/cadastrar']['post'] = "Despesa/post";
-$route['despesa/atualizar']['put'] = "Despesa/put";
-$route['despesa/remover']['delete'] = "Despesa/delete";
-$route['despesa/listar'] = "Despesa/index";
+$route['despesas/cadastrar']['post'] = "Despesa/post";
+$route['despesas/atualizar']['put'] = "Despesa/put";
+$route['despesas/remover']['delete'] = "Despesa/delete";
+$route['despesas/listar'] = "Despesa/index";
 
 $route['pagamento/cadastrar']['post'] = "Pagamento/post";
 $route['pagamento/atualizar']['put'] = "Pagamento/put";
 $route['pagamento/remover']['delete'] = "Pagamento/delete";
 $route['pagamento/listar'] = "Pagamento/index";
+
+$route['alugueis/getAlugueisMes'] = "Aluguel/getAlugueisMes";
+$route['alugueis/getAlugueisAtrasados'] = "Aluguel/getAlugueisAtrasados";
+$route['alugueis/listar'] = "Aluguel/index";
 
 //$route['impressao/imprimir'] = "Impressao/imprimir";

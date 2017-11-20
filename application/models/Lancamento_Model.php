@@ -49,16 +49,18 @@ class Lancamento_Model extends CI_Model
                                            lan.data_vencimento,
                                            mes.nome as mes,
                                            con.valor,
+                                           lan.valor_pago,
+                                           lan.data_pagamento,
                                            imo.nome as imovel,
                                            sta.nome as status
                                     FROM tb_contrato as con
                                     INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
-                                    INNER JOIN tb_status as sta ON sta.id = con.id_status
                                     INNER JOIN tb_lancamento lan ON lan.id_contrato = con.id
+                                    INNER JOIN tb_status as sta ON sta.id = lan.id_status
                                     INNER JOIN tb_mes mes ON mes.id = lan.id_mes
                                     WHERE YEAR(lan.data_vencimento) = YEAR(now()) 
-                                    AND MONTH(lan.data_vencimento) =  MONTH(now());");
+                                    AND MONTH(lan.data_vencimento) =  MONTH(now())");
 
         return $result->result_array();
     }
@@ -77,8 +79,8 @@ class Lancamento_Model extends CI_Model
                                     FROM tb_contrato as con
                                     INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
-                                    INNER JOIN tb_status as sta ON sta.id = con.id_status
                                     INNER JOIN tb_lancamento lan ON lan.id_contrato = con.id
+                                    INNER JOIN tb_status as sta ON sta.id = lan.id_status
                                     INNER JOIN tb_mes mes ON mes.id = lan.id_mes
                                     WHERE YEAR(lan.data_vencimento) = YEAR(now()) 
                                     AND MONTH(lan.data_vencimento) =  MONTH(now())) as tabela;");

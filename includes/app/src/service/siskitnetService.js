@@ -1,4 +1,4 @@
-sisKitnetApp.service('SiskitnetService', function ($http, $window, $httpParamSerializerJQLike) {
+sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $httpParamSerializerJQLike) {
     /*LOCATÁRIOS*/
     this.getLocatarios = function (callbackSuccess, callbackError) {
         $http.get("locatarios/listar")
@@ -101,7 +101,6 @@ sisKitnetApp.service('SiskitnetService', function ($http, $window, $httpParamSer
     };
 
     this.inserirImovel = function (data, callbackSuccess, callbackError) {
-        console.log(data);
         $http.post("imoveis/cadastrar", data)
             .then(callbackSuccess, callbackError);
     };
@@ -128,7 +127,7 @@ sisKitnetApp.service('SiskitnetService', function ($http, $window, $httpParamSer
     /* DESPESAS*/
 
     this.getDespesas = function (callbackSuccess, callbackError) {
-        $http.get("despesa/listar")
+        $http.get("despesas/listar")
             .then(callbackSuccess, callbackError);
     };
 
@@ -138,13 +137,13 @@ sisKitnetApp.service('SiskitnetService', function ($http, $window, $httpParamSer
     };
 
     this.inserirDespesa = function (data, callbackSuccess, callbackError) {
-        $http.post("despesa/cadastrar", data)
+        $http.post("despesas/cadastrar", data)
             .then(callbackSuccess, callbackError);
     };
 
     this.atualizarDespesa = function ( data, callbackSuccess, callbackError) {
         $window.scrollTo(0,0);
-        $http.put("despesa/atualizar", data)
+        $http.put("despesas/atualizar", data)
             .then(callbackSuccess, callbackError);
     };
 
@@ -157,7 +156,7 @@ sisKitnetApp.service('SiskitnetService', function ($http, $window, $httpParamSer
             })
         };
 
-        $http.delete("despesa/remover",config)
+        $http.delete("despesas/remover",config)
             .then( callbackSuccess, callbackError );
     };
 
@@ -200,5 +199,40 @@ sisKitnetApp.service('SiskitnetService', function ($http, $window, $httpParamSer
     this.getQuantitativos = function (callbackSuccess, callbackError) {
         $http.get("home/index")
             .then(callbackSuccess, callbackError);
+    };
+
+    this.getContratosVencidos = function() {
+        var deferred = $q.defer();
+        $http.get("contratos/getContratosVencidos")
+            .then(function mySuccess(data) {
+                deferred.resolve(data.data);
+            }, function myError(meta) {
+                deferred.reject(meta);
+            });
+        return deferred.promise;
+    };
+
+    this.getAlugueisMes = function() {
+        var deferred = $q.defer();
+        $http.get("alugueis/getAlugueisMes")
+            .then(function mySuccess(data) {
+                deferred.resolve(data.data);
+            }, function myError(meta) {
+                deferred.reject(meta);
+            });
+
+        return deferred.promise;
+    };
+
+    this.getAlugueisAtrasados = function() {
+        var deferred = $q.defer();
+        $http.get("aluguel/getAlugueisAtrasados")
+            .then(function mySuccess(data) {
+                deferred.resolve(data.data);
+            }, function myError(meta) {
+                deferred.reject(meta);
+            });
+
+        return deferred.promise;
     };
 });
