@@ -104,7 +104,7 @@ class Lancamento_Model extends CI_Model
                                     INNER JOIN tb_status as sta ON sta.id = con.id_status
                                     INNER JOIN tb_lancamento lan ON lan.id_contrato = con.id
                                     INNER JOIN tb_mes mes ON mes.id = lan.id_mes
-                                    WHERE sta.id = 2
+                                    WHERE lan.id_status = 2
                                     ");
 
         return $result->result_array();
@@ -127,7 +127,7 @@ class Lancamento_Model extends CI_Model
                                     INNER JOIN tb_status as sta ON sta.id = con.id_status
                                     INNER JOIN tb_lancamento lan ON lan.id_contrato = con.id
                                     INNER JOIN tb_mes mes ON mes.id = lan.id_mes
-                                    WHERE sta.id = 2) AS tabela
+                                    WHERE lan.id_status = 2) AS tabela
                                     ");
 
         return $result->row_array();

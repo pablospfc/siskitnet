@@ -74,7 +74,6 @@ $route['contratos/atualizar']['put'] = "Contrato/put";
 $route['contratos/remover']['delete'] = "Contrato/delete";
 $route['contratos/listar'] = "Contrato/index";
 $route['contratos/getContratosVigentes'] = "Contrato/getContratosVigentes";
-$route['contratos/getContratosVencidos'] = "Contrato/getContratosVencidos";
 
 $route['imoveis/cadastrar']['post'] = "Imovel/post";
 $route['imoveis/atualizar']['put'] = "Imovel/put";
@@ -95,4 +94,7 @@ $route['alugueis/getAlugueisMes'] = "Aluguel/getAlugueisMes";
 $route['alugueis/getAlugueisAtrasados'] = "Aluguel/getAlugueisAtrasados";
 $route['alugueis/listar'] = "Aluguel/index";
 
+$route['renovacao/getContratosVencidos'] = "Renovacao/index";
+$route['renovacao/renovar'] = "Renovacao/post";
+$route['renovacao/naoRenovar'] = "Renovacao/put";
 //$route['impressao/imprimir'] = "Impressao/imprimir";

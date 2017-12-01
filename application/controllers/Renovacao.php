@@ -60,7 +60,7 @@ class Renovacao extends \REST_Controller
     {
         $dados = $this->put();
 
-        $response = $this->ContratoMDL->naoRenovarContrato($dados, $dados['id']);
+        $response = $this->ContratoMDL->naoRenovarContrato($dados[0]);
 
         $this->response($response, REST_Controller::HTTP_OK);
 

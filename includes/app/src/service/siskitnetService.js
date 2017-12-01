@@ -1,4 +1,4 @@
-sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $httpParamSerializerJQLike) {
+sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScope,$httpParamSerializerJQLike) {
     /*LOCATÁRIOS*/
     this.getLocatarios = function (callbackSuccess, callbackError) {
         $http.get("locatarios/listar")
@@ -178,7 +178,6 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $httpPara
     };
 
     this.atualizarPagamento = function ( data, callbackSuccess, callbackError) {
-        $window.scrollTo(0,0);
         $http.put("pagamento/atualizar", data)
             .then(callbackSuccess, callbackError);
     };
@@ -202,14 +201,18 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $httpPara
     };
 
     this.getContratosVencidos = function() {
-        var deferred = $q.defer();
-        $http.get("contratos/getContratosVencidos")
+        //var deferred = $q.defer();
+        $http.get("renovacao/getContratosVencidos")
             .then(function mySuccess(data) {
-                deferred.resolve(data.data);
+                //deferred.resolve(data.data);
+                $rootScope.contratos_vencidos = data.data;
+                $rootScope.haveError  = false;
             }, function myError(meta) {
-                deferred.reject(meta);
+                //deferred.reject(meta);
+                $rootScope.contratos_vencidos = [];
+                $rootScope.haveError  = meta ;
             });
-        return deferred.promise;
+        //return deferred.promise;
     };
 
     this.getAlugueisMes = function() {
@@ -234,5 +237,15 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $httpPara
             });
 
         return deferred.promise;
+    };
+
+    this.renovar = function (data, callbackSuccess, callbackError) {
+        $http.post("renovacao/renovar", data)
+            .then(callbackSuccess, callbackError);
+    };
+
+    this.naoRenovar = function ( data, callbackSuccess, callbackError) {
+        $http.put("renovacao/naoRenovar", data)
+            .then(callbackSuccess, callbackError);
     };
 });

@@ -103,11 +103,11 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
     when('/contratos-vencidos', {
         templateUrl: 'templates/view/renovacao/index.html',
         controller: 'RenovacaoController',
-        resolve: {
-            Vencidos: function (SiskitnetService) {
-                return SiskitnetService.getContratosVencidos();
-            }
-        }
+        // resolve: {
+        //     Vencidos: function (SiskitnetService) {
+        //         return SiskitnetService.getContratosVencidos();
+        //     }
+        // }
     })
     .otherwise ({ redirectTo: '/' });
 
