@@ -248,4 +248,20 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScop
         $http.put("renovacao/naoRenovar", data)
             .then(callbackSuccess, callbackError);
     };
+
+    this.getLogin = function (dados) {
+        console.log(dados);
+        $http.post("login/autenticar",dados)
+            .then(function mySuccess(data) {
+                if (data.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                    $rootScope.login = undefined;
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message}
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: meta.statusText};
+            });
+    };
+
 });

@@ -4,6 +4,8 @@ var sisKitnetApp =  angular.module('sisKitnet-App',[
     'ngMessages',
     'angularModalService',
     'ui.utils.masks',
+    'authentication',
+    'ngCookies',
 ]);
 // $scope.today = new Date();
 // $scope.todayString = $filter('date')(new Date(), 'dd-MM-yyyy');
@@ -108,8 +110,13 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         //         return SiskitnetService.getContratosVencidos();
         //     }
         // }
+    }).
+    when('/login', {
+        templateUrl: 'templates/view/login/index.html',
+        controller: 'LoginController',
+        hideMenus: true,
     })
-    .otherwise ({ redirectTo: '/' });
+    .otherwise ({ redirectTo: '/login' });
 
 });
 
@@ -124,3 +131,19 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
 //         }
 //     };
 // });
+
+sisKitnetApp.run(['$rootScope', '$location', '$cookieStore', '$http',
+    function ($rootScope, $location, $cookieStore, $http) {
+        // keep user logged in after page refresh
+        $rootScope.globals = $cookieStore.get('globals') || {};
+        if ($rootScope.globals.currentUser) {
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
+        }
+
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            // redirect to login page if not logged in
+            if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
+                $location.path('/login');
+            }
+        });
+    }]);

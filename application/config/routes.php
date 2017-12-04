@@ -97,4 +97,6 @@ $route['alugueis/listar'] = "Aluguel/index";
 $route['renovacao/getContratosVencidos'] = "Renovacao/index";
 $route['renovacao/renovar'] = "Renovacao/post";
 $route['renovacao/naoRenovar'] = "Renovacao/put";
+
+$route['login/autenticar'] = "Login/post";
 //$route['impressao/imprimir'] = "Impressao/imprimir";

@@ -70,6 +70,8 @@
     <script src="<?php echo base_url('includes/bower_components/angular-modal-service/dst/angular-modal-service.min.js');?>"></script>
     <script src="<?php echo base_url('includes/bower_components/angular-input-masks/angular-input-masks-standalone.min.js');?>"></script>
     <script src="<?php echo base_url('includes/bower_components/bootbox.js/bootbox.js');?>"></script>
+    <script src="<?php echo base_url('includes/bower_components/angular-authentication/js/angular-authentication.js');?>"></script>
+    <script src="<?php echo base_url('includes/bower_components/angular-cookies/angular-cookies.js');?>"></script>
     <script src="<?php echo base_url('includes/app/siskitnet.min.js');?>"></script>
 
 

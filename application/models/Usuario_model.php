@@ -24,6 +24,14 @@ class Usuario_model extends CI_Model {
         return $this->db->get()->result_array();
     }
 
+    public function getLogin($login,$senha){
+        $this->db->select('*')
+            ->from('tb_usuario')
+            ->where('login',$login)
+            ->where('senha',md5($senha));
+        return $this->db->get()->result_array();
+    }
+
     /*
      * Método que irá listar todos os usuários
      * recebe como parâmetro os campos a serem retornados
