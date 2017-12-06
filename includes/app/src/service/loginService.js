@@ -8,7 +8,6 @@ sisKitnetApp.factory('AuthenticationService',
                 var service = {};
 
                 service.getLogin = function (dados, callback) {
-                    console.log(dados);
                     $http.post("login/autenticar",dados)
                         .then(function (response) {
                             callback(response);
@@ -30,6 +29,10 @@ sisKitnetApp.factory('AuthenticationService',
                 };
 
                 service.ClearCredentials = function () {
+                    $http.get("login/logout")
+                        .then(function mySuccess(data) {
+                        }, function myError(meta) {
+                        });
                     $rootScope.globals = {};
                     $cookieStore.remove('globals');
                     $http.defaults.headers.common.Authorization = 'Basic ';

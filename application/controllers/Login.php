@@ -13,6 +13,7 @@ class Login extends \REST_Controller
     function __construct()
     {
         parent::__construct();
+        $this->load->library('session');
         $this->load->model('Login_Model','LoginMDL');
 
         // Configuração para os limites de requisições (por hora)
@@ -21,14 +22,19 @@ class Login extends \REST_Controller
 
     public function index_get()
     {
-
+        $this->session->sess_destroy();
+        error_log("chegou aqui saindo...");
     }
 
     public function index_post()
     {
         $dados = $this->post();
-        error_log(var_export($dados,true));
         $response = $this->LoginMDL->getLogin($dados);
+        if ($response['status'])
+            $this->session->set_userdata($response['data'][0]);
+
+        error_log($this->session->userdata('login'));
+
         if (is_array($response))
             $this->response($response, REST_Controller::HTTP_OK);
         else

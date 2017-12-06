@@ -167,7 +167,7 @@
 			<li class="dropdown">
 
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-					<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+					<i class="fa fa-user fa-fw"></i> <?php echo $this->session->userdata('login');?> <i class="fa fa-caret-down"></i>
 				</a>
 				<ul class="dropdown-menu dropdown-user">
 					<li><a href="#"><i class="fa fa-user fa-fw"></i> Conta</a>
@@ -211,8 +211,12 @@
 						<a href="#/perfis"><i class="fa fa-user fa-fw"></i> Perfis</a>
 					</li>
 					<li>
-						<a href="#/usuarios><i class="fa fa-user fa-fw"></i> Usuarios</a>
-					</li>
+                        <a href="#/usuarios><i class="fa fa-user fa-fw"></i> Usuarios</a>
+                    </li>
+                    <li>
+                        <button class="fa fa-user fa-fw" ng-click="sair()">Sair</button>
+<!--                        <a ng-click="logout()"><i class="fa fa-user fa-fw"></i> Sair</a>-->
+                    </li>
 				</ul>
 			</div>
 			<!-- /.sidebar-collapse -->

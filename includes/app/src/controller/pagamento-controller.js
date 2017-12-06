@@ -101,6 +101,8 @@ sisKitnetApp.controller('pagamentoModalController', function ($scope, close, $fi
         close(result, 200);
     };
 
+
+
     $scope.salvarPagamento = function() {
         $scope.pagamento.id_contrato = $scope.pagamento.id_contrato.id;
         this.tratarData();

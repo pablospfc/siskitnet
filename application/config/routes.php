@@ -99,4 +99,6 @@ $route['renovacao/renovar'] = "Renovacao/post";
 $route['renovacao/naoRenovar'] = "Renovacao/put";
 
 $route['login/autenticar'] = "Login/post";
+
+$route['login/logout'] = "Login/index";
 //$route['impressao/imprimir'] = "Impressao/imprimir";

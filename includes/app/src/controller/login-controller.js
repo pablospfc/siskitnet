@@ -3,9 +3,7 @@ sisKitnetApp.controller('LoginController', function ($scope, $document, $locatio
     $scope.autenticar = function(){
         $scope.dataLoading = true;
         AuthenticationService.getLogin($scope.formulario, function(response) {
-            console.log(response);
             if(response.data.status == true) {
-                console.log("chegou aqui");
                 AuthenticationService.SetCredentials($scope.formulario.login, $scope.formulario.senha);
                 $location.path('/');
             } else {
@@ -16,8 +14,11 @@ sisKitnetApp.controller('LoginController', function ($scope, $document, $locatio
         });
     };
 
-    $scope.logout = function(){
+    $scope.sair = function(){
+        console.log("chegou aqui");
+        //AuthenticationService.ClearCredentials();
 
+       // $location.path('/login');
     };
 
 });
