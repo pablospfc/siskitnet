@@ -1,11 +1,14 @@
-sisKitnetApp.controller('LoginController', function ($scope, $document, $location, $timeout, AuthenticationService) {
+sisKitnetApp.controller('LoginController', function ($scope, $window, $rootScope, $document, $location, $timeout, AuthenticationService) {
     AuthenticationService.ClearCredentials();
+    //console.log($rootScope.globals);
     $scope.autenticar = function(){
         $scope.dataLoading = true;
         AuthenticationService.getLogin($scope.formulario, function(response) {
             if(response.data.status == true) {
                 AuthenticationService.SetCredentials($scope.formulario.login, $scope.formulario.senha);
-                $location.path('/');
+                $rootScope.id = 'id="page-wrapper"';
+                 $location.path('/');
+                $window.location.reload();
             } else {
 
                 $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.data.message}
@@ -13,14 +16,6 @@ sisKitnetApp.controller('LoginController', function ($scope, $document, $locatio
             }
         });
     };
-
-    $scope.sair = function(){
-        console.log("chegou aqui");
-        //AuthenticationService.ClearCredentials();
-
-       // $location.path('/login');
-    };
-
 });
 
 

@@ -6,6 +6,7 @@ var sisKitnetApp =  angular.module('sisKitnet-App',[
     'ui.utils.masks',
     'authentication',
     'ngCookies',
+    'angularUtils.directives.dirPagination'
 ]);
 // $scope.today = new Date();
 // $scope.todayString = $filter('date')(new Date(), 'dd-MM-yyyy');
@@ -50,7 +51,7 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('');
     $routeProvider.when('/', {
         templateUrl: 'templates/view/home/index.html',
-        controller: 'HomeController'
+        controller: 'HomeController',
     }).
     when('/locatarios', {
         templateUrl: 'templates/view/locatario/index.html',
@@ -114,7 +115,6 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
     when('/login', {
         templateUrl: 'templates/view/login/index.html',
         controller: 'LoginController',
-        hideMenus: true,
     })
     .otherwise ({ redirectTo: '/login' });
 

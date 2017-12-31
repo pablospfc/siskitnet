@@ -13,9 +13,10 @@ class Imovel_Model extends CI_Model
     }
 
     public function getAll() {
-
+        $chave = $this->session->userdata('chave');
         $this->db->select("id, nome")
             ->from("tb_imovel")
+            ->where('chave',$chave)
             ->order_by("id", "ASC");
 
         return $this->db->get()->result_array();
@@ -23,11 +24,13 @@ class Imovel_Model extends CI_Model
     }
 
     public function getList() {
+        $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT imo.*,
                                            tip.nome as tipo_imovel
                                     FROM tb_imovel as imo
                                     INNER JOIN tb_tipo_imovel as tip ON tip.id = imo.id_tipo_imovel
-       ");
+                                    WHERE imo.chave = ?
+       ",[$chave]);
         return $result->result_array();
     }
 
@@ -111,12 +114,14 @@ class Imovel_Model extends CI_Model
     }
 
     private function preparaDados($dados) {
+        $chave = $this->session->userdata('chave');
         $data = [];
         $data['nome'] = $dados['nome'];
         $data['id_tipo_imovel'] = $dados['id_tipo_imovel'];
         $data['uc'] = $dados['uc'];
         $data['endereco'] = $dados['endereco'];
         $data['numero'] = $dados['numero'];
+        $data['chave'] = $chave;
         return $data;
     }
 

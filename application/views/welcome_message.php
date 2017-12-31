@@ -72,6 +72,7 @@
     <script src="<?php echo base_url('includes/bower_components/bootbox.js/bootbox.js');?>"></script>
     <script src="<?php echo base_url('includes/bower_components/angular-authentication/js/angular-authentication.js');?>"></script>
     <script src="<?php echo base_url('includes/bower_components/angular-cookies/angular-cookies.js');?>"></script>
+    <script src="<?php echo base_url('includes/bower_components/angularUtils-pagination/dirPagination.js');?>"></script>
     <script src="<?php echo base_url('includes/app/siskitnet.min.js');?>"></script>
 
 
@@ -91,7 +92,7 @@
 <div id="wrapper">
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-if="globals.currentUser">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				<span class="sr-only">Toggle navigation</span>
@@ -164,9 +165,9 @@
                 <!-- /.dropdown-alerts -->
             </li>
 			<!-- /.dropdown -->
-			<li class="dropdown">
+			<li class="dropdown" ng-controller="LogoutController">
 
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="">
 					<i class="fa fa-user fa-fw"></i> <?php echo $this->session->userdata('login');?> <i class="fa fa-caret-down"></i>
 				</a>
 				<ul class="dropdown-menu dropdown-user">
@@ -175,7 +176,7 @@
 					<!--                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>-->
 					<!--                    </li>-->
 					<li class="divider"></li>
-					<li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+					<li><a href="#" ng-click="sair()"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
 					</li>
 				</ul>
 				<!-- /.dropdown-user -->
@@ -207,25 +208,25 @@
 					<li>
 						<a href="#/relatorios"><i class="fa fa-calendar fa-fw"></i> Relatórios</a>
 					</li>
-					<li>
-						<a href="#/perfis"><i class="fa fa-user fa-fw"></i> Perfis</a>
-					</li>
-					<li>
-                        <a href="#/usuarios><i class="fa fa-user fa-fw"></i> Usuarios</a>
-                    </li>
-                    <li>
-                        <button class="fa fa-user fa-fw" ng-click="sair()">Sair</button>
-<!--                        <a ng-click="logout()"><i class="fa fa-user fa-fw"></i> Sair</a>-->
-                    </li>
 				</ul>
 			</div>
 			<!-- /.sidebar-collapse -->
 		</div>
 		<!-- /.navbar-static-side -->
 	</nav>
+     <div>
         <div id="page-wrapper">
 		<ng-view></ng-view>
         </div>
+     </div>
+
+<!--    <div ng-if="!globals.currentUser">-->
+<!--            <ng-view></ng-view>-->
+<!--    </div>-->
+<!--    <div ng-if="hideMenus == false">-->
+<!--        <ng-view></ng-view>-->
+<!--    </div>-->
+
 </div>
 </body>
 </html>

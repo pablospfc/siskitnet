@@ -42,7 +42,7 @@
                                     class="form-control"
                                     id="id_imovel"
                                     name="id_imovel"
-                                    ng-options="imovel as imovel.nome for imovel in listImoveis track by imovel.id"
+                                    ng-options="imovel as imovel.nome disable when imovel.disponivel == 0 for imovel in listImoveis track by imovel.id"
                                     ng-model="contrato.id_imovel"
                                     ng-required="true"
                             >

@@ -23,6 +23,7 @@ class Lancamento_Model extends CI_Model
 
     //retorna todos os lancamentos do contrato que estejam em aberto ou em atraso, para a alteração da data de vencimento
     public function getLancamentos($idContrato){
+        $chave = $this->session->userdata('chave');
         if ($idContrato <= 0) {
             return array();
         }
@@ -30,7 +31,8 @@ class Lancamento_Model extends CI_Model
         $this->db->select("*")
             ->from("tb_lancamento")
             ->where("id_contrato", $idContrato)
-            ->where("id_status <>", 3);
+            ->where("id_status <>", 3)
+            ->where("chave", $chave);
 
         return $this->db->get()->result_array();
     }
@@ -42,6 +44,7 @@ class Lancamento_Model extends CI_Model
     }
 
     public function getAlugueisMes(){
+        $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT
                                            loc.nome as locatario,
                                            loc.cpf as cpf,
@@ -60,12 +63,14 @@ class Lancamento_Model extends CI_Model
                                     INNER JOIN tb_status as sta ON sta.id = lan.id_status
                                     INNER JOIN tb_mes mes ON mes.id = lan.id_mes
                                     WHERE YEAR(lan.data_vencimento) = YEAR(now()) 
-                                    AND MONTH(lan.data_vencimento) =  MONTH(now())");
+                                    AND MONTH(lan.data_vencimento) =  MONTH(now()) 
+                                   AND lan.chave = ?",[$chave]);
 
         return $result->result_array();
     }
 
     public function getQtdAlugueisMes(){
+        $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT COUNT(*) as quantidade  FROM 
                                         (SELECT
                                            loc.nome as locatario,
@@ -83,12 +88,15 @@ class Lancamento_Model extends CI_Model
                                     INNER JOIN tb_status as sta ON sta.id = lan.id_status
                                     INNER JOIN tb_mes mes ON mes.id = lan.id_mes
                                     WHERE YEAR(lan.data_vencimento) = YEAR(now()) 
-                                    AND MONTH(lan.data_vencimento) =  MONTH(now())) as tabela;");
+                                    AND MONTH(lan.data_vencimento) =  MONTH(now())
+                                    AND lan.chave = ?
+                                    ) as tabela;",[$chave]);
 
          return $result->row_array();
     }
 
     public function getAlugueisAtrasados() {
+        $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT
                                            loc.nome as locatario,
                                            loc.cpf as cpf,
@@ -104,13 +112,14 @@ class Lancamento_Model extends CI_Model
                                     INNER JOIN tb_status as sta ON sta.id = con.id_status
                                     INNER JOIN tb_lancamento lan ON lan.id_contrato = con.id
                                     INNER JOIN tb_mes mes ON mes.id = lan.id_mes
-                                    WHERE lan.id_status = 2
-                                    ");
+                                    WHERE lan.id_status = 2 AND lan.chave = ?
+                                    ",[$chave]);
 
         return $result->result_array();
     }
 
     public function getQtdAlugueisAtrasados() {
+        $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT COUNT(*) AS quantidade FROM
                                           (SELECT
                                            loc.nome as locatario,
@@ -127,8 +136,8 @@ class Lancamento_Model extends CI_Model
                                     INNER JOIN tb_status as sta ON sta.id = con.id_status
                                     INNER JOIN tb_lancamento lan ON lan.id_contrato = con.id
                                     INNER JOIN tb_mes mes ON mes.id = lan.id_mes
-                                    WHERE lan.id_status = 2) AS tabela
-                                    ");
+                                    WHERE lan.id_status = 2 AND lan.chave = ?) AS tabela
+                                    ",[$chave]);
 
         return $result->row_array();
     }

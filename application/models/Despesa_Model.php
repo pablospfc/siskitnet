@@ -13,21 +13,23 @@ class Despesa_Model extends CI_Model
     }
 
     public function getAll() {
-
+        $chave = $this->session->userdata('chave');
         $this->db->select("id, nome")
             ->from("tb_despesa")
+            ->where('chave', $chave)
             ->order_by("id", "ASC");
 
         return $this->db->get()->result_array();
-
     }
 
     public function getList() {
+        $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT des.*,
                                            tip.nome as tipo_despesa
                                     FROM tb_despesa as des
                                     INNER JOIN tb_tipo_despesa as tip ON tip.id = des.id_tipo_despesa
-       ");
+                                    WHERE des.chave = ?
+       ",[$chave]);
         return $result->result_array();
     }
 
@@ -83,11 +85,13 @@ class Despesa_Model extends CI_Model
     }
 
     private function preparaDados($dados) {
+        $chave = $this->session->userdata('chave');
         $data = [];
         $data['id_tipo_despesa'] = $dados['id_tipo_despesa'];
         $data['data'] = $dados['data'];
         $data['descricao'] = $dados['descricao'];
         $data['valor'] = $dados['valor'];
+        $data['chave'] = $chave;
         return $data;
     }
 
