@@ -1,0 +1,152 @@
+
+<div class="modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        ng-click="fechar('cancel')"
+                        name="button">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <h4 class="modal-title">
+                    {{imovel.id ? 'Atualizar Indenização' : 'Cadastrar Indenização'}}
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <form role="form" method="post" ng-submit="salvarIndenizacao()">
+
+                    <div class="row">
+
+                        <div class="form-group col-md-12" >
+
+                            <div class="form-group col-md-8">
+                                <label>Locatário:</label>
+                                <select
+                                        class="form-control"
+                                        id="id_locatario"
+                                        name="id_locatario"
+                                        ng-options="locatario as locatario.nome for locatario in listLocatarios track by locatario.id"
+                                        ng-model="imovel.id_locatario"
+                                        ng-required="true"
+                                >
+                                </select>
+
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Descrição:</label>
+                                <input class="form-control"
+                                       id="descricao"
+                                       type="text"
+                                       name="descricao"
+                                       ng-model="indenizacao.descricao"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Data:</label>
+                                <input class="form-control"
+                                       id="data"
+                                       type="text"
+                                       name="data"
+                                       ng-model="indenizacao.data"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Valor:</label>
+                                <input class="form-control"
+                                       id="data"
+                                       type="text"
+                                       name="data"
+                                       ng-model="indenizacao.data"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Tipo:</label>
+                                <select
+                                        class="form-control"
+                                        id="id_tipo_imovel"
+                                        name="id_tipo_imovel"
+                                        ng-options="tipo as tipo.nome for tipo in listTiposImoveis track by tipo.id"
+                                        ng-model="imovel.id_tipo_imovel"
+                                        ng-required="true"
+                                >
+                                </select>
+
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>UC:</label>
+                                <input class="form-control"
+                                       id="uc"
+                                       type="text"
+                                       name="uc"
+                                       ng-model="imovel.uc"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Endereço:</label>
+                                <input class="form-control"
+                                       id="endereco"
+                                       type="text"
+                                       name="endereco"
+                                       ng-model="imovel.endereco"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Número:</label>
+                                <input class="form-control"
+                                       id="numero"
+                                       type="text"
+                                       name="numero"
+                                       ng-model="imovel.numero"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <hr>
+
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary">
+                                    Salvar
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    Limpar
+                                </button>
+                            </div>
+
+                        </div>
+                </form>
+
+                <div class="form-group col-sm-12" ng-if="alert">
+                    <div class="alert alert-{{alert.type}}" role="alert">
+                        <strong>{{alert.title}}</strong> {{alert.message}}
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-default"
+                        ng-click="fechar('cancel')"
+                        data-dismiss="modal">Fechar
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

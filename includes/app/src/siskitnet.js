@@ -73,6 +73,10 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         templateUrl: 'templates/view/pagamento/index.phtml',
         controller: 'PagamentosController'
     }).
+    when('/indenizacoes', {
+        templateUrl: 'templates/view/indenizacao/index.html',
+        controller: 'IndenizacoesController'
+    }).
     when('/relatorios', {
         templateUrl: 'templates/view/relatorio/index.hhtml',
         controller: 'RelatoriosController'

@@ -188,25 +188,28 @@
 			<div class="sidebar-nav navbar-collapse">
 				<ul class="nav" id="side-menu">
 					<li>
-						<a href="#/"><i class="fa fa-dashboard fa-fw"></i> Início</a>
+						<a href="#/"><i class="fa fa-tachometer fa-fw"></i> Início</a>
 					</li>
 					<li>
 						<a href="#/locatarios"><i class="fa fa-users fa-fw"></i> Locatários</a>
 					</li>
 					<li>
-						<a href="#/contratos"><i class="fa fa-user fa-fw"></i> Contratos</a>
+						<a href="#/contratos"><i class="fa fa-file-text fa-fw"></i> Contratos</a>
 					</li>
 					<li>
-						<a href="#/imoveis"><i class="fa fa-wrench fa-fw"></i> Imóveis</a>
+						<a href="#/imoveis"><i class="fa fa-home fa-fw"></i> Imóveis</a>
 					</li>
 					<li>
-						<a href="#/despesas"><i class="fa fa-barcode fa-fw"></i> Despesas</a>
+						<a href="#/despesas"><i class="fa fa-money fa-fw"></i> Despesas</a>
 					</li>
+                    <li>
+                        <a href="#/indenizacoes"><i class="fa fa-money fa-fw"></i> Indenizações</a>
+                    </li>
 					<li>
 						<a href="#/pagamentos"><i class="fa fa-credit-card fa-fw"></i> Pagamentos</a>
 					</li>
 					<li>
-						<a href="#/relatorios"><i class="fa fa-calendar fa-fw"></i> Relatórios</a>
+						<a href="#/relatorios"><i class="fa fa-bar-chart fa-fw"></i> Relatórios</a>
 					</li>
 				</ul>
 			</div>

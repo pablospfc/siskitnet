@@ -264,4 +264,63 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScop
             });
     };
 
+    this.inserirIndenizacao = function (data) {
+        $http.post("indenizacao/cadastrar", data)
+            .then(function mySuccess(data) {
+                if (response.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                    $rootScope.indenizacao = undefined;
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.statusText};
+            });
+    };
+
+    this.atualizarIndenizacao = function ( data) {
+        $http.put("indenizacao/atualizar", data)
+            .then(function mySuccess(data) {
+                if (response.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                    $rootScope.indenizacao = undefined;
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.statusText};
+
+            });
+    };
+
+    this.getIndenizacoes = function() {
+        //var deferred = $q.defer();
+        $http.get("indenizacao/index")
+            .then(function mySuccess(data) {
+                $rootScope.indenizacoes = data.data;
+                $rootScope.haveError  = false;
+            }, function myError(meta) {
+                $rootScope.indenizacoes = [];
+                $rootScope.haveError  = meta ;
+            });
+    };
+
+    this.excluirIndenizacao = function (id) {
+
+        var config = {
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: $httpParamSerializerJQLike({
+                id: id
+            })
+        };
+
+        $http.delete("indenizacao/remover",config)
+            .then(function mySuccess(data) {
+              //
+            }, function myError(meta) {
+              //
+            });
+    };
+
 });

@@ -8,14 +8,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Locatario_model extends CI_Model
 {
+    private $chave;
     public function __construct() {
         parent::__construct();
+        $this->chave = $chave = $this->session->userdata('chave');
     }
 
     public function getAll() {
 
             $this->db->select("*")
                 ->from("tb_locatario")
+                ->where("chave", $this->chave)
                 ->order_by("nome", "ASC");
 
             return $this->db->get()->result_array();
@@ -40,7 +43,7 @@ class Locatario_model extends CI_Model
            $response["status"] = false;
            $response["message"] = "Dados não informados";
        } else {
-
+           $dados['chave'] = $this->chave;
            $this->form_validation->set_data($dados);
            // definimos as regras de validação
            $this->form_validation->set_rules('nome','nome','required|min_length[2]|trim');

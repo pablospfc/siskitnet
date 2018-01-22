@@ -90,6 +90,11 @@ $route['pagamento/atualizar']['put'] = "Pagamento/put";
 $route['pagamento/remover']['delete'] = "Pagamento/delete";
 $route['pagamento/listar'] = "Pagamento/index";
 
+$route['indenizacao/cadastrar']['post'] = "Indenizacao/post";
+$route['indenizacao/atualizar']['put'] = "Indenizacao/put";
+$route['indenizacao/remover']['delete'] = "Indenizacao/delete";
+$route['indenizacao/listar'] = "Indenizacao/index";
+
 $route['alugueis/getAlugueisMes'] = "Aluguel/getAlugueisMes";
 $route['alugueis/getAlugueisAtrasados'] = "Aluguel/getAlugueisAtrasados";
 $route['alugueis/listar'] = "Aluguel/index";

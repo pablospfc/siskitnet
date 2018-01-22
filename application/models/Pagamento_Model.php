@@ -8,9 +8,11 @@
  */
 class Pagamento_Model extends CI_Model
 {
+    private $chave;
     public function __construct() {
         $this->load->model('Lancamento_Model', 'lancamento');
         parent::__construct();
+        $this->chave = $chave = $this->session->userdata('chave');
     }
 
     public function getAll() {
@@ -39,7 +41,8 @@ class Pagamento_Model extends CI_Model
                                     INNER JOIN tb_contrato con ON con.id = pag.id_contrato
                                     INNER JOIN tb_locatario loc ON loc.id = con.id_locatario
                                     INNER JOIN tb_mes mes ON mes.id = pag.id_mes
-       ");
+                                    WHERE pag.chave = ?
+       ",[$this->chave]);
         return $result->result_array();
     }
 

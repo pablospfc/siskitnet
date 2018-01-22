@@ -17,7 +17,7 @@ sisKitnetApp.controller('ImoveisController', function ($scope, $document, $timeo
                 SiskitnetService.excluirImovel(idImovel);
             }
             $timeout(function () {
-                SiskitnetService.getLocatarios(successGetImoveis,errorGetImoveis)
+                SiskitnetService.getImoveis(successGetImoveis,errorGetImoveis)
             }, 1000);
         });
     };
