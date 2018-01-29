@@ -103,6 +103,8 @@ $route['renovacao/getContratosVencidos'] = "Renovacao/index";
 $route['renovacao/renovar'] = "Renovacao/post";
 $route['renovacao/naoRenovar'] = "Renovacao/put";
 
+//$route['relatorio/'] =
+
 $route['login/autenticar'] = "Login/post";
 
 $route['login/logout'] = "Login/index";

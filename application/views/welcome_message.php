@@ -27,6 +27,8 @@
 	<!-- Custom CSS -->
 	<link href="<?php echo base_url('includes/dist/css/sb-admin-2.css');?>" rel="stylesheet">
 
+    <link href="<?php echo base_url('includes/dist/css/tiles.css');?>" rel="stylesheet">
+
 	<!-- Custom Fonts -->
 	<link href="<?php echo base_url('includes/vendor/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css">
 

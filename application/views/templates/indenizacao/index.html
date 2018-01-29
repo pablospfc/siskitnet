@@ -1,10 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">Gerenciamento de Indenizações</h3>
+    </div>
+
+    <div class="col-lg-5">
+        <a ng-click="showIndenizacaoModal()" class="btn btn-primary btn-sm">
+            Nova Indenização
+        </a>
+        <br><br>
+    </div>
+</div>
+
+<div class="row ng-hide" ng-show="haveError">
+    <div class="col-sm-12 ">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <strong>Desculpe-nos!</strong> Mas não foi possível
+            carregar as despesas. Tente novamente!
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+<div class="row" ng-hide="haveError">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Lista de Indenizações
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label>Procurar</label>
+                        <input type="text" ng-model="procurar" class="form-control" placeholder="Procurar...">
+                    </div>
+                </form><br>
+                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Locatário</th>
+                        <th>Data</th>
+                        <th>Valor</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="indenizacao in indenizacoes|filter:procurar|itemsPerPage:5">
+                        <td>{{indenizacao.descricao}}</td>
+                        <td class="center">{{indenizacao.locatario}}</td>
+                        <td class="center">{{indenizacao.data  | date: 'dd/MM/yyyy'}}</td>
+                        <td class="center">{{indenizacao.valor}}</td>
+                        <td class="text-center">
+                            <a class="btn btn-info btn-sm" ng-click="showIndenizacaoModal(indenizacao)">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                            <a class="btn btn-danger btn-sm" ng-click="deleteIndenizacao(indenizacao.id)">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls max-size="5" boundary-links="true"></dir-pagination-controls>
+                <!-- /.table-responsive -->
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<!-- /#page-wrapper -->
+
+
