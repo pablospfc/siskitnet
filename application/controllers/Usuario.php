@@ -13,7 +13,7 @@ class Usuario extends \REST_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Usuario_Model','UsuarioMDL');
+        $this->load->model('Usuarios_Model','UsuarioMDL');
 
         // Configuração para os limites de requisições (por hora)
         $this->methods['index_get']['limit'] = 10;
