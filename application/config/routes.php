@@ -95,6 +95,13 @@ $route['indenizacao/atualizar']['put'] = "Indenizacao/put";
 $route['indenizacao/remover']['delete'] = "Indenizacao/delete";
 $route['indenizacao/listar'] = "Indenizacao/index";
 
+$usuario['usuario/alterarSenha']['put'] = "Usuario/put";
+$usuario['usuario/atualizar']['put'] = "Usuario/put";
+
+$route['registro/cadastrar']['post'] = "Registro/post";
+$route['esqueceusenha/verificarCPF']['post'] = "EsqueceuSenha/post";
+$route['redefinicaosenha/redefinirSenha']['post'] = "RedefinicaoSenha/post";
+
 $route['alugueis/getAlugueisMes'] = "Aluguel/getAlugueisMes";
 $route['alugueis/getAlugueisAtrasados'] = "Aluguel/getAlugueisAtrasados";
 $route['alugueis/listar'] = "Aluguel/index";
@@ -102,6 +109,8 @@ $route['alugueis/listar'] = "Aluguel/index";
 $route['renovacao/getContratosVencidos'] = "Renovacao/index";
 $route['renovacao/renovar'] = "Renovacao/post";
 $route['renovacao/naoRenovar'] = "Renovacao/put";
+
+$route['meses/listar'] = "Mes/index";
 
 //$route['relatorio/'] =
 

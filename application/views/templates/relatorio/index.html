@@ -1,343 +1,150 @@
-<div class="col-sm-12" ng-cloak>
-    <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a href="#" class="navbar-brand">Relatórios disponíveis</a>
-                </div>
+
+<div id="page-wrapper">
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">Relatórios Disponíveis</h3>
+    </div>
+</div>
+
+<div class="row ng-hide" ng-show="haveError">
+    <div class="col-sm-12 ">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <strong>Desculpe-nos!</strong> Mas não foi possível
+            carregar os imóveis. Tente novamente!
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+<div class="row" ng-hide="haveError">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Lista de Relatórios
             </div>
-        </div>
-
-
-
-        <!-- MENÚ DE RELATÓRIOS -->
-
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-4" style="cursor: pointer">
-                    <div class="tile-stats tile-red" ng-click="abrirMenuRelatorioParticipacao()">
-                        <div class="icon"><i class="entypo-gauge"></i></div>
-                        <div class="num">1</div>
-                        <h3>Alugueis</h3>
-                        <p>Acompanhe em tempo real a participação no processo de avaliação</p></div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4" style="cursor: pointer">
+                        <div class="tile-stats tile-red" ng-click="abrirFormularioAluguel()">
+                            <div class="icon"><i class="entypo-gauge"></i></div>
+                            <div class="num">1</div>
+                            <h3>Alugueis</h3>
+                            <p>Emita relatórios dos seus alugueis.</p></div>
+                    </div>
+                    <div class="col-sm-4" style="cursor: pointer">
+                        <div class="tile-stats tile-aqua" ng-click="abrirFormularioDespesa()">
+                            <div class="icon"><i class="entypo-mail"></i></div>
+                            <div class="num">2</div>
+                            <h3>Despesas</h3>
+                            <p>Emita relatórios de suas despesas.</p></div>
+                    </div>
+                    <div class="col-sm-4" style="cursor: pointer">
+                        <div class="tile-stats tile-blue" ng-click="abrirFormularioIndenizacao()">
+                            <div class="icon"><i class="entypo-suitcase"></i></div>
+                            <div class="num">3</div>
+                            <h3>Indenizações</h3>
+                            <p>Emita relatórios de suas indenizações.</p></div>
+                    </div>
                 </div>
-                <div class="col-sm-4" style="cursor: pointer">
-                    <div class="tile-stats tile-aqua" ng-click="listarAvaliacoes()">
-                        <div class="icon"><i class="entypo-mail"></i></div>
-                        <div class="num">2</div>
-                        <h3>Despesas</h3>
-                        <p>Acompanhe o relatório geral detalhado.</p></div>
+                <div class="row">
+                    <div class="col-sm-4" style="cursor: pointer">
+                        <div class="tile-stats tile-green" ng-click="abrirFormularioImovel()">
+                            <div class="icon"><i class="entypo-suitcase"></i></div>
+                            <div class="num">4</div>
+                            <h3>Imóveis</h3>
+                            <p>Emita relatórios de imóveis.</p></div>
+                    </div>
+                    <div class="col-sm-4" style="cursor: pointer">
+                        <div class="tile-stats tile-orange" ng-click="abrirFormularioLocatario()">
+                            <div class="icon"><i class="entypo-suitcase"></i></div>
+                            <div class="num">5</div>
+                            <h3>Locatários</h3>
+                            <p>Emita relatórios de locatários.</p></div>
+                    </div>
                 </div>
-                <div class="col-sm-4" style="cursor: pointer">
-                    <div class="tile-stats tile-blue" ng-click="listarCentros()">
-                        <div class="icon"><i class="entypo-suitcase"></i></div>
-                        <div class="num">3</div>
-                        <h3>Indenizações</h3>
-                        <p>Acompanhe o relatorio detalhado por centros.</p></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4" style="cursor: pointer">
-                    <div class="tile-stats tile-green" ng-click="listarCursos()">
-                        <div class="icon"><i class="entypo-suitcase"></i></div>
-                        <div class="num">4</div>
-                        <h3>Imóveis</h3>
-                        <p>Acompanhe o relatorio detalhado por cursos.</p></div>
-                </div>
-                <div class="col-sm-4" style="cursor: pointer">
-                    <div class="tile-stats tile-orange" ng-click="listarDisciplinas()">
-                        <div class="icon"><i class="entypo-suitcase"></i></div>
-                        <div class="num">5</div>
-                        <h3>Locatários</h3>
-                        <p>Acompanhe o relatorio detalhado por disciplinas.</p></div>
-                </div>
-            </div>
-            <hr>
 
-        </div>
+                <hr>
+                <p class="text-center">
+                    <strong>Escolha um relatório acima</strong>
+                </p>
 
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div alert-bootstrap></div>
-                <div loading-bootstrap></div>
-            </div>
-        </div>
+                <form action="get" role="form" ng-if="formularioDespesa">
 
-    </div>
-
-    <!-- LISTA DE AVALIAÇÕES -->
-    <div class="panel panel-primary" ng-if="listAvaliacoes.length">
-        <div class="panel-heading">
-            <h4 class="text-center">Lista de Questionários</h4>
-        </div>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th class="text-center">Questionário</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="questionario in listAvaliacoes">
-                <td class="text-center"><a ng-click="showRelatorioGeralModal(questionario.id)">{{questionario.nome}}</a></td>
-            </tr>
-            </tbody>
-
-        </table>
-    </div>
-
-    <!-- LISTA DE TIPOS RELATÓRIOS -->
-    <table class="table table-bordered" ng-if="menuRelatorioParticipacao">
-        <thead>
-        <tr>
-            <th class="text-center">
-                Selecione o tipo de relatório
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Centros
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a ng-click="gerarRelatorioParticipacaoCentro('docente')">Docente</a></li>
-                        <li><a ng-click="gerarRelatorioParticipacaoCentro('discente')">Discente</a></li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Cursos
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a ng-click="gerarRelatorioParticipacaoCurso('docente')">Docente</a></li>
-                        <li><a ng-click="gerarRelatorioParticipacaoCurso('discente')">Discente</a></li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button class="btn btn-default" type="button" ng-click="gerarRelatorioParticipacaoGeral()">
-                    Geral
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-
-
-    <!-- RELATÓRIO DE PARTICIPAÇÃO POR CURSO -->
-    <div class="panel panel-primary" ng-if="relatorioParticipacaoCurso.length">
-        <div class="panel-heading">
-            <h4 class="text-center">Relatório de Participação de {{tipoUsuario}} por Cursos</h4>
-        </div>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th class="text-center">Curso</th>
-                <th class="text-center">Unidade</th>
-                <th class="text-center">Quantidade</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="dado in filteredData = (relatorioParticipacaoCurso|filter)">
-                <td class="text-center">{{dado.curso}} - {{dado.grau_academico}}</td>
-                <td class="text-center">{{dado.unidade}}</td>
-                <td class="text-center">{{dado.quantidade}}</td>
-            </tr>
-            <tr>
-                <th class="text-center" colspan="2"> TOTAL</th>
-                <th class="text-center">{{filteredData| total}}</th>
-            </tr>
-            </tbody>
-
-        </table>
-    </div>
-
-    <!-- RELATÓRIO DE PARTICIPAÇÃO POR CENTRO -->
-    <div class="panel panel-primary" ng-if="relatorioParticipacaoCentro.length">
-        <div class="panel-heading">
-            <h4 class="text-center">Relatório de Participação de {{tipoUsuario}} por Centros</h4>
-        </div>
-        <table class="table table-bordered" >
-            <thead>
-            <tr>
-                <th class="text-center">Unidade</th>
-                <th class="text-center">Quantidade</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="dado in filteredData = (relatorioParticipacaoCentro|filter)" >
-                <td class="text-center">{{dado.unidade}}</td>
-                <td class="text-center">{{dado.quantidade}}</td>
-            </tr>
-            <tr>
-                <th class="text-center"> TOTAL</th>
-                <th class="text-center">{{filteredData| total}}</th>
-            </tr>
-            </tbody>
-
-        </table>
-    </div>
-
-    <!-- RELATÓRIO DE PARTICIPAÇÃO GERAL -->
-    <div class="panel panel-primary" ng-if="relatorioParticipacaoGeral.length">
-        <div class="panel-heading">
-            <h4 class="text-center">Relatório de Participação Geral</h4>
-        </div>
-        <table class="table table-bordered" >
-            <thead>
-            <tr>
-                <th class="text-center">Segmento</th>
-                <th class="text-center">Quantidade</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="dado in filteredData = (relatorioParticipacaoGeral|filter)" >
-                <td class="text-center">{{dado.tipo}}</td>
-                <td class="text-center">{{dado.quantidade}}</td>
-            </tr>
-            <tr>
-                <th class="text-center"> TOTAL</th>
-                <th class="text-center">{{filteredData| total}}</th>
-            </tr>
-            </tbody>
-
-        </table>
-    </div>
-
-    <!-- LISTA DE CENTROS -->
-    <div class="panel panel-primary" ng-if="listCentros.length">
-        <div class="panel-heading">
-            <h4 class="text-center">Lista de Centros</h4>
-        </div>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th class="text-center">Unidade</th>
-                <th class="text-center">Ação</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="dado in listCentros">
-                <td class="text-center">{{dado.centro}}</td>
-                <td class="text-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Relatório <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" >
-                            <li ng-repeat="questionario in dado.questionarios"><a ng-click="showRelatorioCentroModal(questionario.id, dado.id_unidade)">{{questionario.tipo_usuario}} - {{questionario.tipo_questionario}}</a></li>
-                        </ul>
+                    <div class="form-group">
+                        <label for="mes">Tipo de Despesa: </label>
+                        <select class="form-control"
+                                id="tipo"
+                                ng-model="formulario.tipo"
+                                ng-options="tipo as tipo.nome for tipo in tipos_despesas track by tipo.id"
+                                name="tipo">
+                            <option value="" selected="selected">Todos</option>
+                        </select>
                     </div>
 
-                </td>
-            </tr>
-            </tbody>
+                    <div class="form-group">
+                        <label for="ano">Ano: </label>
+                        <select class="form-control" id="ano" ng-model="formulario.ano" name="ano" >
+                            <option selected value="">Todos</option>
+                            <option value="2018">2018</option>
+                            <option value="2017">2017</option>
+                        </select>
+                    </div>
 
-        </table>
-    </div>
+                    <div class="form-group">
+                        <label for="mes">Mês: </label>
+                        <select class="form-control"
+                                id="mes"
+                                ng-model="formulario.mes"
+                                ng-options="mes as mes.nome for mes in meses track by mes.id"
+                                name="mes">
+                            <option value="" selected="selected">Todos</option>
+                        </select>
+                    </div>
 
-    <!-- LISTA DE CURSOS -->
-    <div ng-if="listCursos.length">
-        <div class="col-md-6">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                <input ng-model="search.centro" id="centro" type="text" class="form-control" name="centro" placeholder="Buscar por Centro">
+                    <div class="form-group">
+
+                        <button type="button" ng-click="getRelatorioDespesas(formulario.mes, formulario.ano,formulario.tipo)" class="btn btn-primary">Gerar</button>
+
+                    </div>
+                </form>
+
+                <!-- RELATÓRIO DE DESPESAS -->
+                <div class="panel panel-primary" ng-if="relatorio">
+                    <div class="panel-heading">
+                        <h4 class="text-center">Relatório de Despesas</h4>
+                    </div>
+                    <table class="table table-bordered" >
+                        <thead>
+                        <tr>
+                            <th class="text-center">Descrição</th>
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">Mês</th>
+                            <th class="text-center">Ano</th>
+                            <th class="text-center">Valor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="despesa in relatorio">
+                            <td class="text-center">{{despesa.descricao}}</td>
+                            <td class="text-center">{{despesa.tipo_despesa}}</td>
+                            <td class="text-center">{{despesa.mes}}</td>
+                            <td class="text-center">{{despesa.ano}}</td>
+                            <td class="text-center">{{despesa.valor}}</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
             </div>
-        </div><br><br>
-        <div class="panel panel-primary" >
-            <div class="panel-heading">
-                <h4 class="text-center">Lista de Cursos</h4>
-            </div>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th class="text-center">Curso</th>
-                    <th class="text-center">Unidade</th>
-                    <th class="text-center">Ação</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="dado in listCursos | filter:search:strict">
-                    <td class="text-center">{{dado.curso}} - {{dado.grau_academico}}</td>
-                    <td class="text-center">{{dado.centro}}</td>
-                    <td class="text-center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Relatório <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" >
-                                <li ng-repeat="questionario in dado.questionarios"><a ng-click="showRelatorioCursoModal(questionario.id, dado.id_curso)">{{questionario.tipo_usuario}} - {{questionario.tipo_questionario}}</a></li>
-                            </ul>
-                        </div>
-
-                    </td>
-                </tr>
-                </tbody>
-
-            </table>
+            <!-- /.panel-body -->
         </div>
+        <!-- /.panel -->
     </div>
-
-    <!-- LISTA DE DISCIPLINAS -->
-    <div ng-if="listDisciplinas.length">
-        <div class="col-md-6">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                <input ng-model="search.curso" id="curso" type="text" class="form-control" name="curso" placeholder="Buscar por Curso">
-            </div>
-        </div><br><br>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h4 class="text-center">Lista de disciplinas</h4>
-            </div>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th class="text-center">Disciplina</th>
-                    <th class="text-center">Curso</th>
-                    <th class="text-center">Centro</th>
-                    <th class="text-center">Ação</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="dado in listDisciplinas | filter:search:strict">
-                    <td class="text-center">{{dado.disciplina}}</td>
-                    <td class="text-center">{{dado.curso}}</td>
-                    <td class="text-center">{{dado.centro}}</td>
-                    <td class="text-center">
-                        <!-- Split button -->
-                        <!-- Single button -->
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Relatório <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" >
-                                <li ng-repeat="questionario in dado.questionarios"><a ng-click="showRelatorioDisciplinaModal(questionario.id, dado.id_disciplina)">{{questionario.tipo_usuario}} - {{questionario.tipo_questionario}}</a></li>
-                            </ul>
-                        </div>
-
-                    </td>
-                </tr>
-                </tbody>
-
-            </table>
-        </div>
-    </div>
-
-    <!-- RELATÓRIO DE QUESTIONÁRIO POR CURSO-->
-
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<!-- /#page-wrapper -->
 
 
 </div>

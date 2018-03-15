@@ -1,0 +1,117 @@
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Minha Conta</h3>
+        </div>
+    </div>
+
+    <div class="row ng-hide" ng-show="haveError">
+        <div class="col-sm-12 ">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <strong>Desculpe-nos!</strong> Mas não foi possível
+                carregar as informações. Tente novamente!
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row" ng-hide="haveError">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Informações da Conta
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <form name="formConta" role="form" method="post" ng-submit="atualizar()">
+
+                        <div class="row">
+
+                            <div class="form-group col-md-12" >
+
+                                <div class="form-group col-md-8">
+                                    <label>Nome:</label>
+                                    <input class="form-control"
+                                           id="nome"
+                                           type="text"
+                                           name="nome"
+                                           ng-model="usuario.nome"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>CPF:</label>
+                                    <input class="form-control"
+                                           id="cpf"
+                                           type="text"
+                                           name="cpf"
+                                           ng-model="usuario.cpf"
+                                           ng-required="true"
+                                           ng-cpf
+                                           ui-br-cpf-mask
+                                    >
+                                </div>
+                                <p ng-show="formConta.cpf.$invalid && !formConta.cpf.$pristine" class="help-block">O seu CPF está inválido!</p>
+
+                                <div class="form-group col-md-8">
+                                    <label>Telefone:</label>
+                                    <input class="form-control"
+                                           id="telefone"
+                                           type="text"
+                                           name="telefone"
+                                           ng-model="usuario.telefone"
+                                           ng-required="true"
+                                           ui-br-phone-number
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>E-mail:</label>
+                                    <input class="form-control"
+                                           id="email"
+                                           type="text"
+                                           name="email"
+                                           ng-model="usuario.email"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <hr>
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        Atualizar
+                                    </button>
+                                    <button type="reset" class="btn btn-default">
+                                        Limpar
+                                    </button>
+                                </div>
+
+                            </div>
+                    </form>
+                    <hr>
+                    <h4><p>Redefinição de senha</p></h4>
+
+                    <div class="form-group col-sm-12" ng-if="alert">
+                        <div class="alert alert-{{alert.type}}" role="alert">
+                            <strong>{{alert.title}}</strong> {{alert.message}}
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <!-- /#page-wrapper -->
+
+</div>

@@ -250,7 +250,6 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScop
     };
 
     this.getLogin = function (dados) {
-        console.log(dados);
         $http.post("login/autenticar",dados)
             .then(function mySuccess(data) {
                 if (data.data.status) {
@@ -267,21 +266,21 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScop
     this.inserirIndenizacao = function (data) {
         $http.post("indenizacao/cadastrar", data)
             .then(function mySuccess(data) {
-                if (response.data.status) {
+                if (data.data.status) {
                     $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
                     $rootScope.indenizacao = undefined;
                 }
                 else
                     $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
             }, function myError(meta) {
-                $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.statusText};
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: meta.statusText};
             });
     };
 
     this.atualizarIndenizacao = function ( data) {
         $http.put("indenizacao/atualizar", data)
             .then(function mySuccess(data) {
-                if (response.data.status) {
+                if (data.data.status) {
                     $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
                     $rootScope.indenizacao = undefined;
                 }
@@ -320,6 +319,139 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScop
               //
             }, function myError(meta) {
               //
+            });
+    };
+
+    this.relatorioDespesas = function($scope,mes,ano,tipo) {
+        var id_mes = (mes!=undefined) ? mes.id : "";
+        var id_tipo_despesa = (tipo!=undefined) ? tipo.id : "";
+        var ano = (ano!=undefined) ? ano : "";
+        var deferred = $q.defer();
+        $http.get("relatorio/index?action=getRelatorioDespesas&id_mes="+id_mes+"&ano="+ano+"&tipo_despesa="+id_tipo_despesa)
+            .then(function mySuccess(data) {
+                deferred.resolve(data.data);
+                //$rootScope.relatorio = data.data;
+               // console.log($rootScope.relatorio);
+                $rootScope.haveError  = false;
+            }, function myError(meta) {
+                deferred.reject(meta);
+                $rootScope.relatorio = [];
+                $rootScope.haveError  = meta ;
+            });
+        return deferred.promise;
+    };
+
+    this.relatorioLocatarios = function() {
+        $http.get("relatorio/index?action=getRelatorioLocatarios")
+            .then(function mySuccess(data) {
+                $rootScope.relatorio = data.data;
+                $rootScope.haveError  = false;
+            }, function myError(meta) {
+                $rootScope.relatorio = [];
+                $rootScope.haveError  = meta ;
+            });
+    };
+
+    this.getMeses = function($scope) {
+        $http.get("meses/listar")
+            .then(function mySuccess(data) {
+                $rootScope.meses = data.data;
+                $rootScope.haveError  = false;
+            }, function myError(meta) {
+                $rootScope.meses = [];
+                $rootScope.haveError  = meta ;
+            });
+    };
+
+    this.getTiposDeDespesas = function($scope) {
+        $http.get("tipodespesas/listar")
+            .then(function mySuccess(data) {
+                $rootScope.tipos_despesas = data.data;
+                $rootScope.haveError  = false;
+            }, function myError(meta) {
+                $rootScope.tipos_despesas = [];
+                $rootScope.haveError  = meta ;
+            });
+    };
+
+    this.registrar = function (data) {
+        $http.post("registro/cadastrar", data)
+            .then(function mySuccess(data) {
+                if (data.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                    $rootScope.usuario = undefined;
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: meta.statusText};
+            });
+    };
+
+    this.redefinir = function (data) {
+        $http.post("redefinicaosenha/redefinirSenha", data)
+            .then(function mySuccess(data) {
+                if (data.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: meta.statusText};
+            });
+    };
+
+    this.verificarCPF = function (data) {
+        $http.post("esqueceusenha/verificarCPF", data)
+            .then(function mySuccess(data) {
+                if (data.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema interno!", message: meta.statusText};
+            });
+    };
+
+    this.getUsuarioLogado = function() {
+        var deferred = $q.defer();
+        $http.get("usuario/index?action=getUsuarioLogado")
+            .then(function mySuccess(data) {
+                deferred.resolve(data.data);
+                $rootScope.relatorio = data.data;
+                $rootScope.haveError  = false;
+            }, function myError(meta) {
+                deferred.reject(meta);
+                $rootScope.relatorio = [];
+                $rootScope.haveError  = meta ;
+            });
+        return deferred.promise;
+    };
+
+    this.atualizarUsuario = function (data) {
+        $http.put("usuario/atualizar", data)
+            .then(function mySuccess(data) {
+                if (data.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema interno!", message: meta.statusText};
+            });
+    };
+
+    this.atualizarSenha = function (data) {
+        $http.post("usuario/alterarSenha", data)
+            .then(function mySuccess(data) {
+                if (data.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema interno!", message: meta.statusText};
             });
     };
 

@@ -13,10 +13,10 @@ sisKitnetApp.controller('IndenizacoesController', function ($scope, $document, $
         });
     };
 
-    $scope.showImovelModal = function (indenizacao) {
+    $scope.showIndenizacaoModal = function (indenizacao) {
         ModalService.showModal({
             templateUrl: 'templates/view/indenizacao/create.html',
-            controller: "imovelModalController",
+            controller: "indenizacaoModalController",
             inputs: {
                 indenizacao : indenizacao,
             }
@@ -36,7 +36,7 @@ sisKitnetApp.controller('IndenizacoesController', function ($scope, $document, $
 });
 
 
-sisKitnetApp.controller('imovelModalController', function ($scope, close, $filter, indenizacao, SiskitnetService) {
+sisKitnetApp.controller('indenizacaoModalController', function ($scope, close, $filter, indenizacao, SiskitnetService) {
 
     var getFromArray = function(array,id) {
         var result = $.grep(array, function(e){ return e.id == id; });
@@ -44,32 +44,22 @@ sisKitnetApp.controller('imovelModalController', function ($scope, close, $filte
     };
 
     if(!angular.isUndefined(indenizacao)) {
-        $scope.indenizacao = angular.copy(imovel);
+        $scope.indenizacao = angular.copy(indenizacao);
+        $scope.indenizacao.data =  $filter('date')($scope.indenizacao.data, 'dd/MM/yyyy');
+
     }
 
     var successGetLocatarios = function(success) {
         $scope.listLocatarios = success.data;
         $scope.haveError  = false;
         if (!angular.isUndefined($scope.indenizacao)){
-            $scope.indenizacao.id_tipo_imovel = getFromArray($scope.listLocatarios,$scope.indenizacao.id_locatario);
+            $scope.indenizacao.id_locatario = getFromArray($scope.listLocatarios,$scope.indenizacao.id_locatario);
         }
     };
 
     var errorGetLocatarios = function(data) {
         $scope.listLocatarios = [];
         $scope.haveError  = data ;
-    };
-
-    var successPostImovel = function(response) {
-        if (response.data.status) {
-            $scope.alert = {type: "success", title: "Parabéns!", message: response.data.message};
-            $scope.imovel = undefined;
-        }
-        else
-            $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.data.message};
-    };
-    var errorPostImovel = function(response) {
-        $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.statusText};
     };
 
     SiskitnetService.getLocatarios(successGetLocatarios,errorGetLocatarios);
@@ -80,12 +70,21 @@ sisKitnetApp.controller('imovelModalController', function ($scope, close, $filte
 
     $scope.salvarIndenizacao = function() {
         $scope.indenizacao.id_locatario = $scope.indenizacao.id_locatario.id;
+        this.tratarData();
         if (angular.isUndefined(indenizacao))
             SiskitnetService.inserirIndenizacao($scope.indenizacao);
         else
             SiskitnetService.atualizarIndenizacao($scope.indenizacao);
 
     };
+    $scope.tratarData = function() {
+        if (angular.isDate($scope.indenizacao.data)) {
+            $scope.indenizacao.data = $filter('date')($scope.indenizacao.data, 'yyyy-MM-dd');
+            var dateChanged = $scope.indenizacao.data.replace(/\//g, "-");
+            $scope.indenizacao.data = $filter('date')(dateChanged, 'yyyy-MM-dd');
+        } else
+            $scope.indenizacao.data = $scope.indenizacao.data.split("/").reverse().join("-");
+    }
 
 
 });/**

@@ -6,31 +6,9 @@ var sisKitnetApp =  angular.module('sisKitnet-App',[
     'ui.utils.masks',
     'authentication',
     'ngCookies',
-    'angularUtils.directives.dirPagination'
+    'angularUtils.directives.dirPagination',
+    'ngCpfCnpj'
 ]);
-// $scope.today = new Date();
-// $scope.todayString = $filter('date')(new Date(), 'dd-MM-yyyy');
-// console.log($scope.todayString);
-
-sisKitnetApp.directive('cpfValido', function () {
-    return {
-        restrict: 'A',
-        require: 'ngModel',
-        link: function (scope, elem, attrs, ctrl) {
-
-            scope.$watch(attrs.ngModel, function () {
-
-                if (elem[0].value.length == 0)
-                    ctrl.$setValidity('cpfValido', true);
-                else if (elem[0].value.length < 11) {
-                    //aplicar o algoritmo de validação completo do CPF
-                    ctrl.$setValidity('cpfValido', false);
-                }
-                else ctrl.$setValidity('cpfValido', true);
-            });
-        }
-    };
-});
 
 sisKitnetApp.directive('stringToNumber', function() {
     return {
@@ -41,6 +19,25 @@ sisKitnetApp.directive('stringToNumber', function() {
             });
             ngModel.$formatters.push(function (value) {
                 return parseFloat(value);
+            });
+        }
+    }
+});
+
+sisKitnetApp.directive("matchPassword", function () {
+    return {
+        require: "ngModel",
+        scope: {
+            otherModelValue: "=matchPassword"
+        },
+        link: function(scope, element, attributes, ngModel) {
+
+            ngModel.$validators.matchPassword = function(modelValue) {
+                return modelValue == scope.otherModelValue;
+            };
+
+            scope.$watch("otherModelValue", function() {
+                ngModel.$validate();
             });
         }
     }
@@ -78,7 +75,7 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         controller: 'IndenizacoesController'
     }).
     when('/relatorios', {
-        templateUrl: 'templates/view/relatorio/index.hhtml',
+        templateUrl: 'templates/view/relatorio/index.html',
         controller: 'RelatoriosController'
     }).
     when('/perfis', {
@@ -109,32 +106,43 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
     }).
     when('/contratos-vencidos', {
         templateUrl: 'templates/view/renovacao/index.html',
-        controller: 'RenovacaoController',
-        // resolve: {
-        //     Vencidos: function (SiskitnetService) {
-        //         return SiskitnetService.getContratosVencidos();
-        //     }
-        // }
+        controller: 'RenovacaoController'
     }).
     when('/login', {
         templateUrl: 'templates/view/login/index.html',
         controller: 'LoginController',
+    }).
+    when('/registro', {
+        templateUrl: 'templates/view/usuario/registro.html',
+        controller: 'UsuarioController'
+    }).
+    when('/redefinicaosenha', {
+        templateUrl: 'templates/view/usuario/redefinicao-senha.html',
+        controller: 'UsuarioController'
+    }).
+    when('/esqueceusenha', {
+        templateUrl: 'templates/view/usuario/esqueceu-senha.html',
+        controller: 'UsuarioController'
+    }).
+    when('/conta', {
+        templateUrl: 'templates/view/usuario/conta.html',
+        controller: 'ContaController',
+        resolve: {
+            Usuario: function (SiskitnetService) {
+                return SiskitnetService.getUsuarioLogado();
+            }
+        }
+    }).
+    when('/alterasenha', {
+        templateUrl: 'templates/view/usuario/altera-senha.html',
+        controller: 'UsuarioController',
+
     })
+
+
     .otherwise ({ redirectTo: '/login' });
 
 });
-
-// sisKitnetApp.run(function ($rootScope, $location, SiskitnetService) {
-//     $rootScope.goTo = function (url) {
-//         if (url=='alugueis-atrasados') {
-//             SiskitnetService.getAlugueisAtrasados($rootScope);
-//             $location.path(url);
-//         }else{
-//             SiskitnetService.getAlugueisMes($rootScope);
-//             $location.path(url);
-//         }
-//     };
-// });
 
 sisKitnetApp.run(['$rootScope', '$location', '$cookieStore', '$http',
     function ($rootScope, $location, $cookieStore, $http) {
@@ -146,7 +154,11 @@ sisKitnetApp.run(['$rootScope', '$location', '$cookieStore', '$http',
 
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             // redirect to login page if not logged in
-            if ($location.path() !== '/login' && !$rootScope.globals.currentUser) {
+            if ($location.path() !== '/login' &&
+                $location.path() !== '/registro' &&
+                $location.path() !== '/redefinicaosenha' &&
+                $location.path() !== '/esqueceusenha' &&
+                !$rootScope.globals.currentUser) {
                 $location.path('/login');
             }
         });

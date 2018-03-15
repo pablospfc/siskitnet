@@ -75,6 +75,9 @@
     <script src="<?php echo base_url('includes/bower_components/angular-authentication/js/angular-authentication.js');?>"></script>
     <script src="<?php echo base_url('includes/bower_components/angular-cookies/angular-cookies.js');?>"></script>
     <script src="<?php echo base_url('includes/bower_components/angularUtils-pagination/dirPagination.js');?>"></script>
+    <script src="<?php echo base_url('includes/bower_components/cpf_cnpj/build/cpf.js');?>"></script>
+    <script src="<?php echo base_url('includes/bower_components/cpf_cnpj/build/cnpj.js');?>"></script>
+    <script src="<?php echo base_url('includes/bower_components/ng-cpf-cnpj/lib/ngCpfCnpj.js');?>"></script>
     <script src="<?php echo base_url('includes/app/siskitnet.min.js');?>"></script>
 
 
@@ -173,7 +176,7 @@
 					<i class="fa fa-user fa-fw"></i> <?php echo $this->session->userdata('login');?> <i class="fa fa-caret-down"></i>
 				</a>
 				<ul class="dropdown-menu dropdown-user">
-					<li><a href="#"><i class="fa fa-user fa-fw"></i> Conta</a>
+					<li><a href="#/conta"><i class="fa fa-user fa-fw"></i> Conta</a>
 					</li>
 					<!--                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>-->
 					<!--                    </li>-->
@@ -219,11 +222,15 @@
 		</div>
 		<!-- /.navbar-static-side -->
 	</nav>
-     <div>
-        <div id="page-wrapper">
+
+
 		<ng-view></ng-view>
-        </div>
-     </div>
+
+
+<!--    <div ng-if="!globals.currentUser">-->
+<!--        <ng-view></ng-view>-->
+<!--    </div>-->
+
 
 <!--    <div ng-if="!globals.currentUser">-->
 <!--            <ng-view></ng-view>-->

@@ -54,7 +54,6 @@ sisKitnetApp.controller('pagamentoModalController', function ($scope, close, $fi
 
     if(!angular.isUndefined(pagamento)) {
         $scope.pagamento = angular.copy(pagamento);
-        console.log($scope.pagamento);
         $scope.pagamento.data_pagamento =  $filter('date')($scope.pagamento.data_pagamento, 'dd/MM/yyyy');
         $scope.pagamento.periodo_inicial =  $filter('date')($scope.pagamento.periodo_inicial, 'dd/MM/yyyy');
         $scope.pagamento.periodo_final =  $filter('date')($scope.pagamento.periodo_final, 'dd/MM/yyyy');

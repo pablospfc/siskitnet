@@ -1,5 +1,5 @@
 
-
+<div id="page-wrapper">
 <div class="row">
     <div class="col-lg-12">
         <h3 class="page-header">Gerenciamento de Despesas</h3>
@@ -62,6 +62,13 @@
                         </td>
 
                     </tr>
+                    <tr class="animate-repeat" ng-if="despesas.length == 0">
+                        <td colspan="8" class="text-center">
+                            <em>
+                                Nenhum resultado foi encontrado
+                            </em>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
                 <dir-pagination-controls max-size="5" boundary-links="true"></dir-pagination-controls>
@@ -77,4 +84,4 @@
 <!-- /.row -->
 <!-- /#page-wrapper -->
 
-
+</div>

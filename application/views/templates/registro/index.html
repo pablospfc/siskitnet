@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Registrar</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" name="formUser" ng-submit="registrarUsuario()">
+                        <div>
+                            <div class="form-group">
+                                <input class="form-control" ng-model="formulario.nome" id="nome" name="nome" required placeholder="Nome" type="text">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" ng-model="formulario.cpf" id="cpf" name="cpf" ng-cpf required placeholder="CPF" type="text" ui-br-cpf-mask>
+                            </div>
+                            <p ng-show="formUser.cpf.$invalid && !formUser.cpf.$pristine" class="help-block">O seu CPF está inválido!</p>
+                            <div class="form-group">
+                                <input class="form-control" ng-model="formulario.telefone" id="telefone" name="telefone" ui-br-phone-number required placeholder="Telefone" type="text">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" ng-model="formulario.email" id="email" name="email" required placeholder="Email" type="email">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" ng-model="formulario.senha" id="senha" name="senha" required placeholder="Senha" type="password">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" ng-model="formulario.confirma_senha" id="confirma_senha" name="confirma_senha" required placeholder="Confirmação de senha" type="password" match-password="formulario.senha">
+                            </div>
+                            <div ng-if="formUser.confirma_senha.$touched">
+                            <p ng-show="formUser.confirma_senha.$error.matchPassword && !formUser.confirma_senha.$error.required" class="help-block">As senhas não coincidem</p>
+                           </div>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <button type="submit" ng-disabled="formUser.$invalid" class="btn btn-lg btn-success btn-block">Registrar</button>
+                            <hr>
+                        </fieldset>
+                    </form>
+                    <br>
+                    <div class="form-group col-sm-12" ng-if="alert">
+                        <div class="alert alert-{{alert.type}}" role="alert">
+                            <strong>{{alert.title}}</strong> {{alert.message}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

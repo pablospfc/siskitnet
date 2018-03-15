@@ -13,22 +13,18 @@ class Relatorio_Model extends CI_Model
         parent::__construct();
     }
 
-    public function getRelatorioDespesas($ano, $mes, $tipo){
-        $where = "";
-        $bind = [];
+    public function getRelatorioDespesas($mes, $ano, $tipo){
+        $where = [];
         if ($ano != null){
-            $where = "des.ano = %d";
-            $bind[] = $ano;
+            $where[] = " des.ano = {$ano}";
         }
 
         if ($mes != null){
-            $where = " AND mes.id = %d";
-            $bind[] = $mes;
+            $where[] = " mes.id = {$mes}";
         }
 
         if ($tipo != null){
-            $where = " AND tip.id = %d";
-            $bind[] = $tipo;
+            $where[] = " tip.id = {$tipo}";
         }
 
         $query = "SELECT
@@ -43,9 +39,16 @@ class Relatorio_Model extends CI_Model
                     INNER JOIN tb_tipo_despesa tip ON tip.id = des.id_tipo_despesa
                     ";
 
-        $result = $this->db->query($query.$where,$bind);
+        if (sizeof( $where ))
+        $query.= ' WHERE '.implode( ' AND ', $where );
+
+        $result = $this->db->query($query);
 
         return $result->result_array();
+
+    }
+
+    public function getRelatorioIndenizacoes($mes,$ano){
 
     }
 
@@ -53,7 +56,11 @@ class Relatorio_Model extends CI_Model
       
     }
 
-    public function getRelatorioIndenizacoes($mes,$ano){
+    public function getRelatorioImoveis($disponivel){
+
+    }
+
+    public function getRelatorioLocatarios(){
 
     }
 

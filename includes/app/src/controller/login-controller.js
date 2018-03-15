@@ -5,10 +5,11 @@ sisKitnetApp.controller('LoginController', function ($scope, $window, $rootScope
         $scope.dataLoading = true;
         AuthenticationService.getLogin($scope.formulario, function(response) {
             if(response.data.status == true) {
-                AuthenticationService.SetCredentials($scope.formulario.login, $scope.formulario.senha);
-                $rootScope.id = 'id="page-wrapper"';
+                AuthenticationService.SetCredentials($scope.formulario.email, $scope.formulario.senha);
+
                  $location.path('/');
                 $window.location.reload();
+                $rootScope.conectado = true;
             } else {
 
                 $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.data.message}
