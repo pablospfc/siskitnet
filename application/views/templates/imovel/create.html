@@ -58,6 +58,51 @@
                                 >
                             </div>
 
+                            <div class="form-group col-md-6" >
+                                <label>CEP:</label>
+                                <input class="form-control"
+                                       id="cep"
+                                       type="text"
+                                       name="cep"
+                                       ng-blur="buscarCEP()"
+                                       ng-model="imovel.cep"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Cidade:</label>
+                                <input class="form-control"
+                                       id="cidade"
+                                       type="text"
+                                       name="cidade"
+                                       ng-model="imovel.cidade"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Estado:</label>
+                                <input class="form-control"
+                                       id="estado"
+                                       type="text"
+                                       name="estado"
+                                       ng-model="imovel.estado"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Bairro:</label>
+                                <input class="form-control"
+                                       id="bairro"
+                                       type="text"
+                                       name="bairro"
+                                       ng-model="imovel.bairro"
+                                       ng-required="true"
+                                >
+                            </div>
+
                             <div class="form-group col-md-8">
                                 <label>Endereço:</label>
                                 <input class="form-control"
@@ -70,12 +115,23 @@
                             </div>
 
                             <div class="form-group col-md-8">
-                                <label>Número:</label>
+                            <label>Número:</label>
+                            <input class="form-control"
+                                   id="numero"
+                                   type="text"
+                                   name="numero"
+                                   ng-model="imovel.numero"
+                                   ng-required="true"
+                            >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                                <label>Complemento:</label>
                                 <input class="form-control"
-                                       id="numero"
+                                       id="complemento"
                                        type="text"
-                                       name="numero"
-                                       ng-model="imovel.numero"
+                                       name="complemento"
+                                       ng-model="imovel.complemento"
                                        ng-required="true"
                                 >
                             </div>

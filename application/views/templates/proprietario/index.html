@@ -1,0 +1,262 @@
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Proprietário</h3>
+        </div>
+    </div>
+
+    <div class="row ng-hide" ng-show="haveError">
+        <div class="col-sm-12 ">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <strong>Desculpe-nos!</strong> Mas não foi possível
+                carregar as informações. Tente novamente!
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row" ng-hide="haveError">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Informações do Proprietário
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <form name="formProprietario" role="form" method="post" ng-submit="atualizar()">
+
+                        <div class="row">
+
+                            <div class="form-group col-md-12" >
+
+                                <div class="form-group col-md-8">
+                                    <label>Nome:</label>
+                                    <input class="form-control"
+                                           id="nome"
+                                           type="text"
+                                           name="nome"
+                                           ng-model="proprietario.nome"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Estado Civil:</label>
+                                    <select
+                                            class="form-control"
+                                            id="id_estado_civil"
+                                            name="id_estado_civil"
+                                            ng-options="estadocivil as estadocivil.nome for estadocivil in listEstadosCivis track by estadocivil.id"
+                                            ng-model="proprietario.id_estado_civil"
+                                            ng-required="true"
+                                    >
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>CPF:</label>
+                                    <input class="form-control"
+                                           id="cpf"
+                                           type="text"
+                                           name="cpf"
+                                           ng-model="proprietario.cpf"
+                                           ng-required="true"
+                                           ng-cpf
+                                           ui-br-cpf-mask
+                                    >
+                                </div>
+                                <p ng-show="formConta.cpf.$invalid && !formConta.cpf.$pristine" class="help-block">O seu CPF está inválido!</p>
+
+                                <div class="form-group col-md-8">
+                                    <label>RG:</label>
+                                    <input class="form-control"
+                                           id="rg"
+                                           type="text"
+                                           name="rg"
+                                           ng-model="proprietario.rg"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Orgão Expedidor:</label>
+                                    <input class="form-control"
+                                           id="orgao_expedidor"
+                                           type="text"
+                                           name="orgao_expedidor"
+                                           ng-model="proprietario.orgao_expedidor"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>UF Expedidor:</label>
+                                    <input class="form-control"
+                                           id="uf_expedidor"
+                                           type="text"
+                                           name="uf_expedidor"
+                                           ng-model="proprietario.uf_expedidor"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Telefone:</label>
+                                    <input class="form-control"
+                                           id="telefone"
+                                           type="text"
+                                           name="telefone"
+                                           ng-model="proprietario.telefone"
+                                           ng-required="true"
+                                           ui-br-phone-number
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Email:</label>
+                                    <input class="form-control"
+                                           id="email"
+                                           type="email"
+                                           name="email"
+                                           ng-model="proprietario.email"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>CEP:</label>
+                                    <input class="form-control"
+                                           id="cep"
+                                           type="text"
+                                           name="cep"
+                                           ng-model="proprietario.cep"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Endereço:</label>
+                                    <input class="form-control"
+                                           id="endereco"
+                                           type="text"
+                                           name="endereco"
+                                           ng-model="proprietario.endereco"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Bairro:</label>
+                                    <input class="form-control"
+                                           id="bairro"
+                                           type="text"
+                                           name="bairro"
+                                           ng-model="proprietario.bairro"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Número:</label>
+                                    <input class="form-control"
+                                           id="numero"
+                                           type="text"
+                                           name="numero"
+                                           ng-model="proprietario.numero"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Complemento:</label>
+                                    <input class="form-control"
+                                           id="complemento"
+                                           type="text"
+                                           name="complemento"
+                                           ng-model="proprietario.complemento"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Cidade:</label>
+                                    <input class="form-control"
+                                           id="cidade"
+                                           type="text"
+                                           name="cidade"
+                                           ng-model="proprietario.cidade"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Estado:</label>
+                                    <input class="form-control"
+                                           id="estado"
+                                           type="text"
+                                           name="estado"
+                                           ng-model="proprietario.estado"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Nacionalidade:</label>
+                                    <input class="form-control"
+                                           id="nacionalidade"
+                                           type="text"
+                                           name="nacionalidade"
+                                           ng-model="proprietario.nacionalidade"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Profissão:</label>
+                                    <input class="form-control"
+                                           id="profissao"
+                                           type="text"
+                                           name="profissao"
+                                           ng-model="proprietario.profissao"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <hr>
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        Atualizar
+                                    </button>
+                                    <button type="reset" class="btn btn-default">
+                                        Limpar
+                                    </button>
+                                </div>
+
+                            </div>
+                    </form>
+                    <hr>
+
+                    <div class="form-group col-sm-12" ng-if="alert">
+                        <div class="alert alert-{{alert.type}}" role="alert">
+                            <strong>{{alert.title}}</strong> {{alert.message}}
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<!-- /#page-wrapper -->
+
+</div>

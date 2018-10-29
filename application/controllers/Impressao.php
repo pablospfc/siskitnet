@@ -33,7 +33,7 @@ class Impressao extends CI_Controller
         // Insere o conteúdo da variável $html no arquivo PDF
         $mpdf->writeHTML($html);
 
-        $mpdf->Output($data['dados']['locatario'].'-'.date('Y-m-d H:i:s').'.pdf','D');
+        $mpdf->Output($data['dados']['nome_locatario'].'-'.date('Y-m-d H:i:s').'.pdf','D');
     }
 
     public function imprimirRecibo($id) {

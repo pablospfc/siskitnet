@@ -12,31 +12,31 @@ require 'vendor/autoload.php';
 class Usuarios_Model extends CI_Model
 {
     public function __construct() {
+        $this->load->model('Locador_Model', 'locador');
         parent::__construct();
+
         $this->load->helper(array('email'));
         $this->load->library(array('email'));
     }
 
     public function inserir($dados) {
+
         if (!isset($dados)) {
             $response["status"] = false;
             $response["message"] = "Dados não informados";
         } else {
-            $dados = $this->preparaDados($dados);
-            $this->form_validation->set_data($dados);
-            // definimos as regras de validação
-            $this->form_validation->set_rules('nome','nome','required|min_length[2]|trim');
-            $this->form_validation->set_rules('email','email','required|valid_email|is_unique[tb_usuario.email]|trim');
-            //$this->form_validation->set_rules('cpf', 'cpf', 'valid_cpf');
+            $this->db->trans_strict(TRUE);
+            $this->db->trans_start();
 
+                //error_log(var_export("chegou aqui", true), 3,'C:/xampp/htdocs/siskitnet/log.log');
 
-            if ($this->form_validation->run()==false) {
-                $response['status'] = false;
-                $response['message'] = validation_errors();
-            }else{
-                $status = $this->db->insert("tb_usuario",$dados);
+                $idLocador = $this->locador->inserir($dados);
 
-                if ($status){
+                $dados['id_locador'] = $idLocador;
+                $dadosUsuario = $this->preparaDados($dados);
+                 $this->db->insert("tb_usuario",$dadosUsuario);
+                $this->db->trans_complete();
+                if ($this->db->trans_status() === TRUE){
                     $response['status'] = true;
                     $response['message'] = "O seu registro foi completado com sucesso. Agora você estará apto para acessar o sistema.";
                 }else{
@@ -45,14 +45,14 @@ class Usuarios_Model extends CI_Model
                     $response['message'] = "Não foi possível registrar o usuário. Por favor tente novamente!";
                     $this->db->insert("tb_log",['message'=>$error['message']]);
                 }
-            }
+
         }
 
         return $response;
 
     }
 
-    public function atualizar($dados, $id) {
+    public function atualizarSenha($dados, $id) {
         $response = [];
         if (!isset($dados)) {
             $response["status"] = false;
@@ -68,7 +68,7 @@ class Usuarios_Model extends CI_Model
                 $afftectedRows =  $this->db->affected_rows();
                 if ($afftectedRows ==  1){
                     $response['status'] = true;
-                    $response['message'] = "Dados atualizados com sucesso";
+                    $response['message'] = "Senha atualizada com sucesso";
                 }
                 else{
                     $error = $this->db->error();
@@ -85,11 +85,14 @@ class Usuarios_Model extends CI_Model
         return $response;
     }
 
-    public function preparaDadosAtualizacao($dados){
-        $data['nome'] = $dados['nome'];
-        $data['cpf'] = $dados['cpf'];
-        $data['telefone'] = $dados['telefone'];
-        $data['email']   = $dados['email'];
+    private function verificaSenhaAtual($senha){
+        $senha = $this->session->userdata('senha');
+        if ((md5($senha)) != $senha)
+            return false;
+    }
+
+    private function preparaDadosAtualizacao($dados){
+        $data['senha'] = md5($dados['nova_senha']);
 
         return $data;
     }
@@ -136,7 +139,7 @@ class Usuarios_Model extends CI_Model
         $mail->Body = "<h2>Olá {$dados['nome']},</h2>
                         <p>Você solicitou a redefinição de senha de acesso ao Sistema de Controle de Kitnets - Siskitnet. </p>
                         <p>Você será redirecionado para uma página onde poderá definir uma nova senha.  </p>
-                          <a>Clique <a href='http://localhost/siskitnet/#redefinicaosenha?pid={$token}'>aqui</a> para redefinir a sua senha.</p>
+                          <a>Clique <a href='http://siskitnet.cdsantosdumont.com.br/#redefinicaosenha?pid={$token}'>aqui</a> para redefinir a sua senha.</p>
              
                           <p>Atenciosamente</p>
 
@@ -157,7 +160,6 @@ class Usuarios_Model extends CI_Model
             $response['message'] = "Não foi possível o envio de e-mail para redefinição de senha. Por favor entre em contato com o suporte técnico!";
         }
 
-        error_log(var_export($response,true));
 
         return $response;
 
@@ -212,8 +214,6 @@ class Usuarios_Model extends CI_Model
             ->where('now()< tb_token.data_expiracao');
         $result = $this->db->get()->row_array();
 
-        error_log(var_export($result,true));
-
         if (!empty($result) && is_array($result))
             return $result['id_usuario'];
         else
@@ -222,13 +222,11 @@ class Usuarios_Model extends CI_Model
 
     public function preparaDados($dados){
         $data['id_perfil'] = 2;
-        $data['nome'] = $dados['nome'];
-        $data['cpf'] = $dados["cpf"];
-        $data['email'] = $dados["email"];
-        $data['telefone'] = $dados["telefone"];
-        $data['email'] = $dados["email"];
+        $data['id_locador'] = $dados['id_locador'];
+        $data['login'] = $dados["email"];
         $data['senha'] = md5($dados["senha"]);
         $data['ativo'] = 1;
+        $data['aceitou'] = $dados['aceitou'];
         $data['chave'] =md5($dados["cpf"].date('Y-m-d H:i:s'));
 
         return $data;

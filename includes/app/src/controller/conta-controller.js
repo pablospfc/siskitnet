@@ -1,9 +1,9 @@
 /**
  * Created by claud on 24/02/2018.
  */
-sisKitnetApp.controller('ContaController', function ($scope, $document, Usuario, $location, $timeout, SiskitnetService) {
+sisKitnetApp.controller('ContaController', function ($scope, $document, $location, $timeout, SiskitnetService) {
 
-    $scope.usuario = Usuario;
+
     $scope.redefinirSenha = function(){
         var pid = $location.search();
         $scope.formulario.token = pid.pid;
@@ -19,8 +19,11 @@ sisKitnetApp.controller('ContaController', function ($scope, $document, Usuario,
     };
 
     $scope.atualizar = function(){
-        console.log($scope.usuario);
         SiskitnetService.atualizarUsuario($scope.usuario);
+    };
 
-    }
+    $scope.alteraSenha = function(){
+        SiskitnetService.atualizarSenha($scope.usuario);
+
+    };
 });

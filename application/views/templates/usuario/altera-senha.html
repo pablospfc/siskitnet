@@ -1,10 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Alteração de Senha</h3>
+        </div>
+    </div>
+
+    <div class="row ng-hide" ng-show="haveError">
+        <div class="col-sm-12 ">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <strong>Desculpe-nos!</strong> Mas não foi possível
+                carregar as informações. Tente novamente!
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row" ng-hide="haveError">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Redefinição de Senha
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <form name="formConta" role="form" method="post" ng-submit="alteraSenha()">
+
+                        <div class="row">
+
+                            <div class="form-group col-md-12" >
+
+                                <div class="form-group col-md-8">
+                                    <label>Senha Atual:</label>
+                                    <input class="form-control"
+                                           placeholder="Senha Atual"
+                                           id="senha_atual"
+                                           type="password"
+                                           name="senha_atual"
+                                           ng-model="usuario.senha_atual"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Nova Senha:</label>
+                                    <input class="form-control"
+                                           required placeholder="Nova Senha"
+                                           id="nova_senha"
+                                           type="password"
+                                           name="nova_senha"
+                                           ng-model="usuario.nova_senha"
+                                           ng-required="true"
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-8">
+                                    <label>Confirmação de Nova Senha:</label>
+                                    <input class="form-control"
+                                           required placeholder="Confirmação de nova senha"
+                                           id="confirma_nova_senha"
+                                           type="password"
+                                           name="confirma_nova_senha"
+                                           ng-model="usuario.confirma_nova_senha"
+                                           ng-required="true"
+                                           match-password="usuario.confirma_nova_senha"
+                                    >
+                                </div>
+
+                                <div ng-if="formConta.confirma_nova_senha.$touched">
+                                    <p ng-show="formConta.confirma_nova_senha.$error.matchPassword && !formConta.confirma_nova_senha.$error.required" class="help-block">As senhas não coincidem</p>
+                                </div>
+
+                                <hr>
+
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        Atualizar
+                                    </button>
+                                    <button type="reset" class="btn btn-default">
+                                        Limpar
+                                    </button>
+                                </div>
+
+                            </div>
+                    </form>
+                    <hr>
+                    <div class="form-group col-sm-12" ng-if="alert">
+                        <div class="alert alert-{{alert.type}}" role="alert">
+                            <strong>{{alert.title}}</strong> {{alert.message}}
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <!-- /#page-wrapper -->
+
+</div>

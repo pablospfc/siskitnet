@@ -10,6 +10,10 @@ var sisKitnetApp =  angular.module('sisKitnet-App',[
     'ngCpfCnpj'
 ]);
 
+sisKitnetApp.constant('PATHS', {
+    PATH_ARQUIVOS: 'http://siskitnet.cdsantosdumont.com.br/docs/'
+});
+
 sisKitnetApp.directive('stringToNumber', function() {
     return {
         require: 'ngModel',
@@ -43,9 +47,13 @@ sisKitnetApp.directive("matchPassword", function () {
     }
 });
 
-sisKitnetApp.config(function($routeProvider, $locationProvider) {
+sisKitnetApp.config(function($routeProvider, $locationProvider, $httpProvider) {
     $locationProvider.html5Mode( { enabled : false, requireBase : false } );
     $locationProvider.hashPrefix('');
+    // $httpProvider.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
+    // $httpProvider.defaults.useXDomain = true;
+    // delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
     $routeProvider.when('/', {
         templateUrl: 'templates/view/home/index.html',
         controller: 'HomeController',
@@ -125,11 +133,15 @@ sisKitnetApp.config(function($routeProvider, $locationProvider) {
         controller: 'UsuarioController'
     }).
     when('/conta', {
-        templateUrl: 'templates/view/usuario/conta.html',
+        templateUrl: 'templates/view/usuario/altera-senha.html',
         controller: 'ContaController',
+    }).
+    when('/proprietario', {
+        templateUrl: 'templates/view/proprietario/index.html',
+        controller: 'ProprietarioController',
         resolve: {
-            Usuario: function (SiskitnetService) {
-                return SiskitnetService.getUsuarioLogado();
+            Proprietario: function (SiskitnetService) {
+                return SiskitnetService.getDadosProprietario();
             }
         }
     }).

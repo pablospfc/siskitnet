@@ -14,7 +14,7 @@ class EstadoCivil extends REST_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('EstadoCivil_model','EstadoCivilMDL');
+        $this->load->model('EstadoCivil_Model','EstadoCivilMDL');
 
         // Configuração para os limites de requisições (por hora)
         $this->methods['index_get']['limit'] = 10;

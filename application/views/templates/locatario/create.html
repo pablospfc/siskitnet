@@ -16,7 +16,7 @@
             </div>
             <div class="modal-body">
 
-                        <form role="form" method="post" ng-submit="salvarLocatario()">
+                        <form role="form" name="formLocatario" method="post" ng-submit="salvarLocatario()">
 
                             <div class="row">
 
@@ -72,9 +72,13 @@
                                        type="text"
                                        name="cpf"
                                        ng-model="locatario.cpf"
+                                       ng-cpf
                                        ui-br-cpf-mask
                                        ng-required="true"
                                 >
+
+                            <p ng-show="formLocatario.cpf.$invalid && !formLocatario.cpf.$pristine" class="help-block">O seu CPF está inválido!</p>
+
                             </div>
 
                             <div class="form-group col-md-6" >
@@ -117,6 +121,7 @@
                                        type="text"
                                        name="celular"
                                        ng-model="locatario.celular"
+                                       ui-br-phone-number
                                        ng-required="true"
                                 >
                             </div>
@@ -125,9 +130,21 @@
                                 <label>Email:</label>
                                 <input class="form-control"
                                        id="email"
-                                       type="text"
+                                       type="email"
                                        name="email"
                                        ng-model="locatario.email"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6" >
+                                <label>CEP:</label>
+                                <input class="form-control"
+                                       id="cep"
+                                       type="text"
+                                       name="cep"
+                                       ng-blur="buscarCEP()"
+                                       ng-model="locatario.cep"
+                                       ng-required="true"
                                 >
                             </div>
 
@@ -142,16 +159,27 @@
                                 >
                             </div>
 
-                            <div class="form-group col-md-6" >
-                                <label>CEP:</label>
+                            <div class="form-group col-md-6">
+                                <label>Cidade:</label>
                                 <input class="form-control"
-                                       id="cep"
+                                       id="cidade"
                                        type="text"
-                                       name="cep"
-                                       ng-model="locatario.cep"
+                                       name="cidade"
+                                       ng-model="locatario.cidade"
                                        ng-required="true"
                                 >
                             </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>Estado:</label>
+                                    <input class="form-control"
+                                           id="estado"
+                                           type="text"
+                                           name="estado"
+                                           ng-model="locatario.estado"
+                                           ng-required="true"
+                                    >
+                                </div>
 
                             <div class="form-group col-md-6">
                                 <label>Bairro:</label>
@@ -164,6 +192,16 @@
                                 >
                             </div>
 
+                                <div class="form-group col-md-6">
+                                    <label>Complemento:</label>
+                                    <input class="form-control"
+                                           id="complemento"
+                                           type="text"
+                                           name="complemento"
+                                           ng-model="locatario.complemento"
+                                    >
+                                </div>
+
                             <div class="form-group col-md-6">
                                 <label>Profissão:</label>
                                 <input class="form-control"
@@ -171,6 +209,17 @@
                                        type="text"
                                        name="profissao"
                                        ng-model="locatario.profissao"
+                                       ng-required="true"
+                                >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Nacionalidade:</label>
+                                <input class="form-control"
+                                       id="nacionalidade"
+                                       type="text"
+                                       name="nacionalidade"
+                                       ng-model="locatario.nacionalidade"
                                        ng-required="true"
                                 >
                             </div>
@@ -190,7 +239,7 @@
 
 
                                 <div class="form-group col-md-12">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" ng-disabled="formLocatario.$invalid" class="btn btn-primary">
                                         Salvar
                                     </button>
                                     <button type="reset" class="btn btn-default">

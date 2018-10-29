@@ -8,8 +8,10 @@
  */
 class Contrato_Model extends CI_Model
 {
+    private $chave;
     public function __construct() {
         $this->load->model('Lancamento_Model', 'lancamento');
+        $this->chave = $this->session->userdata('chave');
         parent::__construct();
     }
 
@@ -21,11 +23,9 @@ class Contrato_Model extends CI_Model
     }
 
     public function getList() {
-        $chave = $this->session->userdata('chave');
-        error_log($chave);
         $result = $this->db->query("SELECT con.id as id,
-                                           loc.id as id_locatario,
-                                           loc.nome as locatario,
+                                           lot.id as id_locatario,
+                                           lot.nome as locatario,
                                            con.dia_vencimento as dia_vencimento,
                                            con.data_inicio,
                                            con.data_fim,
@@ -36,19 +36,18 @@ class Contrato_Model extends CI_Model
                                            imo.nome as imovel,
                                            sta.nome as status
                                     FROM tb_contrato as con
-                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_locatario as lot ON lot.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
                                     INNER JOIN tb_status as sta ON sta.id = con.id_status
                                     WHERE con.id_status = ? AND con.chave = ?
-       ",[4,$chave]);
+       ",[4,$this->chave]);
         return $result->result_array();
     }
 
     public function getContratosVigentes(){
-        $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT con.id as id,
-                                           loc.id as id_locatario,
-                                           loc.nome as locatario,
+                                           lot.id as id_locatario,
+                                           lot.nome as locatario,
                                            con.dia_vencimento as dia_vencimento,
                                            con.data_inicio,
                                            con.data_fim,
@@ -59,21 +58,20 @@ class Contrato_Model extends CI_Model
                                            imo.nome as imovel,
                                            sta.nome as status
                                     FROM tb_contrato as con
-                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_locatario as lot ON lot.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
                                     INNER JOIN tb_status as sta ON sta.id = con.id_status
                                     WHERE con.id_status = 4 AND con.chave = ?
-       ",[$chave]);
+       ",[$this->chave]);
 
         return $result->result_array();
     }
 
     public function getContratosVencidos() {
-        $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT con.id as id,
-                                           loc.id as id_locatario,
-                                           loc.nome as locatario,
-                                           loc.cpf as cpf,
+                                           lot.id as id_locatario,
+                                           lot.nome as locatario,
+                                           lot.cpf as cpf,
                                            con.dia_vencimento as dia_vencimento,
                                            con.data_inicio,
                                            con.data_fim,
@@ -84,21 +82,20 @@ class Contrato_Model extends CI_Model
                                            imo.uc as uc,
                                            sta.nome as status
                                     FROM tb_contrato as con
-                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_locatario as lot ON lot.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
                                     INNER JOIN tb_status as sta ON sta.id = con.id_status
-                                    WHERE sta.id = 7 AND con.renovou = 0 AND con.chave = ?",[$chave]);
+                                    WHERE sta.id = 7 AND con.renovou = 0 AND con.chave = ?",[$this->chave]);
 
         return $result->result_array();
     }
 
     public function getQtdContratosVencidos() {
-        $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT COUNT(*) AS quantidade FROM
                                      (SELECT con.id as id,
-                                           loc.id as id_locatario,
-                                           loc.nome as locatario,
-                                           loc.cpf as cpf,
+                                           lot.id as id_locatario,
+                                           lot.nome as locatario,
+                                           lot.cpf as cpf,
                                            con.dia_vencimento as dia_vencimento,
                                            con.data_inicio,
                                            con.data_fim,
@@ -109,82 +106,112 @@ class Contrato_Model extends CI_Model
                                            imo.uc as uc,
                                            sta.nome as status
                                     FROM tb_contrato as con
-                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_locatario as lot ON lot.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
                                     INNER JOIN tb_status as sta ON sta.id = con.id_status
-                                    WHERE sta.id = 7 AND con.renovou = 0 AND con.chave = ?) AS tabela",[$chave]);
+                                    WHERE sta.id = 7 AND con.renovou = 0 AND con.chave = ?) AS tabela",[$this->chave]);
 
         return $result->row_array();
     }
 
+    public function atualizaContratosVencidos(){
+        $this->db->query("UPDATE tb_contrato SET id_status = 7 WHERE data_fim < now() and id_status =4");
+    }
+
+    public function atualizaAlugueisAtrasados(){
+        $this->db->query("UPDATE tb_lancamento SET id_status = 2 WHERE data_vencimento < now() and id_status =1");
+    }
+
     public function getContrato($id) {
-        $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT con.id as id,
-                                           loc.id as id_locatario,
-                                           loc.nome as locatario,
-                                           loc.cpf as cpf,
-                                           loc.rg as rg,
-                                           loc.orgao_expedidor as orgao_exp,
-                                           loc.profissao as profissao,
-                                           loc.bairro as bairro,
-                                           loc.endereco as endereco,
-                                           loc.uf_expedidor as uf,
-                                           loc.cep as cep,
+                                           lot.id as id_locatario,
+                                           lot.nome as nome_locatario,
+                                           lot.cpf as cpf_locatario,
+                                           lot.rg as rg_locatario,
+                                           lot.orgao_expedidor as orgao_exp_locatario,
+                                           lot.profissao as profissao_locatario,
+                                           lot.bairro as bairro_locatario,
+                                           lot.endereco as endereco_locatario,
+                                           lot.uf_expedidor as uf_locatario,
+                                           lot.cep as cep_locatario,
+                                           lot.nacionalidade as nacionalidade_locatario,
+                                           lot.cidade as cidade_locatario,
+                                           lot.estado as estado_locatario,
+                                           loc.id as id_locador,
+                                           loc.nome as nome_locador,
+                                           loc.cpf as cpf_locador,
+                                           loc.rg as rg_locador,
+                                           loc.cep as cep_locador,
+                                           loc.orgao_expedidor as orgao_exp_locador,
+                                           loc.uf_expedidor as uf_expedidor_locador,
+                                           loc.endereco as endereco_locador,
+                                           loc.numero as numero_locador,
+                                           loc.bairro as bairro_locador,
+                                           loc.complemento as complemento_locador,
+                                           loc.cidade as cidade_locador,
+                                           loc.estado as estado_locador,
+                                           loc.profissao as profissao_locador,
+                                           loc.nacionalidade as nacionalidade_locador,
+                                           esc2.nome as estado_civil_locador,
                                            con.dia_vencimento as dia_vencimento,
-                                           con.data_inicio,
-                                           con.data_fim,
+                                           DATE_FORMAT(con.data_inicio, '%d/%m/%Y') as data_inicio,
+                                           DATE_FORMAT(con.data_fim, '%d/%m/%Y') as data_fim,
                                            con.prazo,
                                            con.valor,
                                            con.primeiro_vencimento,
                                            imo.id as id_imovel,
                                            imo.nome as imovel,
                                            imo.uc as uc,
+                                           imo.endereco as endereco_imovel,
+                                           imo.complemento as complemento_imovel,
+                                           imo.bairro as bairro_imovel,
+                                           imo.cep as cep_imovel,
                                            sta.nome as status,
-                                           esc.nome as estado_civil
+                                           esc.nome as estado_civil_locatario
                                     FROM tb_contrato as con
-                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
-                                    INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
-                                    INNER JOIN tb_status as sta ON sta.id = con.id_status
-                                    INNER JOIN tb_estado_civil esc ON esc.id = loc.id_estado_civil
-                                    WHERE con.chave = ? AND con.id = ?",[$chave,$id]);
+                                    LEFT JOIN tb_locatario as lot ON lot.id = con.id_locatario
+                                    LEFT JOIN tb_imovel as imo ON imo.id = con.id_imovel
+                                    LEFT JOIN tb_status as sta ON sta.id = con.id_status
+                                    LEFT JOIN tb_locador as loc ON loc.id = con.id_locador
+                                    LEFT JOIN tb_estado_civil esc ON esc.id = lot.id_estado_civil
+                                    LEFT JOIN tb_estado_civil esc2 ON esc2.id = loc.id_estado_civil
+                                    WHERE con.chave = ? AND con.id = ?",[$this->chave,$id]);
         return $result->row_array();
     }
 
     public function inserir($dados) {
-        $chave = $this->session->userdata('chave');
         if (!isset($dados)) {
             $response["status"] = false;
             $response["message"] = "Dados não informados";
         } else {
             $this->db->trans_strict(TRUE);
-            // definimos as regras de validação
             $this->db->trans_start();
-                $datasContrato = $this->gerarParcelas($dados['data_inicio'],$dados['prazo']);
-                $dados['id_status'] = 4;
-                $dados['chave'] = $chave;
-                $dados['data_fim'] = $datasContrato[$dados['prazo']-1];
-                $dados['dia_vencimento'] = date( 'd', strtotime( $dados['primeiro_vencimento']) );
-                $this->db->insert("tb_contrato",$dados);
-                $idContrato = $this->db->insert_id();
-                $datasVencimento = $this->gerarParcelas($dados['primeiro_vencimento'],$dados['prazo']);
+            $dados = $this->preparaDados($dados);
+            //error_log(var_export($dados, true), 3,'C:/xampp/htdocs/siskitnet/log.log');
+            $status = $this->db->insert("tb_contrato",$dados);
+            $idContrato = $this->db->insert_id();
+
+            $datasVencimento = $this->gerarParcelas($dados['primeiro_vencimento'],$dados['prazo']);
 
                 foreach ($datasVencimento as $value){
 
                  $dadosLancamento[] = [
-                     'id_mes' =>  date( 'm', strtotime( $value ) ),
+                     'id_mes' =>  (int) date( 'm', strtotime( $value ) ),
                      'id_status' => 1,
-                     'id_contrato' =>$idContrato,
+                     'chave' => $this->chave,
+                     'id_contrato' => $idContrato,
                      'valor' => $dados['valor'],
                      'data_vencimento' => $value,
-                     'ano' =>2017,
+                     'ano' =>date('Y'),
                  ];
                 }
-
+            //error_log(var_export($dadosLancamento, true), 3,'C:/xampp/htdocs/siskitnet/log.log');
                 $this->lancamento->inserir($dadosLancamento);
 
                 $this->db->trans_complete();
 
                 if ($this->db->trans_status() === TRUE){
+
                     $response['status'] = true;
                     $response['message'] = "Dados inseridos com sucesso";
                 }else{
@@ -195,11 +222,23 @@ class Contrato_Model extends CI_Model
                 }
             }
 
-
-
         return $response;
 
     }
+
+//    public function preparaDados($dados){
+//        $datasContrato = $this->gerarParcelas($dados['data_inicio'],$dados['prazo']);
+//        $data['id_status'] = 4;
+//        $data['id_locatario'] = $dados['id_locatario'];
+//        $data['id_imovel'] = $dados['id_imovel'];
+//        $data['valor'] = $dados['valor'];
+//        $data['data_inicio'] = $dados['data_inicio'];
+//        $data['chave'] = $this->chave;
+//        $data['data_fim'] = $datasContrato[$dados['prazo']-1];
+//        $data['dia_vencimento'] = date( 'd', strtotime( $dados['primeiro_vencimento']) );
+//
+//        return $data;
+//    }
 
     public function renovarContrato($dados) {
 
@@ -250,7 +289,6 @@ class Contrato_Model extends CI_Model
     }
 
     public function naoRenovarContrato($id) {
-        error_log(var_export($id,true));
         $response = [];
         if (!isset($id)) {
             $response["status"] = false;
@@ -281,11 +319,17 @@ class Contrato_Model extends CI_Model
         $data = [];
         $datasContrato = $this->gerarParcelas($dados['data_inicio'],$dados['prazo']);
         $data['id_locatario'] = $dados['id_locatario'];
+        $data['id_status'] = 4;
+        $data['dia_vencimento'] = date( 'd', strtotime( $dados['primeiro_vencimento']) );
+        $data['id_locador'] = $this->session->userdata('id_locador');
         $data['id_imovel'] = $dados['id_imovel'];
         $data['data_inicio'] = $dados['data_inicio'];
-        $dados['data_fim'] = $datasContrato[$dados['prazo']-1];
-        $data['dia_vencimento'] = $dados['dia_vencimento'];
+        $data['data_fim'] = $datasContrato[$dados['prazo']-1];
+        $data['primeiro_vencimento'] = $dados['primeiro_vencimento'];
         $data['valor'] = $dados['valor'];
+        $data['prazo'] = $dados['prazo'];
+        $data['chave'] = $this->chave;
+
         return $data;
     }
 
@@ -362,7 +406,7 @@ class Contrato_Model extends CI_Model
 
         if ($status) {
             $response['status'] = true;
-            $response['message'] = "Locatário removido com sucesso.";
+            $response['message'] = "Locaiário removido com sucesso.";
         } else {
             $error = $this->db->error();
             $response['status'] = false;

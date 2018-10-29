@@ -9,6 +9,8 @@
 class Imovel_Model extends CI_Model
 {
     public function __construct() {
+        $chave = $this->session->userdata('chave');
+        error_log($chave);
         parent::__construct();
     }
 
@@ -53,6 +55,7 @@ class Imovel_Model extends CI_Model
             $response["status"] = false;
             $response["message"] = "Dados não informados";
         } else {
+            $dados = $this->preparaDados($dados);
             $this->form_validation->set_data($dados);
             $this->form_validation->set_rules('nome', 'nome', 'required|min_length[2]|trim');
             $this->form_validation->set_rules('endereco', 'endereco', 'required|min_length[5]|trim');
@@ -115,12 +118,18 @@ class Imovel_Model extends CI_Model
 
     private function preparaDados($dados) {
         $chave = $this->session->userdata('chave');
+
         $data = [];
         $data['nome'] = $dados['nome'];
         $data['id_tipo_imovel'] = $dados['id_tipo_imovel'];
         $data['uc'] = $dados['uc'];
         $data['endereco'] = $dados['endereco'];
         $data['numero'] = $dados['numero'];
+        $data['cep'] = $dados['cep'];
+        $data['cidade'] = $dados['cidade'];
+        $data['estado'] = $dados['estado'];
+        $data['bairro'] = $dados['bairro'];
+        $data['complemento'] = $dados['complemento'];
         $data['chave'] = $chave;
         return $data;
     }

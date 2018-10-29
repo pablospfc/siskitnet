@@ -46,8 +46,8 @@ class Lancamento_Model extends CI_Model
     public function getAlugueisMes(){
         $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT
-                                           loc.nome as locatario,
-                                           loc.cpf as cpf,
+                                           lot.nome as locatario,
+                                           lot.cpf as cpf,
                                            lan.ano as ano,
                                            lan.data_vencimento,
                                            mes.nome as mes,
@@ -57,7 +57,7 @@ class Lancamento_Model extends CI_Model
                                            imo.nome as imovel,
                                            sta.nome as status
                                     FROM tb_contrato as con
-                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_locatario as lot ON lot.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
                                     INNER JOIN tb_lancamento lan ON lan.id_contrato = con.id
                                     INNER JOIN tb_status as sta ON sta.id = lan.id_status
@@ -73,8 +73,8 @@ class Lancamento_Model extends CI_Model
         $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT COUNT(*) as quantidade  FROM 
                                         (SELECT
-                                           loc.nome as locatario,
-                                           loc.cpf as cpf,
+                                           lot.nome as locatario,
+                                           lot.cpf as cpf,
                                            lan.ano as ano,
                                            lan.data_vencimento,
                                            mes.nome as mes,
@@ -82,7 +82,7 @@ class Lancamento_Model extends CI_Model
                                            imo.nome as imovel,
                                            sta.nome as status
                                     FROM tb_contrato as con
-                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_locatario as lot ON lot.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
                                     INNER JOIN tb_lancamento lan ON lan.id_contrato = con.id
                                     INNER JOIN tb_status as sta ON sta.id = lan.id_status
@@ -98,8 +98,8 @@ class Lancamento_Model extends CI_Model
     public function getAlugueisAtrasados() {
         $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT
-                                           loc.nome as locatario,
-                                           loc.cpf as cpf,
+                                           lot.nome as locatario,
+                                           lot.cpf as cpf,
                                            lan.ano as ano,
                                            lan.data_vencimento,
                                            mes.nome as mes,
@@ -107,10 +107,10 @@ class Lancamento_Model extends CI_Model
                                            imo.nome as imovel,
                                            sta.nome as status
                                     FROM tb_contrato as con
-                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_locatario as lot ON lot.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
-                                    INNER JOIN tb_status as sta ON sta.id = con.id_status
                                     INNER JOIN tb_lancamento lan ON lan.id_contrato = con.id
+                                    INNER JOIN tb_status as sta ON sta.id = lan.id_status
                                     INNER JOIN tb_mes mes ON mes.id = lan.id_mes
                                     WHERE lan.id_status = 2 AND lan.chave = ?
                                     ",[$chave]);
@@ -122,8 +122,8 @@ class Lancamento_Model extends CI_Model
         $chave = $this->session->userdata('chave');
         $result = $this->db->query("SELECT COUNT(*) AS quantidade FROM
                                           (SELECT
-                                           loc.nome as locatario,
-                                           loc.cpf as cpf,
+                                           lot.nome as locatario,
+                                           lot.cpf as cpf,
                                            lan.ano as ano,
                                            lan.data_vencimento,
                                            mes.nome as mes,
@@ -131,7 +131,7 @@ class Lancamento_Model extends CI_Model
                                            imo.nome as imovel,
                                            sta.nome as status
                                     FROM tb_contrato as con
-                                    INNER JOIN tb_locatario as loc ON loc.id = con.id_locatario
+                                    INNER JOIN tb_locatario as lot ON lot.id = con.id_locatario
                                     INNER JOIN tb_imovel as imo ON imo.id = con.id_imovel
                                     INNER JOIN tb_status as sta ON sta.id = con.id_status
                                     INNER JOIN tb_lancamento lan ON lan.id_contrato = con.id

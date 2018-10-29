@@ -1,7 +1,7 @@
 /**
  * Created by claud on 23/02/2018.
  */
-sisKitnetApp.controller('UsuarioController', function ($scope, $document, $location, $timeout, SiskitnetService) {
+sisKitnetApp.controller('UsuarioController', function ($scope, $window, $document, PATHS,$location, $timeout, SiskitnetService) {
 
     //$scope.usuario = Usuario;
     $scope.redefinirSenha = function(){
@@ -11,11 +11,15 @@ sisKitnetApp.controller('UsuarioController', function ($scope, $document, $locat
     };
 
     $scope.registrarUsuario = function() {
+        console.log($scope.formulario);
         SiskitnetService.registrar($scope.formulario);
     };
 
     $scope.verificarUsuario = function() {
-        console.log($scope.formulario);
         SiskitnetService.verificarCPF($scope.formulario);
     };
+
+    $scope.download = function() {
+        $window.open(PATHS.PATH_ARQUIVOS + 'termo_de_uso.pdf', '_blank');
+    }
 });

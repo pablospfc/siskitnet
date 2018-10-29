@@ -8,11 +8,10 @@ sisKitnetApp.controller('LocatariosController', function ($scope, $document, $ti
         $scope.locatarios = [];
         $scope.haveError  = data ;
     };
-
     SiskitnetService.getLocatarios(successGetLocatarios,errorGetLocatarios);
 
     $scope.deleteLocatario = function(idLocatario) {
-        bootbox.confirm("Você deseja realmente excluir este locatário?", function(result) {
+        bootbox.confirm("Você deseja realmente excluir esta locatario?", function(result) {
             if(result) {
                 SiskitnetService.excluirLocatario(idLocatario);
             }
@@ -53,6 +52,10 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, $fi
         return result[0];
     };
 
+    $scope.buscarCEP = function(){
+      SiskitnetService.getDadosByCEP($scope);
+    };
+
     if(!angular.isUndefined(locatario)) {
         $scope.locatario = angular.copy(locatario);
          //$scope.locatario.data_nascimento = new Date($scope.locatario.data_nascimento);
@@ -75,18 +78,6 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, $fi
         $scope.haveError  = data ;
     };
 
-    var successPostLocatario = function(response) {
-        if (response.data.status) {
-            $scope.alert = {type: "success", title: "Parabéns!", message: response.data.message};
-            $scope.locatario = undefined;
-        }
-        else
-            $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.data.message};
-    };
-    var errorPostLocatario = function(response) {
-        $scope.alert = {type: "danger", title: "Ocorreu um problema!", message: response.statusText};
-    };
-
     SiskitnetService.getEstadosCivis(successGetEstadosCivis,errorGetEstadosCivis);
 
     $scope.fechar = function(result) {
@@ -98,9 +89,9 @@ sisKitnetApp.controller('locatarioModalController', function ($scope, close, $fi
         $scope.locatario.id_estado_civil = $scope.locatario.id_estado_civil.id;
         this.tratarData();
         if (angular.isUndefined(locatario))
-            SiskitnetService.inserirLocatario($scope.locatario,successPostLocatario, errorPostLocatario);
+            SiskitnetService.inserirLocatario($scope.locatario);
         else
-            SiskitnetService.atualizarLocatario($scope.locatario,successPostLocatario, errorPostLocatario);
+            SiskitnetService.atualizarLocatario($scope.locatario);
 
     };
 

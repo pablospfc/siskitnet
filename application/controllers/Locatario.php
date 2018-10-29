@@ -14,7 +14,7 @@ class Locatario extends \REST_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Locatario_model','LocatarioMDL');
+        $this->load->model('Locatario_Model','LocatarioMDL');
 
         // Configuração para os limites de requisições (por hora)
         $this->methods['index_get']['limit'] = 10;

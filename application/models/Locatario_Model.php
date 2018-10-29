@@ -6,18 +6,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Date: 26/03/2017
  * Time: 15:46
  */
-class Locatario_model extends CI_Model
+class Locatario_Model extends CI_Model
 {
     private $chave;
+    private $tabela;
     public function __construct() {
         parent::__construct();
-        $this->chave = $chave = $this->session->userdata('chave');
+        $this->chave = $this->session->userdata('chave');
+        $this->id_usuario = $this->session->userdata('id');
+        $this->tabela = "tb_locatario";
     }
 
     public function getAll() {
 
             $this->db->select("*")
-                ->from("tb_locatario")
+                ->from($this->tabela)
                 ->where("chave", $this->chave)
                 ->order_by("nome", "ASC");
 
@@ -32,7 +35,7 @@ class Locatario_model extends CI_Model
         }
 
         $this->select("*")
-            ->from("tb_locatario")
+            ->from($this->tabela)
             ->where("id", $id);
 
         return $this->db->get()->result_array();
@@ -48,14 +51,14 @@ class Locatario_model extends CI_Model
            // definimos as regras de validação
            $this->form_validation->set_rules('nome','nome','required|min_length[2]|trim');
            $this->form_validation->set_rules('email','email','required|valid_email|is_unique[tb_locatario.email]|trim');
-           $this->form_validation->set_rules('cpf', 'cpf', 'valid_cpf');
+          // $this->form_validation->set_rules('cpf', 'cpf', 'valid_cpf');
 
 
            if ($this->form_validation->run()==false) {
                $response['status'] = false;
                $response['message'] = validation_errors();
            }else{
-               $status = $this->db->insert("tb_locatario",$dados);
+               $status = $this->db->insert($this->tabela,$dados);
 
                if ($status){
                    $response['status'] = true;
@@ -84,7 +87,7 @@ class Locatario_model extends CI_Model
 
             if ($this->form_validation->run() == true) {
                 $this->db->where("id", $id);
-                $this->db->update('tb_locatario', $dados);
+                $this->db->update($this->tabela, $dados);
                 $afftectedRows =  $this->db->affected_rows();
                 if ($afftectedRows ==  1){
                     $response['status'] = true;
@@ -109,7 +112,7 @@ class Locatario_model extends CI_Model
     {
         $this->db->where("id", $value);
 
-        $status = $this->db->delete('tb_locatario');
+        $status = $this->db->delete($this->tabela);
 
         if ($status) {
             $response['status'] = true;

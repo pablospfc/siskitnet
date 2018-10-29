@@ -85,6 +85,7 @@ sisKitnetApp.controller('contratoModalController', function ($scope, close, $fil
     };
 
     var successPostContrato = function(response) {
+        console.log(response);
         if (response.data.status) {
             $scope.alert = {type: "success", title: "Parabéns!", message: response.data.message};
             $scope.contrato = undefined;

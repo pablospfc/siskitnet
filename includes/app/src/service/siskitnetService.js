@@ -1,5 +1,8 @@
-sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScope,$httpParamSerializerJQLike) {
+sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $sce, $rootScope,$httpParamSerializerJQLike) {
     /*LOCATÁRIOS*/
+
+
+
     this.getLocatarios = function (callbackSuccess, callbackError) {
         $http.get("locatarios/listar")
             .then(callbackSuccess, callbackError);
@@ -10,17 +13,37 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScop
           .then(success,error);
     };
 
-    this.inserirLocatario = function (data, callbackSuccess, callbackError) {
-        $window.scrollTo(0, 0);
+    this.inserirLocatario = function (data) {
         $http.post("locatarios/cadastrar", data)
-            .then(callbackSuccess, callbackError);
+            .then(function mySuccess(data) {
+                if (data.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema interno!", message: meta.statusText};
+            });
     };
 
-    this.atualizarLocatario = function ( data, callbackSuccess, callbackError) {
-        $window.scrollTo(0,0);
+    this.atualizarLocatario = function (data) {
         $http.put("locatarios/atualizar", data)
-            .then(callbackSuccess, callbackError);
+            .then(function mySuccess(data) {
+                if (data.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema interno!", message: meta.statusText};
+            });
     };
+
+    // this.atualizarLocatario = function ( data, callbackSuccess, callbackError) {
+    //     $window.scrollTo(0,0);
+    //     $http.put("locatarios/atualizar", data)
+    //         .then(callbackSuccess, callbackError);
+    // };
 
     this.excluirLocatario = function (id, callbackSuccess, callbackError) {
 
@@ -419,11 +442,26 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScop
         $http.get("usuario/index?action=getUsuarioLogado")
             .then(function mySuccess(data) {
                 deferred.resolve(data.data);
-                $rootScope.relatorio = data.data;
+                $rootScope.usuario = data.data;
                 $rootScope.haveError  = false;
             }, function myError(meta) {
                 deferred.reject(meta);
-                $rootScope.relatorio = [];
+                $rootScope.usuario = [];
+                $rootScope.haveError  = meta ;
+            });
+        return deferred.promise;
+    };
+
+    this.getDadosProprietario = function() {
+        var deferred = $q.defer();
+        $http.get("proprietario/index")
+            .then(function mySuccess(data) {
+                deferred.resolve(data.data[0]);
+                $rootScope.proprietario = data.data;
+                $rootScope.haveError  = false;
+            }, function myError(meta) {
+                deferred.reject(meta);
+                $rootScope.proprietario = [];
                 $rootScope.haveError  = meta ;
             });
         return deferred.promise;
@@ -431,6 +469,32 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScop
 
     this.atualizarUsuario = function (data) {
         $http.put("usuario/atualizar", data)
+            .then(function mySuccess(data) {
+                if (data.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema interno!", message: meta.statusText};
+            });
+    };
+
+    this.atualizarSenha = function (data) {
+        $http.put("usuario/atualizar", data)
+            .then(function mySuccess(data) {
+                if (data.data.status) {
+                    $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
+                }
+                else
+                    $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
+            }, function myError(meta) {
+                $rootScope.alert = {type: "danger", title: "Ocorreu um problema interno!", message: meta.statusText};
+            });
+    };
+
+    this.atualizarProprietario = function (data) {
+        $http.put("proprietario/atualizar", data)
             .then(function mySuccess(data) {
                 if (data.data.status) {
                     $rootScope.alert = {type: "success", title: "Parabéns!", message: data.data.message};
@@ -452,6 +516,48 @@ sisKitnetApp.service('SiskitnetService', function ($http, $q, $window, $rootScop
                     $rootScope.alert = {type: "danger", title: "Ocorreu um problema!", message: data.data.message};
             }, function myError(meta) {
                 $rootScope.alert = {type: "danger", title: "Ocorreu um problema interno!", message: meta.statusText};
+            });
+    };
+
+    this.getDadosByCEP = function($scope){
+
+        var url = "https://viacep.com.br/ws/" + $scope.locatario.cep + "/json";
+        var trustedUrl = $sce.trustAsResourceUrl(url);
+        $http.jsonp(trustedUrl,{jsonpCallbackParam: 'callback'})
+            .then(function mySuccess(data) {
+                var dados = data.data;
+                if(angular.isUndefined(dados.erro)) {
+                    $scope.locatario.endereco = dados.logradouro;
+                    $scope.locatario.estado = dados.uf;
+                    $scope.locatario.cep    = dados.cep;
+                    $scope.locatario.cidade = dados.localidade;
+                    $scope.locatario.bairro = dados.bairro;
+                    $scope.haveError = false;
+                }
+            }, function myError(meta) {
+                console.log("chegou aqui erro");
+                $scope.haveError  = meta ;
+            });
+    };
+
+    this.getDadosImovelByCEP = function($scope){
+
+        var url = "https://viacep.com.br/ws/" + $scope.imovel.cep + "/json";
+        var trustedUrl = $sce.trustAsResourceUrl(url);
+        $http.jsonp(trustedUrl,{jsonpCallbackParam: 'callback'})
+            .then(function mySuccess(data) {
+                var dados = data.data;
+                if(angular.isUndefined(dados.erro)) {
+                    $scope.imovel.endereco = dados.logradouro;
+                    $scope.imovel.estado = dados.uf;
+                    $scope.imovel.cep    = dados.cep;
+                    $scope.imovel.cidade = dados.localidade;
+                    $scope.imovel.bairro = dados.bairro;
+                    $scope.haveError = false;
+                }
+            }, function myError(meta) {
+                console.log("chegou aqui erro");
+                $scope.haveError  = meta ;
             });
     };
 

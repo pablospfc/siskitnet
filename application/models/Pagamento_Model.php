@@ -72,7 +72,7 @@ class Pagamento_Model extends CI_Model
                                            DATE_FORMAT(pag.periodo_inicial, '%d/%m/%Y') as periodo_inicial,
                                            DATE_FORMAT(pag.periodo_final, '%d/%m/%Y') AS periodo_final,
                                            lod.nome as locador,
-                                           lod.cpf_cnpj as cpf_cnpj_locador
+                                           lod.cpf as cpf_cnpj_locador
                                     FROM tb_pagamento pag
                                     INNER JOIN tb_contrato con ON con.id = pag.id_contrato
                                     INNER JOIN tb_locatario loc ON loc.id = con.id_locatario
@@ -84,9 +84,6 @@ class Pagamento_Model extends CI_Model
     }
 
     public function inserir($dados) {
-
-
-
         if (!isset($dados)) {
             $response["status"] = false;
             $response["message"] = "Dados não informados";
@@ -134,6 +131,7 @@ class Pagamento_Model extends CI_Model
         $data['periodo_inicial'] = $dados['periodo_inicial'];
         $data['periodo_final'] = $dados['periodo_final'];
         $data['desconto'] = $dados['desconto'];
+        $data['chave'] = $this->chave;
         $data['id_mes'] = date( 'm', strtotime( $dados['periodo_inicial'] ) );
         $data['ano'] = date( 'Y', strtotime( $dados['periodo_inicial'] ) );
         $data['recibo'] = $dados['id_contrato'].date( 'm', strtotime( '2008-10-08' ) ).date( 'Y', strtotime( '2008-10-08' ) );;

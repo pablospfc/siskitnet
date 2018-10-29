@@ -26,6 +26,9 @@ class Home extends \REST_Controller
         $qtdAlugueisAtrasados = $this->LancamentoMDL->getQtdAlugueisAtrasados()['quantidade'];
         $qtdAluguesMes = $this->LancamentoMDL->getQtdAlugueisMes()['quantidade'];
 
+        $this->ContratoMDL->atualizaContratosVencidos();
+        $this->ContratoMDL->atualizaAlugueisAtrasados();
+
         $response = [
             'qtdContratosVencidos' => $qtdContratosVencidos,
             'qtdAlugueisAtrasados' => $qtdAlugueisAtrasados,

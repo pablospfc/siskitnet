@@ -46,7 +46,9 @@ sisKitnetApp.controller('ImoveisController', function ($scope, $document, $timeo
 
 
 sisKitnetApp.controller('imovelModalController', function ($scope, close, $filter, imovel, SiskitnetService) {
-
+    $scope.buscarCEP = function(){
+        SiskitnetService.getDadosImovelByCEP($scope);
+    };
     var getFromArray = function(array,id) {
         var result = $.grep(array, function(e){ return e.id == id; });
         return result[0];

@@ -15,9 +15,10 @@ class Login_Model extends CI_Model
     }
 
     public function getLogin($dados){
-        $this->db->select('*')
-            ->from('tb_usuario')
-            ->where('email',$dados['email'])
+        $this->db->select('usu.*, loc.*')
+            ->from('tb_usuario as usu')
+            ->join('tb_locador as loc', 'loc.id = usu.id_locador')
+            ->where('login',$dados['email'])
             ->where('senha',md5($dados['senha']));
         $dadosLogin = $this->db->get()->result_array();
 
